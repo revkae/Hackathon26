@@ -1,0 +1,28 @@
+{
+  "channel": "trendyol",
+  "generated_at": "2026-05-14T12:00:00Z",
+  "competitors": [
+    {
+      "keyword": "el yapımı vazo",
+      "listings": [
+        { "seller": "SeramikDunyasi", "title": "El Yapımı Dekoratif Mavi Vazo", "price": 289, "rating": 4.6, "review_count": 124 },
+        { "seller": "AnatoliaCeramic", "title": "Handmade Blue Vase", "price": 320, "rating": 4.8, "review_count": 67 },
+        { "seller": "VazoEvi", "title": "Mavi Vazo El İşi", "price": 245, "rating": 4.3, "review_count": 89 }
+      ]
+    },
+    {
+      "keyword": "seramik kahve fincanı",
+      "listings": [
+        { "seller": "FincanFabrikasi", "title": "Seramik Türk Kahvesi Fincanı", "price": 89, "rating": 4.5, "review_count": 312 },
+        { "seller": "EvDekor", "title": "Handcrafted Coffee Cup", "price": 110, "rating": 4.7, "review_count": 56 }
+      ]
+    },
+    {
+      "keyword": "dekoratif tabak",
+      "listings": [
+        { "seller": "TabakDunyasi", "title": "Dekoratif Duvar Tabağı Set", "price": 450, "rating": 4.4, "review_count": 78 },
+        { "seller": "SeramikSanat", "title": "Hand-painted Ceramic Plate", "price": 380, "rating": 4.9, "review_count": 23 }
+      ]
+    }
+  ]
+}

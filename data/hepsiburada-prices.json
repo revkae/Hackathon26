@@ -1,0 +1,19 @@
+{
+  "channel": "hepsiburada",
+  "generated_at": "2026-05-14T12:00:00Z",
+  "competitors": [
+    {
+      "keyword": "el yapımı vazo",
+      "listings": [
+        { "seller": "AtolyeShop", "title": "Premium El Yapımı Vazo", "price": 310, "rating": 4.5, "review_count": 45 },
+        { "seller": "SeramikArt", "title": "Designer Vase Handmade", "price": 295, "rating": 4.4, "review_count": 67 }
+      ]
+    },
+    {
+      "keyword": "seramik kahve fincanı",
+      "listings": [
+        { "seller": "EvButik", "title": "Seramik Espresso Set", "price": 125, "rating": 4.3, "review_count": 134 }
+      ]
+    }
+  ]
+}
