@@ -1,10 +1,8 @@
 'use client';
 import { useTransition } from 'react';
 import { useTranslations } from 'next-intl';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { toast } from 'sonner';
+import { TextInput, PasswordInput, Button, Title, Text, Stack, Anchor } from '@mantine/core';
+import { notifications } from '@mantine/notifications';
 import { signup } from './actions';
 
 export default function SignupPage() {
@@ -14,35 +12,54 @@ export default function SignupPage() {
   function handleSubmit(formData: FormData) {
     startTransition(async () => {
       const result = await signup(formData);
-      if (result?.error) toast.error(result.error);
+      if (result?.error) {
+        notifications.show({
+          color: 'red',
+          message: result.error,
+        });
+      }
     });
   }
 
   return (
-    <div className="space-y-6">
+    <Stack gap="xl">
       <div>
-        <h2 className="text-2xl font-bold">{t('signup')}</h2>
+        <Title order={2}>{t('signup')}</Title>
       </div>
-      <form action={handleSubmit} className="space-y-4">
-        <div>
-          <Label htmlFor="businessName">{t('businessName')}</Label>
-          <Input id="businessName" name="businessName" required />
-        </div>
-        <div>
-          <Label htmlFor="email">{t('email')}</Label>
-          <Input id="email" name="email" type="email" required />
-        </div>
-        <div>
-          <Label htmlFor="password">{t('password')}</Label>
-          <Input id="password" name="password" type="password" required minLength={8} />
-        </div>
-        <Button type="submit" className="w-full" disabled={pending}>
-          {t('signup')}
-        </Button>
+
+      <form action={handleSubmit}>
+        <Stack gap="md">
+          <TextInput
+            name="businessName"
+            required
+            label={t('businessName')}
+            placeholder="Şirket adı"
+          />
+          <TextInput
+            name="email"
+            type="email"
+            required
+            label={t('email')}
+            placeholder="ornek@sirket.com"
+          />
+          <PasswordInput
+            name="password"
+            required
+            label={t('password')}
+            minLength={8}
+          />
+          <Button type="submit" fullWidth loading={pending} mt="xs">
+            {t('signup')}
+          </Button>
+        </Stack>
       </form>
-      <p className="text-sm text-center text-muted-foreground">
-        {t('haveAccount')} <a href="/tr/login" className="text-emerald-500 underline">{t('login')}</a>
-      </p>
-    </div>
+
+      <Text size="sm" ta="center" c="dimmed">
+        {t('haveAccount')}{' '}
+        <Anchor href="/tr/login" c="shopifyGreen">
+          {t('login')}
+        </Anchor>
+      </Text>
+    </Stack>
   );
 }

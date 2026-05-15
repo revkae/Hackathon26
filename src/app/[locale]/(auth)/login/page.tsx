@@ -1,10 +1,9 @@
 'use client';
 import { useTransition, useState } from 'react';
 import { useTranslations } from 'next-intl';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { toast } from 'sonner';
+import { TextInput, PasswordInput, Button, Title, Text, Stack, Anchor, Divider } from '@mantine/core';
+import { notifications } from '@mantine/notifications';
+import { IconMail } from '@tabler/icons-react';
 import { loginWithPassword, loginWithMagicLink } from './actions';
 
 export default function LoginPage() {
@@ -15,7 +14,12 @@ export default function LoginPage() {
   function handlePasswordLogin(formData: FormData) {
     startTransition(async () => {
       const result = await loginWithPassword(formData);
-      if (result?.error) toast.error(result.error);
+      if (result?.error) {
+        notifications.show({
+          color: 'red',
+          message: result.error,
+        });
+      }
     });
   }
 
@@ -24,39 +28,67 @@ export default function LoginPage() {
     formData.append('email', email);
     startTransition(async () => {
       const result = await loginWithMagicLink(formData);
-      if (result?.error) toast.error(result.error);
-      else toast.success('Magic link gönderildi — e-postanı kontrol et');
+      if (result?.error) {
+        notifications.show({
+          color: 'red',
+          message: result.error,
+        });
+      } else {
+        notifications.show({
+          color: 'green',
+          message: 'Magic link gönderildi — e-postanı kontrol et',
+        });
+      }
     });
   }
 
   return (
-    <div className="space-y-6">
+    <Stack gap="xl">
       <div>
-        <h2 className="text-2xl font-bold">{t('login')}</h2>
-        <p className="text-sm text-muted-foreground mt-1">{t('tagline')}</p>
+        <Title order={2}>{t('login')}</Title>
+        <Text size="sm" c="dimmed" mt={4}>{t('tagline')}</Text>
       </div>
-      <form action={handlePasswordLogin} className="space-y-4">
-        <div>
-          <Label htmlFor="email">{t('email')}</Label>
-          <Input
-            id="email" name="email" type="email" required
-            value={email} onChange={(e) => setEmail(e.target.value)}
+
+      <form action={handlePasswordLogin}>
+        <Stack gap="md">
+          <TextInput
+            name="email"
+            type="email"
+            required
+            label={t('email')}
+            placeholder="ornek@sirket.com"
+            value={email}
+            onChange={(e) => setEmail(e.currentTarget.value)}
           />
-        </div>
-        <div>
-          <Label htmlFor="password">{t('password')}</Label>
-          <Input id="password" name="password" type="password" required />
-        </div>
-        <Button type="submit" className="w-full" disabled={pending}>
-          {t('login')}
-        </Button>
+          <PasswordInput
+            name="password"
+            required
+            label={t('password')}
+          />
+          <Button type="submit" fullWidth loading={pending} mt="xs">
+            {t('login')}
+          </Button>
+        </Stack>
       </form>
-      <Button variant="outline" className="w-full" onClick={handleMagicLink} disabled={pending || !email}>
-        ✉ {t('magicLink')}
+
+      <Divider label="veya" labelPosition="center" />
+
+      <Button
+        variant="default"
+        fullWidth
+        leftSection={<IconMail size={16} />}
+        onClick={handleMagicLink}
+        disabled={pending || !email}
+      >
+        {t('magicLink')}
       </Button>
-      <p className="text-sm text-center text-muted-foreground">
-        {t('noAccount')} <a href="/tr/signup" className="text-emerald-500 underline">{t('signup')}</a>
-      </p>
-    </div>
+
+      <Text size="sm" ta="center" c="dimmed">
+        {t('noAccount')}{' '}
+        <Anchor href="/tr/signup" c="shopifyGreen">
+          {t('signup')}
+        </Anchor>
+      </Text>
+    </Stack>
   );
 }
