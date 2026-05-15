@@ -24,7 +24,7 @@ export function CashFlowChart({ data, riskScore }: CashFlowChartProps) {
             <XAxis dataKey="date" tickFormatter={(d) => d.slice(5)} />
             <YAxis tickFormatter={(v) => `₺${(v / 1000).toFixed(0)}k`} />
             <Tooltip
-              formatter={(value: number) => [`₺${value.toFixed(0)}`, 'Bakiye']}
+              formatter={(value) => [`₺${Number(value ?? 0).toFixed(0)}`, 'Bakiye']}
               labelFormatter={(date) => date}
               contentStyle={{ background: '#1a1a1a', border: '1px solid #333' }}
             />
