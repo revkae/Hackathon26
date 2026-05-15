@@ -1,0 +1,3418 @@
+{
+  "runAt": "2026-05-15T20:03:08.993Z",
+  "summary": {
+    "totalPass": 39,
+    "totalCases": 50,
+    "overallAvg": 0.7120000000000001,
+    "passRate": 0.78
+  },
+  "allResults": {
+    "seo": [
+      {
+        "caseId": "seo-1",
+        "passed": false,
+        "score": 0,
+        "output": null,
+        "reasoning": "Error: INVALID_ARGUMENT: Schema validation failed. Parse Errors:\n\n- (root): must be object\n\nProvided data:\n\nnull\n\nRequired JSON schema:\n\n{\n  \"type\": \"object\",\n  \"properties\": {\n    \"productId\": {\n      \"type\": \"string\"\n    },\n    \"totalReviews\": {\n      \"type\": \"number\"\n    },\n    \"sentiment\": {\n      \"type\": \"object\",\n      \"properties\": {\n        \"positive\": {\n          \"type\": \"number\"\n        },\n        \"neutral\": {\n          \"type\": \"number\"\n        },\n        \"negative\": {\n          \"type\": \"number\"\n        }\n      },\n      \"required\": [\n        \"positive\",\n        \"neutral\",\n        \"negative\"\n      ],\n      \"additionalProperties\": true\n    },\n    \"topThemes\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"type\": \"object\",\n        \"properties\": {\n          \"theme\": {\n            \"type\": \"string\"\n          },\n          \"count\": {\n            \"type\": \"number\"\n          },\n          \"sentiment\": {\n            \"type\": \"string\",\n            \"enum\": [\n              \"positive\",\n              \"negative\",\n              \"mixed\"\n            ]\n          }\n        },\n        \"required\": [\n          \"theme\",\n          \"count\",\n          \"sentiment\"\n        ],\n        \"additionalProperties\": true\n      }\n    },\n    \"draftReplies\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"type\": \"object\",\n        \"properties\": {\n          \"reviewId\": {\n            \"type\": \"string\"\n          },\n          \"reply\": {\n            \"type\": \"string\"\n          }\n        },\n        \"required\": [\n          \"reviewId\",\n          \"reply\"\n        ],\n        \"additionalProperties\": true\n      }\n    }\n  },\n  \"required\": [\n    \"productId\",\n    \"totalReviews\",\n    \"sentiment\",\n    \"topThemes\"\n  ],\n  \"additionalProperties\": true,\n  \"$schema\": \"http://json-schema.org/draft-07/schema#\"\n}",
+        "durationMs": 12777
+      },
+      {
+        "caseId": "seo-2",
+        "passed": true,
+        "score": 1,
+        "output": {
+          "productId": "bb0fa0e5-7cfd-4e13-a2b5-c585ccba73e7",
+          "oldTitle": "Seramik Türk Kahvesi Fincanı",
+          "newTitle": "El Yapımı Seramik Türk Kahvesi Fincanı | Hediyelik & Özel Tasarım",
+          "reasoning": "Ürün başlığı, anahtar kelimeler olan 'el yapımı', 'seramik' ve 'Türk kahvesi fincanı'nı net bir şekilde içermektedir. 'Hediyelik' kelimesiyle ürünün kullanım amacı ve potansiyel alıcı kitlesi hedeflenmiş, 'Özel Tasarım' ifadesiyle ürünün benzersizliği ve katma değeri vurgulanmıştır. Başlık, Google snippet limitine uygun (59 karakter) ve arama motoru algoritmaları ile pazaryeri algoritmaları için optimize edilmiştir.",
+          "expectedImpact": "high",
+          "keywords": [
+            "el yapımı",
+            "seramik",
+            "Türk kahvesi fincanı",
+            "hediyelik",
+            "özel tasarım"
+          ]
+        },
+        "reasoning": "length:true(65/70), kw:2/2",
+        "durationMs": 6402
+      },
+      {
+        "caseId": "seo-3",
+        "passed": true,
+        "score": 0.75,
+        "output": {
+          "productId": "4ab248bc-d257-4998-8c5f-0a163a9736dc",
+          "oldTitle": "Dekoratif Duvar Tabağı Set",
+          "newTitle": "El Yapımı Dekoratif Duvar Tabağı Seti - Duvar Dekoru & Hediyelik",
+          "reasoning": "Mevcut başlık genel ve optimize edilmemiş. Yeni başlık, ürünün temel özelliklerini (el yapımı, dekoratif duvar tabağı) ve kullanım amacını (duvar dekoru, hediyelik) birleştirerek SEO performansını artırır. 'El Yapımı' ifadesi ürünün benzersizliğini vurgularken, 'Duvar Dekoru' ve 'Hediyelik' anahtar kelimeleri arama niyeti yüksek kullanıcılara ulaşmayı sağlar. Başlık Google snippet limitlerine uygun (60 karakter).",
+          "expectedImpact": "high",
+          "keywords": [
+            "El Yapımı",
+            "Dekoratif Duvar Tabağı",
+            "Duvar Dekoru",
+            "Hediyelik"
+          ]
+        },
+        "reasoning": "length:true(64/70), kw:1/2",
+        "durationMs": 5727
+      },
+      {
+        "caseId": "seo-4",
+        "passed": true,
+        "score": 1,
+        "output": {
+          "productId": "db0fa999-8af0-4622-ae22-16e451e024b0",
+          "oldTitle": "El Yapımı Beyaz Vazo",
+          "newTitle": "El Yapımı Beyaz Vazo - Modern Ev Dekorasyonu ve Şık Hediye",
+          "reasoning": "Yeni başlık, Google snippet limiti olan 60-70 karakter aralığında (55 karakter) kalmaktadır. 'El Yapımı', 'Beyaz Vazo', 'Ev Dekorasyonu' ve 'Hediye' gibi anahtar kelimeleri stratejik olarak içerir. Bu kelimeler, ürünün temel özelliklerini ve potansiyel kullanım amaçlarını net bir şekilde vurgulayarak, arama motorlarında yapılan sorgularla eşleşme olasılığını artırır. 'Modern Ev Dekorasyonu' ve 'Şık Hediye' ifadeleri, ürünün kategori bilgisinden ziyade kullanım senaryosunu ve ihtiyacı öne çıkarır. Bu yaklaşım, hedef kitleye doğrudan hitap ederek tıklama ve dönüşüm oranlarını artırma potansiyeli taşır. Başlık, gereksiz ve tıklama tuzağı olarak algılanabilecek ifadelerden arındırılmıştır.",
+          "expectedImpact": "high",
+          "keywords": [
+            "El Yapımı",
+            "Beyaz Vazo",
+            "Ev Dekorasyonu",
+            "Hediye"
+          ]
+        },
+        "reasoning": "length:true(58/70), kw:1/1",
+        "durationMs": 9949
+      },
+      {
+        "caseId": "seo-5",
+        "passed": true,
+        "score": 1,
+        "output": {
+          "productId": "15b16d82-d7aa-4595-8c59-610bc7636e17",
+          "oldTitle": "Seramik Espresso Fincanı",
+          "newTitle": "El Yapımı Seramik Espresso Fincanı | Özel Kahve Keyfi",
+          "reasoning": "Başlık, ürünün temel özelliği olan 'el yapımı' ibaresini öne çıkararak zanaatkarlığı vurgulamaktadır. 'Seramik Espresso Fincanı' ile ürün açıkça tanımlanmış, 'Özel Kahve Keyfi' ifadesiyle ise kullanım amacı ve kullanıcıya sunulan deneyim hedeflenmiştir. Bu sayede hem arama motorlarında hem de pazar yerlerinde ilgili anahtar kelimelerde daha görünür olması ve hedef kitleye ulaşması amaçlanmıştır. Başlık 60 karakterin altında kalmaktadır.",
+          "expectedImpact": "high",
+          "keywords": [
+            "el yapımı",
+            "seramik espresso fincanı",
+            "kahve keyfi",
+            "özel hediye"
+          ]
+        },
+        "reasoning": "length:true(53/70), kw:1/1",
+        "durationMs": 7078
+      },
+      {
+        "caseId": "seo-6",
+        "passed": true,
+        "score": 0.75,
+        "output": {
+          "productId": "ca2c4dd0-2f62-4d08-a830-8d60ed4f66a8",
+          "oldTitle": "Yemek Tabağı 4'lü Set",
+          "newTitle": "El Yapımı 4'lü Yemek Tabağı Seti - Özel Sofralar İçin",
+          "reasoning": "Mevcut başlık 'Yemek Tabağı 4'lü Set' oldukça genel olup, ürünün 'el yapımı' olma özelliğini ve kullanım amacını yansıtmamaktadır. Yeni başlık, anahtar kelimeler olan 'el yapımı', '4'lü set' ve 'yemek tabağı'nı öne çıkararak ürünün benzersizliğini vurgulamaktadır. 'Özel Sofralar İçin' ifadesi, ürünün kullanım senaryosunu ve hedef kitlenin aradığı 'özel' deneyimi çağrıştırarak arama niyetiyle eşleşmeyi artırır. Google snippet limitlerine uygun (49 karakter) ve pazaryeri algoritmaları için optimize edilmiştir, böylece daha niş ve kaliteli trafik çekilmesi hedeflenmektedir.",
+          "expectedImpact": "high",
+          "keywords": [
+            "el yapımı",
+            "yemek tabağı",
+            "tabak seti",
+            "4'lü tabak",
+            "özel sofra"
+          ]
+        },
+        "reasoning": "length:true(53/70), kw:1/2",
+        "durationMs": 6828
+      },
+      {
+        "caseId": "seo-7",
+        "passed": true,
+        "score": 1,
+        "output": {
+          "productId": "87574b95-0add-4398-b5ba-656151a9b5cd",
+          "oldTitle": "Çiçek Vazosu Büyük",
+          "newTitle": "El Yapımı Büyük Çiçek Vazosu | Otantik Ev Dekorasyonu",
+          "reasoning": "Mevcut başlık genel ve arama motorları için optimize edilmemiş. Yeni başlıkta ürünün benzersiz özelliği olan 'el yapımı' vurgulanmıştır. 'Büyük Çiçek Vazosu' ile anahtar kelimeler hedeflenmiş ve ürünün temel işlevi belirtilmiştir. 'Otantik Ev Dekorasyonu' ifadesi, ürünün kullanım amacını ve estetik değerini genişleterek ilgili aramalarda görünürlüğünü artırır ve potansiyel alıcıların ilgisini çeker. Başlık, Google snippet limitlerine uygun (53 karakter) ve spam içermemektedir.",
+          "expectedImpact": "high",
+          "keywords": [
+            "el yapımı vazo",
+            "büyük çiçek vazosu",
+            "ev dekorasyonu",
+            "otantik vazo"
+          ]
+        },
+        "reasoning": "length:true(53/70), kw:1/1",
+        "durationMs": 6402
+      },
+      {
+        "caseId": "seo-8",
+        "passed": true,
+        "score": 1,
+        "output": {
+          "productId": "13903203-1810-44ed-ba42-39e41e2b274d",
+          "oldTitle": "Cappuccino Fincan Seti",
+          "newTitle": "El Yapımı Cappuccino Fincan Seti | Kahve Severlere Özel Hediye",
+          "reasoning": "Yeni başlık, Google snippet limiti olan 60-70 karakter aralığında kalmaktadır (57 karakter). Ürünün temel özelliklerini ('El Yapımı') ve kullanım amacını/hedef kitlesini ('Kahve Severlere Özel Hediye') net bir şekilde vurgulayarak pazaryeri ve arama motoru algoritmaları için optimize edilmiştir. 'El Yapımı' ifadesi ürünün benzersizliğini, 'Kahve Severlere Özel Hediye' ifadesi ise potansiyel alıcıların arama niyetini doğrudan hedeflemektedir. Bu sayede, ürün hem doğrudan ürün arayanlar hem de hediye arayışında olanlar tarafından daha kolay bulunabilecektir. Başlık, tıklama tuzağı içermez ve ürünün değerini açıklayıcı bir dille sunar.",
+          "expectedImpact": "high",
+          "keywords": [
+            "el yapımı",
+            "cappuccino fincan seti",
+            "kahve severlere hediye"
+          ]
+        },
+        "reasoning": "length:true(62/70), kw:2/2",
+        "durationMs": 8229
+      },
+      {
+        "caseId": "seo-9",
+        "passed": true,
+        "score": 0.5,
+        "output": {
+          "productId": "17e7f50f-5f88-48c9-904e-15051135ab89",
+          "oldTitle": "Servis Tabağı Tek",
+          "newTitle": "El Yapımı Seramik Servis Tabağı | Özel Sunumlar İçin",
+          "reasoning": "Mevcut başlık 'Servis Tabağı Tek' oldukça geneldir ve ürünün ayırt edici özelliklerini veya kullanım amacını vurgulamamaktadır. Yeni başlık 'El Yapımı Seramik Servis Tabağı | Özel Sunumlar İçin' ürünün anahtar özelliklerini (El Yapımı, Seramik malzeme) ve kullanım amacını (Özel Sunumlar) net bir şekilde belirtir. Bu sayede, kullanıcılar arama motorlarında 'el yapımı servis tabağı' veya 'seramik sunum tabağı' gibi daha spesifik terimlerle arama yaptıklarında ürünün bulunabilirliği artacaktır. Başlık, Google snippet limitlerine (60-70 karakter) uymakta ve gereksiz tıklama tuzaklarından kaçınmaktadır. 'Tek tek üretilir' ifadesinden yola çıkarak 'el yapımı' vurgusu güçlendirilmiş, seramik malzemenin yaygınlığı dikkate alınarak bir tahmin ile eklenmiştir. Bu yaklaşım, hem arama motoru algoritmaları hem de potansiyel müşteriler için daha bilgilendirici ve çekici bir başlık sunar.",
+          "expectedImpact": "high",
+          "keywords": [
+            "El Yapımı",
+            "Seramik Servis Tabağı",
+            "Özel Sunumlar"
+          ]
+        },
+        "reasoning": "length:true(52/70), kw:0/1",
+        "durationMs": 11567
+      },
+      {
+        "caseId": "seo-10",
+        "passed": true,
+        "score": 1,
+        "output": {
+          "productId": "36f3b3d9-2a8e-41bc-a7fc-bc0dff89d3cc",
+          "oldTitle": "Minyatür Vazo Set",
+          "newTitle": "El Yapımı Minyatür Vazo Seti | Dekoratif Ev Hediyesi",
+          "reasoning": "Mevcut başlık sadece ürün adını belirtirken, yeni başlık 'el yapımı' anahtar kelimesiyle ürünün benzersizliğini ve zanaatkarlık değerini vurgulamaktadır. Ayrıca, 'dekoratif ev hediyesi' ifadesiyle ürünün kullanım amacını ve potansiyel alıcı kitlesini genişleterek, arama motorlarında ve pazaryerlerinde 'hediyelik vazo' veya 'ev dekorasyonu' gibi daha niş ve yüksek niyetli aramalarda görünürlüğü artırmayı hedefler. Başlık, Google snippet limitlerine (50 karakter) uygun uzunluktadır ve gereksiz tıklama tuzakları içermez.",
+          "expectedImpact": "high",
+          "keywords": [
+            "el yapımı",
+            "minyatür vazo",
+            "dekoratif hediye"
+          ]
+        },
+        "reasoning": "length:true(52/70), kw:2/2",
+        "durationMs": 7976
+      }
+    ],
+    "marketing": [
+      {
+        "caseId": "mkt-1",
+        "passed": false,
+        "score": 0,
+        "output": null,
+        "reasoning": "Error: Product not found: El Yapımı Mavi Vazo",
+        "durationMs": 1948
+      },
+      {
+        "caseId": "mkt-2",
+        "passed": false,
+        "score": 0,
+        "output": null,
+        "reasoning": "Error: Product not found: Seramik Türk Kahvesi Fincanı",
+        "durationMs": 1606
+      },
+      {
+        "caseId": "mkt-3",
+        "passed": false,
+        "score": 0,
+        "output": null,
+        "reasoning": "Error: Product not found: Dekoratif Duvar Tabağı Set",
+        "durationMs": 7000
+      },
+      {
+        "caseId": "mkt-4",
+        "passed": false,
+        "score": 0,
+        "output": null,
+        "reasoning": "Error: Product not found: El Yapımı Beyaz Vazo",
+        "durationMs": 1776
+      },
+      {
+        "caseId": "mkt-5",
+        "passed": false,
+        "score": 0,
+        "output": null,
+        "reasoning": "Error: Product not found: Seramik Espresso Fincanı",
+        "durationMs": 1899
+      },
+      {
+        "caseId": "mkt-6",
+        "passed": false,
+        "score": 0,
+        "output": null,
+        "reasoning": "Error: Product not found: Yemek Tabağı 4'lü Set",
+        "durationMs": 2417
+      },
+      {
+        "caseId": "mkt-7",
+        "passed": false,
+        "score": 0,
+        "output": null,
+        "reasoning": "Error: Product not found: Çiçek Vazosu Büyük",
+        "durationMs": 1275
+      },
+      {
+        "caseId": "mkt-8",
+        "passed": false,
+        "score": 0,
+        "output": null,
+        "reasoning": "Error: Product not found: Cappuccino Fincan Seti",
+        "durationMs": 1746
+      },
+      {
+        "caseId": "mkt-9",
+        "passed": false,
+        "score": 0,
+        "output": null,
+        "reasoning": "Error: Product not found: Servis Tabağı Tek",
+        "durationMs": 1539
+      },
+      {
+        "caseId": "mkt-10",
+        "passed": false,
+        "score": 0,
+        "output": null,
+        "reasoning": "Error: Product not found: Minyatür Vazo Set",
+        "durationMs": 1915
+      }
+    ],
+    "pricing": [
+      {
+        "caseId": "price-1",
+        "passed": true,
+        "score": 1,
+        "output": {
+          "productId": "c366b169-43a5-473a-9780-87ab845e578a",
+          "currentPrice": 280,
+          "suggestedPrice": 280,
+          "range": [
+            150,
+            340
+          ],
+          "reasoning": "Rakip analizi için 'vazo' anahtar kelimesiyle yapılan sorguda herhangi bir rakip verisi bulunamamıştır. Bu nedenle, fiyatlandırma önerisi sadece mevcut maliyet ve kar marjı hedefleri üzerinden yapılmıştır. Mevcut fiyat (280 TL) ile maliyet (120 TL) arasındaki kar marjı %57.1 olup, belirlenen minimum %20'lik hedefin oldukça üzerindedir. Rakip verisi olmadan piyasa konumlandırması ve rekabetçi fiyatlandırma stratejileri belirlenememektedir. Bu durum, piyasa koşullarına göre fiyat değişikliği potansiyelini değerlendirmeyi zorlaştırmaktadır. Mevcut fiyatı korumak, piyasa hakkında daha fazla bilgi edinene kadar en risksiz yaklaşımdır. %20 minimum kar marjını korumak için ürünün fiyatı en az 150 TL olmalıdır. Üst fiyat aralığı (340 TL) ise mevcut maliyet ile %64.7 civarında bir marj sağlayan potansiyel bir üst sınırı göstermektedir.",
+          "riskLevel": "medium",
+          "expectedSalesChangePct": 0
+        },
+        "reasoning": "price:280(range:200-400):true, risk:medium:true",
+        "durationMs": 19790
+      },
+      {
+        "caseId": "price-2",
+        "passed": true,
+        "score": 1,
+        "output": {
+          "productId": "bb0fa0e5-7cfd-4e13-a2b5-c585ccba73e7",
+          "currentPrice": 95,
+          "suggestedPrice": 95,
+          "range": [
+            90,
+            100
+          ],
+          "reasoning": "Mevcut fiyat (95 TL) %63.15'lik sağlıklı bir kar marjı sağlamaktadır. Rakip fiyat verileri mevcut olmadığından, piyasadaki konumlandırma hakkında analiz yapılamamaktadır. Bu nedenle, mevcut fiyatlandırmanın korunması önerilir. Önerilen fiyat aralığı, minimum %20 hedef marjın üzerinde kalmaktadır.",
+          "riskLevel": "low",
+          "expectedSalesChangePct": 0
+        },
+        "reasoning": "price:95(range:60-150):true, risk:low:true",
+        "durationMs": 14172
+      },
+      {
+        "caseId": "price-3",
+        "passed": true,
+        "score": 1,
+        "output": {
+          "productId": "4ab248bc-d257-4998-8c5f-0a163a9736dc",
+          "currentPrice": 420,
+          "suggestedPrice": 420,
+          "range": [
+            225,
+            420
+          ],
+          "reasoning": "Rakip fiyat verisi bulunamadığından, mevcut fiyatınızın piyasadaki konumunu değerlendirmek mümkün değildir. Ancak, mevcut %57.1 kâr marjınız oldukça sağlıklıdır ve minimum %20 marj hedefinizin çok üzerindedir. Bu koşullar altında, pazar araştırması yapılana kadar fiyatı sabit tutmak en güvenli yaklaşımdır. Pazar verisi eksikliği nedeniyle mevcut fiyatın korunması ve bu arada detaylı rakip analizi yapılması önerilir.",
+          "riskLevel": "medium",
+          "expectedSalesChangePct": 0
+        },
+        "reasoning": "price:420(range:300-550):true, risk:medium:true",
+        "durationMs": 17264
+      },
+      {
+        "caseId": "price-4",
+        "passed": true,
+        "score": 0.7,
+        "output": {
+          "productId": "db0fa999-8af0-4622-ae22-16e451e024b0",
+          "currentPrice": 260,
+          "suggestedPrice": 260,
+          "range": [
+            143.75,
+            260
+          ],
+          "reasoning": "Rakip fiyatları bulunamadığından, mevcut pazar dinamiklerini değerlendirmek mümkün olmamıştır. Mevcut kâr marjı (%55.8) minimum hedef marjın (%20) üzerinde olduğu için fiyatı sabit tutmak en uygun yaklaşımdır. Piyasa bilgisi eksikliği nedeniyle herhangi bir fiyat değişikliği önerisi yapılamamaktadır. Bu durum, piyasa fırsatlarının veya tehditlerinin belirlenememesi nedeniyle yüksek risk taşımaktadır.",
+          "riskLevel": "high",
+          "expectedSalesChangePct": 0
+        },
+        "reasoning": "price:260(range:200-400):true, risk:high:false",
+        "durationMs": 16730
+      },
+      {
+        "caseId": "price-5",
+        "passed": true,
+        "score": 1,
+        "output": {
+          "productId": "15b16d82-d7aa-4595-8c59-610bc7636e17",
+          "currentPrice": 75,
+          "suggestedPrice": 75,
+          "range": [
+            35,
+            75
+          ],
+          "reasoning": "Rakip fiyatları bulunamadığından, mevcut piyasa koşullarında fiyat değişikliği için yeterli veri yoktur. Ancak, mevcut 75 TL fiyatınızla elde ettiğiniz %62.7 kâr marjı, belirlediğiniz %20 minimum hedef marjınızın oldukça üzerindedir. Bu durum, fiyatlandırma konusunda rahat bir konumda olduğunuzu göstermektedir. Rakip verileri olmaksızın olası bir zam veya indirim fırsatını değerlendirmek mümkün değildir.",
+          "riskLevel": "low",
+          "expectedSalesChangePct": 0
+        },
+        "reasoning": "price:75(range:50-150):true, risk:low:true",
+        "durationMs": 9614
+      },
+      {
+        "caseId": "price-6",
+        "passed": true,
+        "score": 1,
+        "output": {
+          "productId": "ca2c4dd0-2f62-4d08-a830-8d60ed4f66a8",
+          "currentPrice": 380,
+          "suggestedPrice": 380,
+          "range": [
+            360,
+            400
+          ],
+          "reasoning": "Rakip fiyat bilgisi bulunmamaktadır. Mevcut kâr marjı (%57.9) hedeflenen minimum marjın (%25) oldukça üzerindedir. Bu durumda mevcut fiyatı korumak, sağlıklı bir kârlılığı sürdürmek için en uygun seçenektir. Herhangi bir fiyat değişikliği için piyasa verisi bulunmadığından, mevcut istikrarlı durumu korumak en risksiz yaklaşımdır.",
+          "riskLevel": "low",
+          "expectedSalesChangePct": 0
+        },
+        "reasoning": "price:380(range:280-500):true, risk:low:true",
+        "durationMs": 15362
+      },
+      {
+        "caseId": "price-7",
+        "passed": true,
+        "score": 1,
+        "output": {
+          "productId": "87574b95-0add-4398-b5ba-656151a9b5cd",
+          "currentPrice": 340,
+          "suggestedPrice": 340,
+          "range": [
+            320,
+            360
+          ],
+          "reasoning": "Rakip fiyat verisi bulunamadığından, fiyat önerisi mevcut kâr marjı (57.4%) ve minimum hedef marj (%20) temel alınarak yapılmıştır. Mevcut kâr marjı hedef üzerinde (%57.4 > %20) olduğundan fiyatın sabit tutulması önerilir. Önerilen fiyat aralığı mevcut fiyat etrafında belirlenmiş olup, minimum %20 kâr marjının altına inilmemiştir (alt sınır için 145 / (1 - 0.20) = 181.25 TL). Rakip verisi eksikliği pazar konumlandırması hakkında belirsizlik yaratmaktadır.",
+          "riskLevel": "medium",
+          "expectedSalesChangePct": 0
+        },
+        "reasoning": "price:340(range:250-450):true, risk:medium:true",
+        "durationMs": 19110
+      },
+      {
+        "caseId": "price-8",
+        "passed": true,
+        "score": 1,
+        "output": {
+          "productId": "13903203-1810-44ed-ba42-39e41e2b274d",
+          "currentPrice": 145,
+          "suggestedPrice": 145,
+          "range": [
+            140,
+            150
+          ],
+          "reasoning": "Rakiplerden herhangi bir veri alınamadığından, piyasa koşulları hakkında net bir görüşümüz bulunmamaktadır. Ancak, mevcut satış fiyatı 145 TL ile %62.1'lik oldukça sağlıklı bir kar marjına sahipsiniz. Minimum hedef marjınızın %20 olduğu göz önüne alındığında, mevcut fiyat seviyesi finansal olarak sürdürülebilirdir. Bu belirsizlik ortamında, ani bir fiyat değişikliği yapmak yerine mevcut fiyatı korumak, gelir akışınızı stabilize etmek ve rekabetçi ortam hakkında daha fazla bilgi edinmek için güvenli bir yaklaşımdır.",
+          "riskLevel": "medium",
+          "expectedSalesChangePct": 0
+        },
+        "reasoning": "price:145(range:100-200):true, risk:medium:true",
+        "durationMs": 15088
+      },
+      {
+        "caseId": "price-9",
+        "passed": true,
+        "score": 0.7,
+        "output": {
+          "productId": "17e7f50f-5f88-48c9-904e-15051135ab89",
+          "currentPrice": 220,
+          "suggestedPrice": 220,
+          "range": [
+            198,
+            231
+          ],
+          "reasoning": "Rakip verisi bulunamadığından, mevcut fiyatlandırma stratejisiyle sürdürülebilir yüksek kâr marjı korunmaktadır. Piyasa koşullarına ilişkin yeterli rakip verisi bulunmadığından, mevcut fiyatlandırmanın piyasadaki konumu hakkında kesin bir değerlendirme yapmak zordur. Bu durum, fiyatlandırma stratejisinde beklenmedik rekabetçi baskılar veya kaçırılan fırsatlar açısından yüksek risk teşkil etmektedir. Mevcut fiyat, yüksek bir kâr marjı sunsa da, bu marjın sürdürülebilirliği rakip bilgisi olmadan teyit edilemez.",
+          "riskLevel": "high",
+          "expectedSalesChangePct": 0
+        },
+        "reasoning": "price:220(range:150-300):true, risk:high:false",
+        "durationMs": 15075
+      },
+      {
+        "caseId": "price-10",
+        "passed": true,
+        "score": 0.7,
+        "output": {
+          "productId": "36f3b3d9-2a8e-41bc-a7fc-bc0dff89d3cc",
+          "currentPrice": 195,
+          "suggestedPrice": 195,
+          "range": [
+            190,
+            200
+          ],
+          "reasoning": "Rakip verisi bulunamadığından piyasa analizi yapılamamıştır. Mevcut kâr marjı (%56.4), hedeflenen minimum marj (%20) üzerinde olup sağlıklıdır. Piyasa hakkında daha fazla bilgi edinene kadar fiyatı sabit tutmak en güvenli yaklaşımdır. Bu durum, piyasa dinamikleri hakkında belirsizlik taşıdığı için yüksek riskli olarak değerlendirilmektedir.",
+          "riskLevel": "high",
+          "expectedSalesChangePct": 0
+        },
+        "reasoning": "price:195(range:140-280):true, risk:high:false",
+        "durationMs": 12095
+      }
+    ],
+    "reviews": [
+      {
+        "caseId": "rev-1",
+        "passed": true,
+        "score": 1,
+        "output": {
+          "productId": "c366b169-43a5-473a-9780-87ab845e578a",
+          "totalReviews": 5,
+          "sentiment": {
+            "positive": 2,
+            "neutral": 1,
+            "negative": 2
+          },
+          "topThemes": [
+            {
+              "theme": "paketleme",
+              "count": 2,
+              "sentiment": "mixed"
+            },
+            {
+              "theme": "ürün kalitesi",
+              "count": 2,
+              "sentiment": "positive"
+            },
+            {
+              "theme": "doğum günü hediyesi",
+              "count": 1,
+              "sentiment": "positive"
+            },
+            {
+              "theme": "kırılma",
+              "count": 1,
+              "sentiment": "negative"
+            },
+            {
+              "theme": "boyut beklentisi",
+              "count": 1,
+              "sentiment": "negative"
+            }
+          ],
+          "draftReplies": [
+            {
+              "reviewId": "32f0b571-ee2e-4970-a100-1f95a4f1a633",
+              "reply": "Değerli müşterimiz, ürününüzün kargo sırasında kırılması ve paketlemenin yetersizliği nedeniyle yaşadığınız olumsuz deneyim için çok üzgünüz. Bu durumu telafi etmek ve gerekli önlemleri almak adına sizinle iletişime geçeceğiz."
+            },
+            {
+              "reviewId": "c749885f-9b6b-4a38-91ff-9a0596226fcf",
+              "reply": "Değerli müşterimiz, ürünün beklentinizden küçük çıkması nedeniyle yaşadığınız hayal kırıklığı için üzgünüz. Ürün boyutları hakkındaki geri bildiriminiz bizim için değerlidir ve ürün açıklamalarımızı daha anlaşılır hale getirmek için dikkate alacağız."
+            }
+          ]
+        },
+        "reasoning": "total:5(min:1):true, sum:5/5:true",
+        "durationMs": 15318
+      },
+      {
+        "caseId": "rev-2",
+        "passed": true,
+        "score": 1,
+        "output": {
+          "productId": "bb0fa0e5-7cfd-4e13-a2b5-c585ccba73e7",
+          "totalReviews": 5,
+          "sentiment": {
+            "positive": 3,
+            "neutral": 1,
+            "negative": 1
+          },
+          "topThemes": [
+            {
+              "theme": "ürün kalitesi",
+              "count": 2,
+              "sentiment": "positive"
+            },
+            {
+              "theme": "paketleme",
+              "count": 2,
+              "sentiment": "mixed"
+            },
+            {
+              "theme": "doğum günü hediyesi",
+              "count": 1,
+              "sentiment": "positive"
+            },
+            {
+              "theme": "kırılma",
+              "count": 1,
+              "sentiment": "negative"
+            },
+            {
+              "theme": "boyut",
+              "count": 1,
+              "sentiment": "mixed"
+            }
+          ],
+          "draftReplies": [
+            {
+              "reviewId": "2a955f6e-72c0-4af2-96fa-5f0352fd917f",
+              "reply": "Sayın müşterimiz, ürünümüzün kargo sırasında kırılması nedeniyle yaşadığınız talihsizlikten dolayı üzgünüz. Paketleme konusunda yetersiz kaldığımızı not aldık ve bu durumu düzeltmek için elimizden geleni yapacağız. Size yardımcı olabilmek adına bizimle iletişime geçmenizi rica ederiz."
+            },
+            {
+              "reviewId": "3ebdabdb-f456-46bc-b58c-241349d48105",
+              "reply": "Değerli müşterimiz, ürünümüzün beklentinizden küçük olması nedeniyle hayal kırıklığı yaşadığınızı anlıyoruz. Ürün boyutları hakkında daha net bilgi sağlamak adına açıklamalarımızı güncelleyeceğiz. Geri bildiriminiz için teşekkür ederiz."
+            }
+          ]
+        },
+        "reasoning": "total:5(min:1):true, sum:5/5:true",
+        "durationMs": 21418
+      },
+      {
+        "caseId": "rev-3",
+        "passed": true,
+        "score": 0.5,
+        "output": {
+          "productId": "4ab248bc-d257-4998-8c5f-0a163a9736dc",
+          "totalReviews": 5,
+          "sentiment": {
+            "positive": 0.6,
+            "neutral": 0.2,
+            "negative": 0.2
+          },
+          "topThemes": [
+            {
+              "theme": "kalite",
+              "count": 2,
+              "sentiment": "positive"
+            },
+            {
+              "theme": "paketleme",
+              "count": 2,
+              "sentiment": "mixed"
+            },
+            {
+              "theme": "doğum günü hediyesi",
+              "count": 1,
+              "sentiment": "positive"
+            },
+            {
+              "theme": "kırılma",
+              "count": 1,
+              "sentiment": "negative"
+            },
+            {
+              "theme": "kargo",
+              "count": 1,
+              "sentiment": "negative"
+            },
+            {
+              "theme": "el yapımı",
+              "count": 1,
+              "sentiment": "positive"
+            },
+            {
+              "theme": "boyut",
+              "count": 1,
+              "sentiment": "negative"
+            }
+          ],
+          "draftReplies": [
+            {
+              "reviewId": "9b72092a-eac3-47e7-babb-823ae506cbbe",
+              "reply": "Değerli müşterimiz, ürünümüzün kargo sırasında kırılması ve paketleme yetersizliği sebebiyle yaşadığınız olumsuz deneyimden dolayı çok üzgünüz. Bu durumu telafi etmek adına lütfen bizimle iletişime geçin. Ekibimiz size yardımcı olmaktan memnuniyet duyacaktır."
+            },
+            {
+              "reviewId": "8a277977-a1c5-49e8-9021-db384cb1b626",
+              "reply": "Değerli müşterimiz, ürünümüzün beklediğinizden küçük çıkmasından dolayı üzgünüz. Ürün açıklamalarımızı daha anlaşılır ve detaylı hale getirmek için çalışacağız. Geri bildiriminiz için teşekkür ederiz."
+            }
+          ]
+        },
+        "reasoning": "total:5(min:1):true, sum:1/5:false",
+        "durationMs": 13959
+      },
+      {
+        "caseId": "rev-4",
+        "passed": true,
+        "score": 1,
+        "output": {
+          "productId": "db0fa999-8af0-4622-ae22-16e451e024b0",
+          "totalReviews": 5,
+          "sentiment": {
+            "positive": 2,
+            "neutral": 2,
+            "negative": 1
+          },
+          "topThemes": [
+            {
+              "theme": "Product Quality",
+              "count": 2,
+              "sentiment": "positive"
+            },
+            {
+              "theme": "Packaging",
+              "count": 2,
+              "sentiment": "negative"
+            },
+            {
+              "theme": "Breakage/Damage",
+              "count": 1,
+              "sentiment": "negative"
+            },
+            {
+              "theme": "Expectation/Size",
+              "count": 1,
+              "sentiment": "negative"
+            }
+          ],
+          "draftReplies": [
+            {
+              "reviewId": "d0a47de5-77f0-4487-b254-b4efa97a48d0",
+              "reply": "We are very sorry to hear that your product arrived broken due to insufficient packaging. We take this feedback seriously and will look into improving our packaging processes immediately. Please contact our customer service for a replacement or a full refund."
+            },
+            {
+              "reviewId": "e32c3cd3-7892-4daa-bc55-e26a9b705093",
+              "reply": "We're sorry that the product was smaller than you expected. We strive to provide accurate product descriptions and dimensions. We appreciate your feedback and will review our product details to ensure they are clearer for our customers."
+            }
+          ]
+        },
+        "reasoning": "total:5(min:1):true, sum:5/5:true",
+        "durationMs": 15011
+      },
+      {
+        "caseId": "rev-5",
+        "passed": true,
+        "score": 1,
+        "output": {
+          "productId": "15b16d82-d7aa-4595-8c59-610bc7636e17",
+          "totalReviews": 5,
+          "sentiment": {
+            "positive": 3,
+            "neutral": 1,
+            "negative": 1
+          },
+          "topThemes": [
+            {
+              "theme": "Kalite",
+              "count": 2,
+              "sentiment": "positive"
+            },
+            {
+              "theme": "Paketleme",
+              "count": 2,
+              "sentiment": "negative"
+            },
+            {
+              "theme": "Doğum Günü Hediyesi",
+              "count": 1,
+              "sentiment": "positive"
+            },
+            {
+              "theme": "Kırılma / Kargo",
+              "count": 1,
+              "sentiment": "negative"
+            },
+            {
+              "theme": "Boyut",
+              "count": 1,
+              "sentiment": "mixed"
+            }
+          ],
+          "draftReplies": [
+            {
+              "reviewId": "3c121a87-674e-463d-84d2-0b5e19c5b930",
+              "reply": "Değerli müşterimiz, yaşadığınız bu olumsuz deneyim için çok üzgünüz. Ürününüzün kargoda hasar görmesi ve paketleme konusunda yaşanan aksaklık için özür dileriz. Lütfen bizimle iletişime geçin, sorununuzu en kısa sürede çözüme kavuşturalım."
+            },
+            {
+              "reviewId": "5c8abf9c-afd6-4f42-ab7d-0779e3cb647c",
+              "reply": "Değerli müşterimiz, ürünümüzü beğendiğiniz için teşekkür ederiz. Boyut konusunda beklentinizi karşılayamadığımız için üzgünüz. Ürün açıklamalarımızdaki boyut bilgilerinin daha açık olması adına gerekli düzenlemeleri yapacağımızı bildirmek isteriz. Geri bildiriminiz bizim için çok değerli."
+            }
+          ]
+        },
+        "reasoning": "total:5(min:1):true, sum:5/5:true",
+        "durationMs": 13004
+      },
+      {
+        "caseId": "rev-6",
+        "passed": true,
+        "score": 1,
+        "output": {
+          "productId": "ca2c4dd0-2f62-4d08-a830-8d60ed4f66a8",
+          "totalReviews": 5,
+          "sentiment": {
+            "positive": 3,
+            "neutral": 1,
+            "negative": 1
+          },
+          "topThemes": [
+            {
+              "theme": "kalite",
+              "count": 2,
+              "sentiment": "positive"
+            },
+            {
+              "theme": "paketleme",
+              "count": 2,
+              "sentiment": "mixed"
+            },
+            {
+              "theme": "doğum günü hediyesi",
+              "count": 1,
+              "sentiment": "positive"
+            },
+            {
+              "theme": "kırılma",
+              "count": 1,
+              "sentiment": "negative"
+            },
+            {
+              "theme": "el işçiliği",
+              "count": 1,
+              "sentiment": "positive"
+            },
+            {
+              "theme": "boyut/beklenti",
+              "count": 1,
+              "sentiment": "mixed"
+            }
+          ],
+          "draftReplies": [
+            {
+              "reviewId": "fa6105eb-3b73-4b8e-85ee-bad8a47ba8ab",
+              "reply": "Merhaba, yaşadığınız bu talihsiz durum için çok üzgünüz. Ürününüzün kargo sırasında kırılması ve paketlemenin yetersiz kalması kabul edilemez. Konuyla ilgili sizinle iletişime geçerek durumu telafi etmek isteriz. Anlayışınız için teşekkür ederiz."
+            },
+            {
+              "reviewId": "8850d857-086f-4fbc-b0a1-0a6123c1bf3e",
+              "reply": "Merhaba, ürünümüzü genel olarak beğenmenize sevindik. Ancak, beklentinizden küçük çıkması konusunda üzgünüz. Ürün açıklamalarımızdaki boyut bilgilerini daha belirgin hale getirmek için çalışacağız. Geri bildiriminiz için teşekkür ederiz."
+            }
+          ]
+        },
+        "reasoning": "total:5(min:1):true, sum:5/5:true",
+        "durationMs": 14667
+      },
+      {
+        "caseId": "rev-7",
+        "passed": true,
+        "score": 0.5,
+        "output": {
+          "productId": "87574b95-0add-4398-b5ba-656151a9b5cd",
+          "totalReviews": 0,
+          "sentiment": {
+            "positive": 0,
+            "neutral": 0,
+            "negative": 0
+          },
+          "topThemes": [],
+          "draftReplies": []
+        },
+        "reasoning": "total:0(min:1):false, sum:0/0:true",
+        "durationMs": 4346
+      },
+      {
+        "caseId": "rev-8",
+        "passed": true,
+        "score": 0.5,
+        "output": {
+          "productId": "13903203-1810-44ed-ba42-39e41e2b274d",
+          "totalReviews": 5,
+          "sentiment": {
+            "positive": 0.4,
+            "neutral": 0.4,
+            "negative": 0.2
+          },
+          "topThemes": [
+            {
+              "theme": "Packaging",
+              "count": 2,
+              "sentiment": "mixed"
+            },
+            {
+              "theme": "Quality",
+              "count": 2,
+              "sentiment": "positive"
+            }
+          ],
+          "draftReplies": [
+            {
+              "reviewId": "6dee2f11-d4f2-4b19-b243-f89e4d2e4ad5",
+              "reply": "We are very sorry to hear that your product arrived broken due to insufficient packaging. This is certainly not the experience we want our customers to have. We would like to investigate this further and offer a suitable resolution. Please contact us at [Your Contact Information] so we can assist you."
+            },
+            {
+              "reviewId": "3c6c8327-5c60-4c85-ae52-773962752c98",
+              "reply": "We're glad to hear you find the product nice. We're sorry it was smaller than you expected. We always strive to provide accurate product descriptions and dimensions. We appreciate your feedback and will review our product details to ensure better clarity for future customers."
+            }
+          ]
+        },
+        "reasoning": "total:5(min:1):true, sum:1/5:false",
+        "durationMs": 19810
+      },
+      {
+        "caseId": "rev-9",
+        "passed": true,
+        "score": 1,
+        "output": {
+          "productId": "17e7f50f-5f88-48c9-904e-15051135ab89",
+          "totalReviews": 5,
+          "sentiment": {
+            "positive": 2,
+            "neutral": 2,
+            "negative": 1
+          },
+          "topThemes": [
+            {
+              "theme": "Ürün Kalitesi",
+              "count": 2,
+              "sentiment": "positive"
+            },
+            {
+              "theme": "Paketleme",
+              "count": 2,
+              "sentiment": "mixed"
+            },
+            {
+              "theme": "Doğum Günü Hediyesi",
+              "count": 1,
+              "sentiment": "positive"
+            },
+            {
+              "theme": "Kırılma/Kargo Hasarı",
+              "count": 1,
+              "sentiment": "negative"
+            },
+            {
+              "theme": "Boyut Beklentisi",
+              "count": 1,
+              "sentiment": "mixed"
+            }
+          ],
+          "draftReplies": [
+            {
+              "reviewId": "6b434b32-eafa-4aa4-8447-a4a5577e9903",
+              "reply": "Değerli müşterimiz, yaşadığınız bu olumsuz deneyimden dolayı çok üzgünüz. Ürününüzün kargo sırasında kırılması kesinlikle kabul edilemez bir durumdur. Paketleme süreçlerimizi acilen gözden geçireceğimizi ve gerekli iyileştirmeleri yapacağımızı belirtmek isteriz. Size en kısa sürede ulaşarak çözüm sunmak ve mağduriyetinizi gidermek isteriz. Lütfen bizimle iletişime geçin."
+            },
+            {
+              "reviewId": "7209de1e-cd95-4e67-84f1-29d8ac55f7cc",
+              "reply": "Değerli müşterimiz, ürünümüzü genel olarak beğenmenize sevindik. Ancak boyut beklentinizin karşılanmamasından dolayı üzgünüz. Ürün açıklamalarında ve görsellerinde boyut bilgilerini daha net belirtmek adına çalışmalarımızı gözden geçireceğimizi belirtmek isteriz. Geri bildiriminiz için teşekkür ederiz."
+            }
+          ]
+        },
+        "reasoning": "total:5(min:1):true, sum:5/5:true",
+        "durationMs": 13066
+      },
+      {
+        "caseId": "rev-10",
+        "passed": true,
+        "score": 1,
+        "output": {
+          "productId": "36f3b3d9-2a8e-41bc-a7fc-bc0dff89d3cc",
+          "totalReviews": 5,
+          "sentiment": {
+            "positive": 2,
+            "neutral": 2,
+            "negative": 1
+          },
+          "topThemes": [
+            {
+              "theme": "Kalite",
+              "count": 2,
+              "sentiment": "positive"
+            },
+            {
+              "theme": "Paketleme",
+              "count": 2,
+              "sentiment": "negative"
+            },
+            {
+              "theme": "Doğum Günü Hediyesi",
+              "count": 1,
+              "sentiment": "positive"
+            },
+            {
+              "theme": "Kırılma",
+              "count": 1,
+              "sentiment": "negative"
+            },
+            {
+              "theme": "Kargo",
+              "count": 1,
+              "sentiment": "negative"
+            },
+            {
+              "theme": "El Yapımı",
+              "count": 1,
+              "sentiment": "positive"
+            },
+            {
+              "theme": "Boyut",
+              "count": 1,
+              "sentiment": "mixed"
+            }
+          ],
+          "draftReplies": [
+            {
+              "reviewId": "64ed9164-7cef-4f56-86e9-874624a6f543",
+              "reply": "Merhaba, ürününüzün kargo sırasında kırılması ve paketlemenin yetersiz kalması nedeniyle yaşadığınız bu olumsuz deneyimden dolayı çok üzgünüz. Müşteri memnuniyeti bizim için çok önemli. Durumu telafi etmek için sizinle iletişime geçeceğiz."
+            },
+            {
+              "reviewId": "8f07fcde-0c3a-440b-87af-f7bb6b7124fb",
+              "reply": "Merhaba, ürünümüzü beğenmenize sevindik. Beklediğinizden daha küçük çıkması nedeniyle üzgünüz. Ürün açıklamalarımızdaki boyut bilgilerini daha belirgin hale getirmek için çalışmalar yapacağımızı belirtmek isteriz. Geri bildiriminiz için teşekkür ederiz."
+            }
+          ]
+        },
+        "reasoning": "total:5(min:1):true, sum:5/5:true",
+        "durationMs": 15451
+      }
+    ],
+    "cashflow": [
+      {
+        "caseId": "cash-1",
+        "passed": true,
+        "score": 1,
+        "output": {
+          "scenario": "current",
+          "days": 30,
+          "projection": [
+            {
+              "date": "2026-05-16",
+              "balance": 454410.67
+            },
+            {
+              "date": "2026-05-17",
+              "balance": 456581.33
+            },
+            {
+              "date": "2026-05-18",
+              "balance": 458752
+            },
+            {
+              "date": "2026-05-19",
+              "balance": 460922.67
+            },
+            {
+              "date": "2026-05-20",
+              "balance": 463093.33
+            },
+            {
+              "date": "2026-05-21",
+              "balance": 465264
+            },
+            {
+              "date": "2026-05-22",
+              "balance": 467434.67
+            },
+            {
+              "date": "2026-05-23",
+              "balance": 469605.33
+            },
+            {
+              "date": "2026-05-24",
+              "balance": 471776
+            },
+            {
+              "date": "2026-05-25",
+              "balance": 473946.67
+            },
+            {
+              "date": "2026-05-26",
+              "balance": 476117.33
+            },
+            {
+              "date": "2026-05-27",
+              "balance": 478288
+            },
+            {
+              "date": "2026-05-28",
+              "balance": 480458.67
+            },
+            {
+              "date": "2026-05-29",
+              "balance": 482629.33
+            },
+            {
+              "date": "2026-05-30",
+              "balance": 484800
+            },
+            {
+              "date": "2026-05-31",
+              "balance": 486970.67
+            },
+            {
+              "date": "2026-06-01",
+              "balance": 489141.33
+            },
+            {
+              "date": "2026-06-02",
+              "balance": 491312
+            },
+            {
+              "date": "2026-06-03",
+              "balance": 493482.67
+            },
+            {
+              "date": "2026-06-04",
+              "balance": 495653.33
+            },
+            {
+              "date": "2026-06-05",
+              "balance": 497824
+            },
+            {
+              "date": "2026-06-06",
+              "balance": 499994.67
+            },
+            {
+              "date": "2026-06-07",
+              "balance": 502165.33
+            },
+            {
+              "date": "2026-06-08",
+              "balance": 504336
+            },
+            {
+              "date": "2026-06-09",
+              "balance": 506506.67
+            },
+            {
+              "date": "2026-06-10",
+              "balance": 508677.33
+            },
+            {
+              "date": "2026-06-11",
+              "balance": 510848
+            },
+            {
+              "date": "2026-06-12",
+              "balance": 513018.67
+            },
+            {
+              "date": "2026-06-13",
+              "balance": 515189.33
+            },
+            {
+              "date": "2026-06-14",
+              "balance": 517360
+            }
+          ],
+          "riskScore": "green",
+          "commentary": "Kaptan, mevcut durumda nakit akışımız oldukça sağlıklı görünüyor, gelirlerimiz giderlerimizi rahatça karşılıyor. Önümüzdeki bir ay boyunca kasamızda herhangi bir daralma beklemiyoruz, aksine birikimimiz artacak.\n\n**Aksiyon Önerisi:** Bu elverişli dönemi, kontrollü bir pazarlama kampanyası veya yeni müşteri kazanım faaliyetleri planlayarak ileriye dönük bir yatırıma dönüştürebiliriz.",
+          "suggestedAction": "**Aksiyon Önerisi:** Bu elverişli dönemi, kontrollü bir pazarlama kampanyası veya yeni müşteri kazanım faaliyetleri planlayarak ileriye dönük bir yatırıma dönüştürebiliriz."
+        },
+        "reasoning": "proj:30(want:30):true, risk:green:true, commentary:385ch:true",
+        "durationMs": 20616
+      },
+      {
+        "caseId": "cash-2",
+        "passed": true,
+        "score": 1,
+        "output": {
+          "scenario": "discount15",
+          "days": 30,
+          "projection": [
+            {
+              "date": "2026-05-16",
+              "balance": 454549.03
+            },
+            {
+              "date": "2026-05-17",
+              "balance": 456858.07
+            },
+            {
+              "date": "2026-05-18",
+              "balance": 459167.1
+            },
+            {
+              "date": "2026-05-19",
+              "balance": 461476.13
+            },
+            {
+              "date": "2026-05-20",
+              "balance": 463785.17
+            },
+            {
+              "date": "2026-05-21",
+              "balance": 466094.2
+            },
+            {
+              "date": "2026-05-22",
+              "balance": 468403.23
+            },
+            {
+              "date": "2026-05-23",
+              "balance": 470712.27
+            },
+            {
+              "date": "2026-05-24",
+              "balance": 473021.3
+            },
+            {
+              "date": "2026-05-25",
+              "balance": 475330.33
+            },
+            {
+              "date": "2026-05-26",
+              "balance": 477639.37
+            },
+            {
+              "date": "2026-05-27",
+              "balance": 479948.4
+            },
+            {
+              "date": "2026-05-28",
+              "balance": 482257.43
+            },
+            {
+              "date": "2026-05-29",
+              "balance": 484566.47
+            },
+            {
+              "date": "2026-05-30",
+              "balance": 486875.5
+            },
+            {
+              "date": "2026-05-31",
+              "balance": 489184.53
+            },
+            {
+              "date": "2026-06-01",
+              "balance": 491493.57
+            },
+            {
+              "date": "2026-06-02",
+              "balance": 493802.6
+            },
+            {
+              "date": "2026-06-03",
+              "balance": 496111.63
+            },
+            {
+              "date": "2026-06-04",
+              "balance": 498420.67
+            },
+            {
+              "date": "2026-06-05",
+              "balance": 500729.7
+            },
+            {
+              "date": "2026-06-06",
+              "balance": 503038.73
+            },
+            {
+              "date": "2026-06-07",
+              "balance": 505347.77
+            },
+            {
+              "date": "2026-06-08",
+              "balance": 507656.8
+            },
+            {
+              "date": "2026-06-09",
+              "balance": 509965.83
+            },
+            {
+              "date": "2026-06-10",
+              "balance": 512274.87
+            },
+            {
+              "date": "2026-06-11",
+              "balance": 514583.9
+            },
+            {
+              "date": "2026-06-12",
+              "balance": 516892.93
+            },
+            {
+              "date": "2026-06-13",
+              "balance": 519201.97
+            },
+            {
+              "date": "2026-06-14",
+              "balance": 521511
+            }
+          ],
+          "riskScore": "green",
+          "commentary": "Kaptan, mevcut projeksiyonlar finansal olarak oldukça rahat bir döneme işaret ediyor ve nakit akışınız gayet sağlıklı görünüyor. Gelirlerinizin giderlerinizi rahatça karşılıyor olması bize hareket alanı sağlıyor. Yine de bu durum, beklenmedik piyasa değişimlerine karşı gardımızı düşürmemiz gerektiği anlamına gelmez.\n\n**Aksiyon Önerisi:** Bu likidite fazlasını, gelecekteki bir yatırım veya büyüme hamlesi için sermaye olarak biriktirmeyi veya potansiyel bir nakit sıkışıklığına karşı \"acil durum fonu\" olarak ayırmayı değerlendirin.",
+          "suggestedAction": "**Aksiyon Önerisi:** Bu likidite fazlasını, gelecekteki bir yatırım veya büyüme hamlesi için sermaye olarak biriktirmeyi veya potansiyel bir nakit sıkışıklığına karşı \"acil durum fonu\" olarak ayırmayı değerlendirin."
+        },
+        "reasoning": "proj:30(want:30):true, risk:green:true, commentary:534ch:true",
+        "durationMs": 17653
+      },
+      {
+        "caseId": "cash-3",
+        "passed": true,
+        "score": 1,
+        "output": {
+          "scenario": "campaign",
+          "days": 30,
+          "projection": [
+            {
+              "date": "2026-05-16",
+              "balance": 455102.5
+            },
+            {
+              "date": "2026-05-17",
+              "balance": 457965
+            },
+            {
+              "date": "2026-05-18",
+              "balance": 460827.5
+            },
+            {
+              "date": "2026-05-19",
+              "balance": 463690
+            },
+            {
+              "date": "2026-05-20",
+              "balance": 466552.5
+            },
+            {
+              "date": "2026-05-21",
+              "balance": 469415
+            },
+            {
+              "date": "2026-05-22",
+              "balance": 472277.5
+            },
+            {
+              "date": "2026-05-23",
+              "balance": 475140
+            },
+            {
+              "date": "2026-05-24",
+              "balance": 478002.5
+            },
+            {
+              "date": "2026-05-25",
+              "balance": 480865
+            },
+            {
+              "date": "2026-05-26",
+              "balance": 483727.5
+            },
+            {
+              "date": "2026-05-27",
+              "balance": 486590
+            },
+            {
+              "date": "2026-05-28",
+              "balance": 489452.5
+            },
+            {
+              "date": "2026-05-29",
+              "balance": 492315
+            },
+            {
+              "date": "2026-05-30",
+              "balance": 495177.5
+            },
+            {
+              "date": "2026-05-31",
+              "balance": 498040
+            },
+            {
+              "date": "2026-06-01",
+              "balance": 500902.5
+            },
+            {
+              "date": "2026-06-02",
+              "balance": 503765
+            },
+            {
+              "date": "2026-06-03",
+              "balance": 506627.5
+            },
+            {
+              "date": "2026-06-04",
+              "balance": 509490
+            },
+            {
+              "date": "2026-06-05",
+              "balance": 512352.5
+            },
+            {
+              "date": "2026-06-06",
+              "balance": 515215
+            },
+            {
+              "date": "2026-06-07",
+              "balance": 518077.5
+            },
+            {
+              "date": "2026-06-08",
+              "balance": 520940
+            },
+            {
+              "date": "2026-06-09",
+              "balance": 523802.5
+            },
+            {
+              "date": "2026-06-10",
+              "balance": 526665
+            },
+            {
+              "date": "2026-06-11",
+              "balance": 529527.5
+            },
+            {
+              "date": "2026-06-12",
+              "balance": 532390
+            },
+            {
+              "date": "2026-06-13",
+              "balance": 535252.5
+            },
+            {
+              "date": "2026-06-14",
+              "balance": 538115
+            }
+          ],
+          "riskScore": "green",
+          "commentary": "Kaptan, projeksiyonlara göre kampanya dönemi finansal açıdan oldukça rahat görünüyor. Nakit akışımızda en ufak bir daralma öngörülmüyor, hatta en düşük seviyemizde bile bakiyemiz mevcut durumun üzerine çıkıyor.\n\n**Aksiyon Önerisi:** Bu finansal rahatlığı, kampanya performansını daha da artırmak için reklam bütçesine küçük bir ekleme yaparak değerlendirebilirsiniz.",
+          "suggestedAction": "**Aksiyon Önerisi:** Bu finansal rahatlığı, kampanya performansını daha da artırmak için reklam bütçesine küçük bir ekleme yaparak değerlendirebilirsiniz."
+        },
+        "reasoning": "proj:30(want:30):true, risk:green:true, commentary:366ch:true",
+        "durationMs": 27416
+      },
+      {
+        "caseId": "cash-4",
+        "passed": true,
+        "score": 1,
+        "output": {
+          "scenario": "current",
+          "days": 60,
+          "projection": [
+            {
+              "date": "2026-05-16",
+              "balance": 453284
+            },
+            {
+              "date": "2026-05-17",
+              "balance": 455678
+            },
+            {
+              "date": "2026-05-18",
+              "balance": 458072
+            },
+            {
+              "date": "2026-05-19",
+              "balance": 460466
+            },
+            {
+              "date": "2026-05-20",
+              "balance": 462860
+            },
+            {
+              "date": "2026-05-21",
+              "balance": 465254
+            },
+            {
+              "date": "2026-05-22",
+              "balance": 467648
+            },
+            {
+              "date": "2026-05-23",
+              "balance": 470042
+            },
+            {
+              "date": "2026-05-24",
+              "balance": 472436
+            },
+            {
+              "date": "2026-05-25",
+              "balance": 474830
+            },
+            {
+              "date": "2026-05-26",
+              "balance": 477224
+            },
+            {
+              "date": "2026-05-27",
+              "balance": 479618
+            },
+            {
+              "date": "2026-05-28",
+              "balance": 482012
+            },
+            {
+              "date": "2026-05-29",
+              "balance": 484406
+            },
+            {
+              "date": "2026-05-30",
+              "balance": 486800
+            },
+            {
+              "date": "2026-05-31",
+              "balance": 489194
+            },
+            {
+              "date": "2026-06-01",
+              "balance": 491588
+            },
+            {
+              "date": "2026-06-02",
+              "balance": 493982
+            },
+            {
+              "date": "2026-06-03",
+              "balance": 496376
+            },
+            {
+              "date": "2026-06-04",
+              "balance": 498770
+            },
+            {
+              "date": "2026-06-05",
+              "balance": 501164
+            },
+            {
+              "date": "2026-06-06",
+              "balance": 503558
+            },
+            {
+              "date": "2026-06-07",
+              "balance": 505952
+            },
+            {
+              "date": "2026-06-08",
+              "balance": 508346
+            },
+            {
+              "date": "2026-06-09",
+              "balance": 510740
+            },
+            {
+              "date": "2026-06-10",
+              "balance": 513134
+            },
+            {
+              "date": "2026-06-11",
+              "balance": 515528
+            },
+            {
+              "date": "2026-06-12",
+              "balance": 517922
+            },
+            {
+              "date": "2026-06-13",
+              "balance": 520316
+            },
+            {
+              "date": "2026-06-14",
+              "balance": 522710
+            },
+            {
+              "date": "2026-06-15",
+              "balance": 525104
+            },
+            {
+              "date": "2026-06-16",
+              "balance": 527498
+            },
+            {
+              "date": "2026-06-17",
+              "balance": 529892
+            },
+            {
+              "date": "2026-06-18",
+              "balance": 532286
+            },
+            {
+              "date": "2026-06-19",
+              "balance": 534680
+            },
+            {
+              "date": "2026-06-20",
+              "balance": 537074
+            },
+            {
+              "date": "2026-06-21",
+              "balance": 539468
+            },
+            {
+              "date": "2026-06-22",
+              "balance": 541862
+            },
+            {
+              "date": "2026-06-23",
+              "balance": 544256
+            },
+            {
+              "date": "2026-06-24",
+              "balance": 546650
+            },
+            {
+              "date": "2026-06-25",
+              "balance": 549044
+            },
+            {
+              "date": "2026-06-26",
+              "balance": 551438
+            },
+            {
+              "date": "2026-06-27",
+              "balance": 553832
+            },
+            {
+              "date": "2026-06-28",
+              "balance": 556226
+            },
+            {
+              "date": "2026-06-29",
+              "balance": 558620
+            },
+            {
+              "date": "2026-06-30",
+              "balance": 561014
+            },
+            {
+              "date": "2026-07-01",
+              "balance": 563408
+            },
+            {
+              "date": "2026-07-02",
+              "balance": 565802
+            },
+            {
+              "date": "2026-07-03",
+              "balance": 568196
+            },
+            {
+              "date": "2026-07-04",
+              "balance": 570590
+            },
+            {
+              "date": "2026-07-05",
+              "balance": 572984
+            },
+            {
+              "date": "2026-07-06",
+              "balance": 575378
+            },
+            {
+              "date": "2026-07-07",
+              "balance": 577772
+            },
+            {
+              "date": "2026-07-08",
+              "balance": 580166
+            },
+            {
+              "date": "2026-07-09",
+              "balance": 582560
+            },
+            {
+              "date": "2026-07-10",
+              "balance": 584954
+            },
+            {
+              "date": "2026-07-11",
+              "balance": 587348
+            },
+            {
+              "date": "2026-07-12",
+              "balance": 589742
+            },
+            {
+              "date": "2026-07-13",
+              "balance": 592136
+            },
+            {
+              "date": "2026-07-14",
+              "balance": 594530
+            }
+          ],
+          "riskScore": "green",
+          "commentary": "Kaptan, mevcut nakit akışımız oldukça sağlıklı ve projeksiyonlar kasamızın daha da güçleneceğini gösteriyor. Ancak bu rahatlık rehavete dönüşmemeli; piyasada her an bir fırtına çıkabileceğini unutmayalım.\n\n**Aksiyon Önerisi:** Bu bolluk dönemini, gelecekteki olası bir darboğaz için \"ihtiyat akçesi\" ayırmaya başlayarak veya operasyonel verimliliği artıracak bir teknoloji yatırımını pazarlık gücüyle peşin alarak değerlendirelim.",
+          "suggestedAction": "**Aksiyon Önerisi:** Bu bolluk dönemini, gelecekteki olası bir darboğaz için \"ihtiyat akçesi\" ayırmaya başlayarak veya operasyonel verimliliği artıracak bir teknoloji yatırımını pazarlık gücüyle peşin alarak değerlendirelim."
+        },
+        "reasoning": "proj:60(want:60):true, risk:green:true, commentary:430ch:true",
+        "durationMs": 23491
+      },
+      {
+        "caseId": "cash-5",
+        "passed": true,
+        "score": 1,
+        "output": {
+          "scenario": "current",
+          "days": 90,
+          "projection": [
+            {
+              "date": "2026-05-16",
+              "balance": 453408.44
+            },
+            {
+              "date": "2026-05-17",
+              "balance": 455926.89
+            },
+            {
+              "date": "2026-05-18",
+              "balance": 458445.33
+            },
+            {
+              "date": "2026-05-19",
+              "balance": 460963.78
+            },
+            {
+              "date": "2026-05-20",
+              "balance": 463482.22
+            },
+            {
+              "date": "2026-05-21",
+              "balance": 466000.67
+            },
+            {
+              "date": "2026-05-22",
+              "balance": 468519.11
+            },
+            {
+              "date": "2026-05-23",
+              "balance": 471037.56
+            },
+            {
+              "date": "2026-05-24",
+              "balance": 473556
+            },
+            {
+              "date": "2026-05-25",
+              "balance": 476074.44
+            },
+            {
+              "date": "2026-05-26",
+              "balance": 478592.89
+            },
+            {
+              "date": "2026-05-27",
+              "balance": 481111.33
+            },
+            {
+              "date": "2026-05-28",
+              "balance": 483629.78
+            },
+            {
+              "date": "2026-05-29",
+              "balance": 486148.22
+            },
+            {
+              "date": "2026-05-30",
+              "balance": 488666.67
+            },
+            {
+              "date": "2026-05-31",
+              "balance": 491185.11
+            },
+            {
+              "date": "2026-06-01",
+              "balance": 493703.56
+            },
+            {
+              "date": "2026-06-02",
+              "balance": 496222
+            },
+            {
+              "date": "2026-06-03",
+              "balance": 498740.44
+            },
+            {
+              "date": "2026-06-04",
+              "balance": 501258.89
+            },
+            {
+              "date": "2026-06-05",
+              "balance": 503777.33
+            },
+            {
+              "date": "2026-06-06",
+              "balance": 506295.78
+            },
+            {
+              "date": "2026-06-07",
+              "balance": 508814.22
+            },
+            {
+              "date": "2026-06-08",
+              "balance": 511332.67
+            },
+            {
+              "date": "2026-06-09",
+              "balance": 513851.11
+            },
+            {
+              "date": "2026-06-10",
+              "balance": 516369.56
+            },
+            {
+              "date": "2026-06-11",
+              "balance": 518888
+            },
+            {
+              "date": "2026-06-12",
+              "balance": 521406.44
+            },
+            {
+              "date": "2026-06-13",
+              "balance": 523924.89
+            },
+            {
+              "date": "2026-06-14",
+              "balance": 526443.33
+            },
+            {
+              "date": "2026-06-15",
+              "balance": 528961.78
+            },
+            {
+              "date": "2026-06-16",
+              "balance": 531480.22
+            },
+            {
+              "date": "2026-06-17",
+              "balance": 533998.67
+            },
+            {
+              "date": "2026-06-18",
+              "balance": 536517.11
+            },
+            {
+              "date": "2026-06-19",
+              "balance": 539035.56
+            },
+            {
+              "date": "2026-06-20",
+              "balance": 541554
+            },
+            {
+              "date": "2026-06-21",
+              "balance": 544072.44
+            },
+            {
+              "date": "2026-06-22",
+              "balance": 546590.89
+            },
+            {
+              "date": "2026-06-23",
+              "balance": 549109.33
+            },
+            {
+              "date": "2026-06-24",
+              "balance": 551627.78
+            },
+            {
+              "date": "2026-06-25",
+              "balance": 554146.22
+            },
+            {
+              "date": "2026-06-26",
+              "balance": 556664.67
+            },
+            {
+              "date": "2026-06-27",
+              "balance": 559183.11
+            },
+            {
+              "date": "2026-06-28",
+              "balance": 561701.56
+            },
+            {
+              "date": "2026-06-29",
+              "balance": 564220
+            },
+            {
+              "date": "2026-06-30",
+              "balance": 566738.44
+            },
+            {
+              "date": "2026-07-01",
+              "balance": 569256.89
+            },
+            {
+              "date": "2026-07-02",
+              "balance": 571775.33
+            },
+            {
+              "date": "2026-07-03",
+              "balance": 574293.78
+            },
+            {
+              "date": "2026-07-04",
+              "balance": 576812.22
+            },
+            {
+              "date": "2026-07-05",
+              "balance": 579330.67
+            },
+            {
+              "date": "2026-07-06",
+              "balance": 581849.11
+            },
+            {
+              "date": "2026-07-07",
+              "balance": 584367.56
+            },
+            {
+              "date": "2026-07-08",
+              "balance": 586886
+            },
+            {
+              "date": "2026-07-09",
+              "balance": 589404.44
+            },
+            {
+              "date": "2026-07-10",
+              "balance": 591922.89
+            },
+            {
+              "date": "2026-07-11",
+              "balance": 594441.33
+            },
+            {
+              "date": "2026-07-12",
+              "balance": 596959.78
+            },
+            {
+              "date": "2026-07-13",
+              "balance": 599478.22
+            },
+            {
+              "date": "2026-07-14",
+              "balance": 601996.67
+            },
+            {
+              "date": "2026-07-15",
+              "balance": 604515.11
+            },
+            {
+              "date": "2026-07-16",
+              "balance": 607033.56
+            },
+            {
+              "date": "2026-07-17",
+              "balance": 609552
+            },
+            {
+              "date": "2026-07-18",
+              "balance": 612070.44
+            },
+            {
+              "date": "2026-07-19",
+              "balance": 614588.89
+            },
+            {
+              "date": "2026-07-20",
+              "balance": 617107.33
+            },
+            {
+              "date": "2026-07-21",
+              "balance": 619625.78
+            },
+            {
+              "date": "2026-07-22",
+              "balance": 622144.22
+            },
+            {
+              "date": "2026-07-23",
+              "balance": 624662.67
+            },
+            {
+              "date": "2026-07-24",
+              "balance": 627181.11
+            },
+            {
+              "date": "2026-07-25",
+              "balance": 629699.56
+            },
+            {
+              "date": "2026-07-26",
+              "balance": 632218
+            },
+            {
+              "date": "2026-07-27",
+              "balance": 634736.44
+            },
+            {
+              "date": "2026-07-28",
+              "balance": 637254.89
+            },
+            {
+              "date": "2026-07-29",
+              "balance": 639773.33
+            },
+            {
+              "date": "2026-07-30",
+              "balance": 642291.78
+            },
+            {
+              "date": "2026-07-31",
+              "balance": 644810.22
+            },
+            {
+              "date": "2026-08-01",
+              "balance": 647328.67
+            },
+            {
+              "date": "2026-08-02",
+              "balance": 649847.11
+            },
+            {
+              "date": "2026-08-03",
+              "balance": 652365.56
+            },
+            {
+              "date": "2026-08-04",
+              "balance": 654884
+            },
+            {
+              "date": "2026-08-05",
+              "balance": 657402.44
+            },
+            {
+              "date": "2026-08-06",
+              "balance": 659920.89
+            },
+            {
+              "date": "2026-08-07",
+              "balance": 662439.33
+            },
+            {
+              "date": "2026-08-08",
+              "balance": 664957.78
+            },
+            {
+              "date": "2026-08-09",
+              "balance": 667476.22
+            },
+            {
+              "date": "2026-08-10",
+              "balance": 669994.67
+            },
+            {
+              "date": "2026-08-11",
+              "balance": 672513.11
+            },
+            {
+              "date": "2026-08-12",
+              "balance": 675031.56
+            },
+            {
+              "date": "2026-08-13",
+              "balance": 677550
+            }
+          ],
+          "riskScore": "green",
+          "commentary": "Kaptan, mevcut nakit akışınız oldukça sağlıklı ve projeksiyonlar önümüzdeki 90 gün içinde kasanızın daha da güçleneceğini gösteriyor. Ancak bu \"yeşil\" tablo rehavete neden olmamalı, ayağımızı yorganımıza göre uzatmaya devam etmeliyiz.\n\n**Aksiyon Önerisi:** Bu rahat dönemi, ilerideki olası dalgalanmalara hazırlık olarak kullanıp küçük bütçeli ve ölçülebilir bir pazarlama kampanyası ile yeni müşteri kanalları test etmek için değerlendirebiliriz.",
+          "suggestedAction": "**Aksiyon Önerisi:** Bu rahat dönemi, ilerideki olası dalgalanmalara hazırlık olarak kullanıp küçük bütçeli ve ölçülebilir bir pazarlama kampanyası ile yeni müşteri kanalları test etmek için değerlendirebiliriz."
+        },
+        "reasoning": "proj:90(want:90):true, risk:green:true, commentary:447ch:true",
+        "durationMs": 18350
+      },
+      {
+        "caseId": "cash-6",
+        "passed": true,
+        "score": 1,
+        "output": {
+          "scenario": "discount15",
+          "days": 90,
+          "projection": [
+            {
+              "date": "2026-05-16",
+              "balance": 453546.81
+            },
+            {
+              "date": "2026-05-17",
+              "balance": 456203.62
+            },
+            {
+              "date": "2026-05-18",
+              "balance": 458860.43
+            },
+            {
+              "date": "2026-05-19",
+              "balance": 461517.24
+            },
+            {
+              "date": "2026-05-20",
+              "balance": 464174.06
+            },
+            {
+              "date": "2026-05-21",
+              "balance": 466830.87
+            },
+            {
+              "date": "2026-05-22",
+              "balance": 469487.68
+            },
+            {
+              "date": "2026-05-23",
+              "balance": 472144.49
+            },
+            {
+              "date": "2026-05-24",
+              "balance": 474801.3
+            },
+            {
+              "date": "2026-05-25",
+              "balance": 477458.11
+            },
+            {
+              "date": "2026-05-26",
+              "balance": 480114.92
+            },
+            {
+              "date": "2026-05-27",
+              "balance": 482771.73
+            },
+            {
+              "date": "2026-05-28",
+              "balance": 485428.54
+            },
+            {
+              "date": "2026-05-29",
+              "balance": 488085.36
+            },
+            {
+              "date": "2026-05-30",
+              "balance": 490742.17
+            },
+            {
+              "date": "2026-05-31",
+              "balance": 493398.98
+            },
+            {
+              "date": "2026-06-01",
+              "balance": 496055.79
+            },
+            {
+              "date": "2026-06-02",
+              "balance": 498712.6
+            },
+            {
+              "date": "2026-06-03",
+              "balance": 501369.41
+            },
+            {
+              "date": "2026-06-04",
+              "balance": 504026.22
+            },
+            {
+              "date": "2026-06-05",
+              "balance": 506683.03
+            },
+            {
+              "date": "2026-06-06",
+              "balance": 509339.84
+            },
+            {
+              "date": "2026-06-07",
+              "balance": 511996.66
+            },
+            {
+              "date": "2026-06-08",
+              "balance": 514653.47
+            },
+            {
+              "date": "2026-06-09",
+              "balance": 517310.28
+            },
+            {
+              "date": "2026-06-10",
+              "balance": 519967.09
+            },
+            {
+              "date": "2026-06-11",
+              "balance": 522623.9
+            },
+            {
+              "date": "2026-06-12",
+              "balance": 525280.71
+            },
+            {
+              "date": "2026-06-13",
+              "balance": 527937.52
+            },
+            {
+              "date": "2026-06-14",
+              "balance": 530594.33
+            },
+            {
+              "date": "2026-06-15",
+              "balance": 533251.14
+            },
+            {
+              "date": "2026-06-16",
+              "balance": 535907.96
+            },
+            {
+              "date": "2026-06-17",
+              "balance": 538564.77
+            },
+            {
+              "date": "2026-06-18",
+              "balance": 541221.58
+            },
+            {
+              "date": "2026-06-19",
+              "balance": 543878.39
+            },
+            {
+              "date": "2026-06-20",
+              "balance": 546535.2
+            },
+            {
+              "date": "2026-06-21",
+              "balance": 549192.01
+            },
+            {
+              "date": "2026-06-22",
+              "balance": 551848.82
+            },
+            {
+              "date": "2026-06-23",
+              "balance": 554505.63
+            },
+            {
+              "date": "2026-06-24",
+              "balance": 557162.44
+            },
+            {
+              "date": "2026-06-25",
+              "balance": 559819.26
+            },
+            {
+              "date": "2026-06-26",
+              "balance": 562476.07
+            },
+            {
+              "date": "2026-06-27",
+              "balance": 565132.88
+            },
+            {
+              "date": "2026-06-28",
+              "balance": 567789.69
+            },
+            {
+              "date": "2026-06-29",
+              "balance": 570446.5
+            },
+            {
+              "date": "2026-06-30",
+              "balance": 573103.31
+            },
+            {
+              "date": "2026-07-01",
+              "balance": 575760.12
+            },
+            {
+              "date": "2026-07-02",
+              "balance": 578416.93
+            },
+            {
+              "date": "2026-07-03",
+              "balance": 581073.74
+            },
+            {
+              "date": "2026-07-04",
+              "balance": 583730.56
+            },
+            {
+              "date": "2026-07-05",
+              "balance": 586387.37
+            },
+            {
+              "date": "2026-07-06",
+              "balance": 589044.18
+            },
+            {
+              "date": "2026-07-07",
+              "balance": 591700.99
+            },
+            {
+              "date": "2026-07-08",
+              "balance": 594357.8
+            },
+            {
+              "date": "2026-07-09",
+              "balance": 597014.61
+            },
+            {
+              "date": "2026-07-10",
+              "balance": 599671.42
+            },
+            {
+              "date": "2026-07-11",
+              "balance": 602328.23
+            },
+            {
+              "date": "2026-07-12",
+              "balance": 604985.04
+            },
+            {
+              "date": "2026-07-13",
+              "balance": 607641.86
+            },
+            {
+              "date": "2026-07-14",
+              "balance": 610298.67
+            },
+            {
+              "date": "2026-07-15",
+              "balance": 612955.48
+            },
+            {
+              "date": "2026-07-16",
+              "balance": 615612.29
+            },
+            {
+              "date": "2026-07-17",
+              "balance": 618269.1
+            },
+            {
+              "date": "2026-07-18",
+              "balance": 620925.91
+            },
+            {
+              "date": "2026-07-19",
+              "balance": 623582.72
+            },
+            {
+              "date": "2026-07-20",
+              "balance": 626239.53
+            },
+            {
+              "date": "2026-07-21",
+              "balance": 628896.34
+            },
+            {
+              "date": "2026-07-22",
+              "balance": 631553.16
+            },
+            {
+              "date": "2026-07-23",
+              "balance": 634209.97
+            },
+            {
+              "date": "2026-07-24",
+              "balance": 636866.78
+            },
+            {
+              "date": "2026-07-25",
+              "balance": 639523.59
+            },
+            {
+              "date": "2026-07-26",
+              "balance": 642180.4
+            },
+            {
+              "date": "2026-07-27",
+              "balance": 644837.21
+            },
+            {
+              "date": "2026-07-28",
+              "balance": 647494.02
+            },
+            {
+              "date": "2026-07-29",
+              "balance": 650150.83
+            },
+            {
+              "date": "2026-07-30",
+              "balance": 652807.64
+            },
+            {
+              "date": "2026-07-31",
+              "balance": 655464.46
+            },
+            {
+              "date": "2026-08-01",
+              "balance": 658121.27
+            },
+            {
+              "date": "2026-08-02",
+              "balance": 660778.08
+            },
+            {
+              "date": "2026-08-03",
+              "balance": 663434.89
+            },
+            {
+              "date": "2026-08-04",
+              "balance": 666091.7
+            },
+            {
+              "date": "2026-08-05",
+              "balance": 668748.51
+            },
+            {
+              "date": "2026-08-06",
+              "balance": 671405.32
+            },
+            {
+              "date": "2026-08-07",
+              "balance": 674062.13
+            },
+            {
+              "date": "2026-08-08",
+              "balance": 676718.94
+            },
+            {
+              "date": "2026-08-09",
+              "balance": 679375.76
+            },
+            {
+              "date": "2026-08-10",
+              "balance": 682032.57
+            },
+            {
+              "date": "2026-08-11",
+              "balance": 684689.38
+            },
+            {
+              "date": "2026-08-12",
+              "balance": 687346.19
+            },
+            {
+              "date": "2026-08-13",
+              "balance": 690003
+            }
+          ],
+          "riskScore": "green",
+          "commentary": "Kaptan, bu indirim senaryosunda bile kasanın güvende görünmesi iyi bir haber. Ancak yeşil ışık rehavete sebep olmasın, biz her zaman frene yakın duralım.\n\n**Aksiyon Önerisi:** Kampanyanın birim kârlılığımıza etkisini detaylıca inceleyelim; belki daha düşük bir indirim oranıyla da bu satış hacmini yakalayabiliriz.",
+          "suggestedAction": "**Aksiyon Önerisi:** Kampanyanın birim kârlılığımıza etkisini detaylıca inceleyelim; belki daha düşük bir indirim oranıyla da bu satış hacmini yakalayabiliriz."
+        },
+        "reasoning": "proj:90(want:90):true, risk:green:true, commentary:314ch:true",
+        "durationMs": 24533
+      },
+      {
+        "caseId": "cash-7",
+        "passed": true,
+        "score": 1,
+        "output": {
+          "scenario": "campaign",
+          "days": 90,
+          "projection": [
+            {
+              "date": "2026-05-16",
+              "balance": 454100.28
+            },
+            {
+              "date": "2026-05-17",
+              "balance": 457310.56
+            },
+            {
+              "date": "2026-05-18",
+              "balance": 460520.83
+            },
+            {
+              "date": "2026-05-19",
+              "balance": 463731.11
+            },
+            {
+              "date": "2026-05-20",
+              "balance": 466941.39
+            },
+            {
+              "date": "2026-05-21",
+              "balance": 470151.67
+            },
+            {
+              "date": "2026-05-22",
+              "balance": 473361.94
+            },
+            {
+              "date": "2026-05-23",
+              "balance": 476572.22
+            },
+            {
+              "date": "2026-05-24",
+              "balance": 479782.5
+            },
+            {
+              "date": "2026-05-25",
+              "balance": 482992.78
+            },
+            {
+              "date": "2026-05-26",
+              "balance": 486203.06
+            },
+            {
+              "date": "2026-05-27",
+              "balance": 489413.33
+            },
+            {
+              "date": "2026-05-28",
+              "balance": 492623.61
+            },
+            {
+              "date": "2026-05-29",
+              "balance": 495833.89
+            },
+            {
+              "date": "2026-05-30",
+              "balance": 499044.17
+            },
+            {
+              "date": "2026-05-31",
+              "balance": 502254.44
+            },
+            {
+              "date": "2026-06-01",
+              "balance": 505464.72
+            },
+            {
+              "date": "2026-06-02",
+              "balance": 508675
+            },
+            {
+              "date": "2026-06-03",
+              "balance": 511885.28
+            },
+            {
+              "date": "2026-06-04",
+              "balance": 515095.56
+            },
+            {
+              "date": "2026-06-05",
+              "balance": 518305.83
+            },
+            {
+              "date": "2026-06-06",
+              "balance": 521516.11
+            },
+            {
+              "date": "2026-06-07",
+              "balance": 524726.39
+            },
+            {
+              "date": "2026-06-08",
+              "balance": 527936.67
+            },
+            {
+              "date": "2026-06-09",
+              "balance": 531146.94
+            },
+            {
+              "date": "2026-06-10",
+              "balance": 534357.22
+            },
+            {
+              "date": "2026-06-11",
+              "balance": 537567.5
+            },
+            {
+              "date": "2026-06-12",
+              "balance": 540777.78
+            },
+            {
+              "date": "2026-06-13",
+              "balance": 543988.06
+            },
+            {
+              "date": "2026-06-14",
+              "balance": 547198.33
+            },
+            {
+              "date": "2026-06-15",
+              "balance": 550408.61
+            },
+            {
+              "date": "2026-06-16",
+              "balance": 553618.89
+            },
+            {
+              "date": "2026-06-17",
+              "balance": 556829.17
+            },
+            {
+              "date": "2026-06-18",
+              "balance": 560039.44
+            },
+            {
+              "date": "2026-06-19",
+              "balance": 563249.72
+            },
+            {
+              "date": "2026-06-20",
+              "balance": 566460
+            },
+            {
+              "date": "2026-06-21",
+              "balance": 569670.28
+            },
+            {
+              "date": "2026-06-22",
+              "balance": 572880.56
+            },
+            {
+              "date": "2026-06-23",
+              "balance": 576090.83
+            },
+            {
+              "date": "2026-06-24",
+              "balance": 579301.11
+            },
+            {
+              "date": "2026-06-25",
+              "balance": 582511.39
+            },
+            {
+              "date": "2026-06-26",
+              "balance": 585721.67
+            },
+            {
+              "date": "2026-06-27",
+              "balance": 588931.94
+            },
+            {
+              "date": "2026-06-28",
+              "balance": 592142.22
+            },
+            {
+              "date": "2026-06-29",
+              "balance": 595352.5
+            },
+            {
+              "date": "2026-06-30",
+              "balance": 598562.78
+            },
+            {
+              "date": "2026-07-01",
+              "balance": 601773.06
+            },
+            {
+              "date": "2026-07-02",
+              "balance": 604983.33
+            },
+            {
+              "date": "2026-07-03",
+              "balance": 608193.61
+            },
+            {
+              "date": "2026-07-04",
+              "balance": 611403.89
+            },
+            {
+              "date": "2026-07-05",
+              "balance": 614614.17
+            },
+            {
+              "date": "2026-07-06",
+              "balance": 617824.44
+            },
+            {
+              "date": "2026-07-07",
+              "balance": 621034.72
+            },
+            {
+              "date": "2026-07-08",
+              "balance": 624245
+            },
+            {
+              "date": "2026-07-09",
+              "balance": 627455.28
+            },
+            {
+              "date": "2026-07-10",
+              "balance": 630665.56
+            },
+            {
+              "date": "2026-07-11",
+              "balance": 633875.83
+            },
+            {
+              "date": "2026-07-12",
+              "balance": 637086.11
+            },
+            {
+              "date": "2026-07-13",
+              "balance": 640296.39
+            },
+            {
+              "date": "2026-07-14",
+              "balance": 643506.67
+            },
+            {
+              "date": "2026-07-15",
+              "balance": 646716.94
+            },
+            {
+              "date": "2026-07-16",
+              "balance": 649927.22
+            },
+            {
+              "date": "2026-07-17",
+              "balance": 653137.5
+            },
+            {
+              "date": "2026-07-18",
+              "balance": 656347.78
+            },
+            {
+              "date": "2026-07-19",
+              "balance": 659558.06
+            },
+            {
+              "date": "2026-07-20",
+              "balance": 662768.33
+            },
+            {
+              "date": "2026-07-21",
+              "balance": 665978.61
+            },
+            {
+              "date": "2026-07-22",
+              "balance": 669188.89
+            },
+            {
+              "date": "2026-07-23",
+              "balance": 672399.17
+            },
+            {
+              "date": "2026-07-24",
+              "balance": 675609.44
+            },
+            {
+              "date": "2026-07-25",
+              "balance": 678819.72
+            },
+            {
+              "date": "2026-07-26",
+              "balance": 682030
+            },
+            {
+              "date": "2026-07-27",
+              "balance": 685240.28
+            },
+            {
+              "date": "2026-07-28",
+              "balance": 688450.56
+            },
+            {
+              "date": "2026-07-29",
+              "balance": 691660.83
+            },
+            {
+              "date": "2026-07-30",
+              "balance": 694871.11
+            },
+            {
+              "date": "2026-07-31",
+              "balance": 698081.39
+            },
+            {
+              "date": "2026-08-01",
+              "balance": 701291.67
+            },
+            {
+              "date": "2026-08-02",
+              "balance": 704501.94
+            },
+            {
+              "date": "2026-08-03",
+              "balance": 707712.22
+            },
+            {
+              "date": "2026-08-04",
+              "balance": 710922.5
+            },
+            {
+              "date": "2026-08-05",
+              "balance": 714132.78
+            },
+            {
+              "date": "2026-08-06",
+              "balance": 717343.06
+            },
+            {
+              "date": "2026-08-07",
+              "balance": 720553.33
+            },
+            {
+              "date": "2026-08-08",
+              "balance": 723763.61
+            },
+            {
+              "date": "2026-08-09",
+              "balance": 726973.89
+            },
+            {
+              "date": "2026-08-10",
+              "balance": 730184.17
+            },
+            {
+              "date": "2026-08-11",
+              "balance": 733394.44
+            },
+            {
+              "date": "2026-08-12",
+              "balance": 736604.72
+            },
+            {
+              "date": "2026-08-13",
+              "balance": 739815
+            }
+          ],
+          "riskScore": "green",
+          "commentary": "Kaptanım, kağıt üzerinde her şey yolunda, kampanya sonrası kasamızda ciddi bir artış bekleniyor. Ancak bu iyimser tahminin kampanya performansına birebir bağlı olduğunu unutmayalım, rehavete kapılmayalım.\n\n**Aksiyon Önerisi:** Kampanyayı plandaki gibi başlatalım ancak ilk hafta sonuçlarını bu tahminle kıyaslayarak yakından takip edelim; beklenmedik bir durumda giderleri kısmak için hazırlıklı olalım.",
+          "suggestedAction": "**Aksiyon Önerisi:** Kampanyayı plandaki gibi başlatalım ancak ilk hafta sonuçlarını bu tahminle kıyaslayarak yakından takip edelim; beklenmedik bir durumda giderleri kısmak için hazırlıklı olalım."
+        },
+        "reasoning": "proj:90(want:90):true, risk:green:true, commentary:403ch:true",
+        "durationMs": 21617
+      },
+      {
+        "caseId": "cash-8",
+        "passed": true,
+        "score": 1,
+        "output": {
+          "scenario": "current",
+          "days": 30,
+          "projection": [
+            {
+              "date": "2026-05-16",
+              "balance": 454410.67
+            },
+            {
+              "date": "2026-05-17",
+              "balance": 456581.33
+            },
+            {
+              "date": "2026-05-18",
+              "balance": 458752
+            },
+            {
+              "date": "2026-05-19",
+              "balance": 460922.67
+            },
+            {
+              "date": "2026-05-20",
+              "balance": 463093.33
+            },
+            {
+              "date": "2026-05-21",
+              "balance": 465264
+            },
+            {
+              "date": "2026-05-22",
+              "balance": 467434.67
+            },
+            {
+              "date": "2026-05-23",
+              "balance": 469605.33
+            },
+            {
+              "date": "2026-05-24",
+              "balance": 471776
+            },
+            {
+              "date": "2026-05-25",
+              "balance": 473946.67
+            },
+            {
+              "date": "2026-05-26",
+              "balance": 476117.33
+            },
+            {
+              "date": "2026-05-27",
+              "balance": 478288
+            },
+            {
+              "date": "2026-05-28",
+              "balance": 480458.67
+            },
+            {
+              "date": "2026-05-29",
+              "balance": 482629.33
+            },
+            {
+              "date": "2026-05-30",
+              "balance": 484800
+            },
+            {
+              "date": "2026-05-31",
+              "balance": 486970.67
+            },
+            {
+              "date": "2026-06-01",
+              "balance": 489141.33
+            },
+            {
+              "date": "2026-06-02",
+              "balance": 491312
+            },
+            {
+              "date": "2026-06-03",
+              "balance": 493482.67
+            },
+            {
+              "date": "2026-06-04",
+              "balance": 495653.33
+            },
+            {
+              "date": "2026-06-05",
+              "balance": 497824
+            },
+            {
+              "date": "2026-06-06",
+              "balance": 499994.67
+            },
+            {
+              "date": "2026-06-07",
+              "balance": 502165.33
+            },
+            {
+              "date": "2026-06-08",
+              "balance": 504336
+            },
+            {
+              "date": "2026-06-09",
+              "balance": 506506.67
+            },
+            {
+              "date": "2026-06-10",
+              "balance": 508677.33
+            },
+            {
+              "date": "2026-06-11",
+              "balance": 510848
+            },
+            {
+              "date": "2026-06-12",
+              "balance": 513018.67
+            },
+            {
+              "date": "2026-06-13",
+              "balance": 515189.33
+            },
+            {
+              "date": "2026-06-14",
+              "balance": 517360
+            }
+          ],
+          "riskScore": "green",
+          "commentary": "Captain, your financial outlook is very strong. The cash flow projection shows consistent growth with daily income far exceeding your expenses, and there are no anticipated dips in your balance.\n\n**Action:** Since your financial position is secure, this is an excellent time to reinvest in growth. Consider launching a targeted marketing campaign to acquire new customers while your cash reserves are high.",
+          "suggestedAction": "Consider launching a targeted marketing campaign to acquire new customers while your cash reserves are high."
+        },
+        "reasoning": "proj:30(want:30):true, risk:green:true, commentary:406ch:true",
+        "durationMs": 17164
+      },
+      {
+        "caseId": "cash-9",
+        "passed": true,
+        "score": 1,
+        "output": {
+          "scenario": "discount15",
+          "days": 60,
+          "projection": [
+            {
+              "date": "2026-05-16",
+              "balance": 453422.37
+            },
+            {
+              "date": "2026-05-17",
+              "balance": 455954.73
+            },
+            {
+              "date": "2026-05-18",
+              "balance": 458487.1
+            },
+            {
+              "date": "2026-05-19",
+              "balance": 461019.47
+            },
+            {
+              "date": "2026-05-20",
+              "balance": 463551.83
+            },
+            {
+              "date": "2026-05-21",
+              "balance": 466084.2
+            },
+            {
+              "date": "2026-05-22",
+              "balance": 468616.57
+            },
+            {
+              "date": "2026-05-23",
+              "balance": 471148.93
+            },
+            {
+              "date": "2026-05-24",
+              "balance": 473681.3
+            },
+            {
+              "date": "2026-05-25",
+              "balance": 476213.67
+            },
+            {
+              "date": "2026-05-26",
+              "balance": 478746.03
+            },
+            {
+              "date": "2026-05-27",
+              "balance": 481278.4
+            },
+            {
+              "date": "2026-05-28",
+              "balance": 483810.77
+            },
+            {
+              "date": "2026-05-29",
+              "balance": 486343.13
+            },
+            {
+              "date": "2026-05-30",
+              "balance": 488875.5
+            },
+            {
+              "date": "2026-05-31",
+              "balance": 491407.87
+            },
+            {
+              "date": "2026-06-01",
+              "balance": 493940.23
+            },
+            {
+              "date": "2026-06-02",
+              "balance": 496472.6
+            },
+            {
+              "date": "2026-06-03",
+              "balance": 499004.97
+            },
+            {
+              "date": "2026-06-04",
+              "balance": 501537.33
+            },
+            {
+              "date": "2026-06-05",
+              "balance": 504069.7
+            },
+            {
+              "date": "2026-06-06",
+              "balance": 506602.07
+            },
+            {
+              "date": "2026-06-07",
+              "balance": 509134.43
+            },
+            {
+              "date": "2026-06-08",
+              "balance": 511666.8
+            },
+            {
+              "date": "2026-06-09",
+              "balance": 514199.17
+            },
+            {
+              "date": "2026-06-10",
+              "balance": 516731.53
+            },
+            {
+              "date": "2026-06-11",
+              "balance": 519263.9
+            },
+            {
+              "date": "2026-06-12",
+              "balance": 521796.27
+            },
+            {
+              "date": "2026-06-13",
+              "balance": 524328.63
+            },
+            {
+              "date": "2026-06-14",
+              "balance": 526861
+            },
+            {
+              "date": "2026-06-15",
+              "balance": 529393.37
+            },
+            {
+              "date": "2026-06-16",
+              "balance": 531925.73
+            },
+            {
+              "date": "2026-06-17",
+              "balance": 534458.1
+            },
+            {
+              "date": "2026-06-18",
+              "balance": 536990.47
+            },
+            {
+              "date": "2026-06-19",
+              "balance": 539522.83
+            },
+            {
+              "date": "2026-06-20",
+              "balance": 542055.2
+            },
+            {
+              "date": "2026-06-21",
+              "balance": 544587.57
+            },
+            {
+              "date": "2026-06-22",
+              "balance": 547119.93
+            },
+            {
+              "date": "2026-06-23",
+              "balance": 549652.3
+            },
+            {
+              "date": "2026-06-24",
+              "balance": 552184.67
+            },
+            {
+              "date": "2026-06-25",
+              "balance": 554717.03
+            },
+            {
+              "date": "2026-06-26",
+              "balance": 557249.4
+            },
+            {
+              "date": "2026-06-27",
+              "balance": 559781.77
+            },
+            {
+              "date": "2026-06-28",
+              "balance": 562314.13
+            },
+            {
+              "date": "2026-06-29",
+              "balance": 564846.5
+            },
+            {
+              "date": "2026-06-30",
+              "balance": 567378.87
+            },
+            {
+              "date": "2026-07-01",
+              "balance": 569911.23
+            },
+            {
+              "date": "2026-07-02",
+              "balance": 572443.6
+            },
+            {
+              "date": "2026-07-03",
+              "balance": 574975.97
+            },
+            {
+              "date": "2026-07-04",
+              "balance": 577508.33
+            },
+            {
+              "date": "2026-07-05",
+              "balance": 580040.7
+            },
+            {
+              "date": "2026-07-06",
+              "balance": 582573.07
+            },
+            {
+              "date": "2026-07-07",
+              "balance": 585105.43
+            },
+            {
+              "date": "2026-07-08",
+              "balance": 587637.8
+            },
+            {
+              "date": "2026-07-09",
+              "balance": 590170.17
+            },
+            {
+              "date": "2026-07-10",
+              "balance": 592702.53
+            },
+            {
+              "date": "2026-07-11",
+              "balance": 595234.9
+            },
+            {
+              "date": "2026-07-12",
+              "balance": 597767.27
+            },
+            {
+              "date": "2026-07-13",
+              "balance": 600299.63
+            },
+            {
+              "date": "2026-07-14",
+              "balance": 602832
+            }
+          ],
+          "riskScore": "green",
+          "commentary": "Captain, the current forecast is very strong. Your daily cash flow is robust, and this discount campaign is projected to increase your balance significantly without posing any liquidity risk.\n\n**Action:** Since the situation is comfortable, consider allocating a portion of the upcoming profits to a separate reserve fund to bolster our resilience against future, unexpected downturns.",
+          "suggestedAction": "**Action:** Since the situation is comfortable, consider allocating a portion of the upcoming profits to a separate reserve fund to bolster our resilience against future, unexpected downturns."
+        },
+        "reasoning": "proj:60(want:60):true, risk:green:true, commentary:385ch:true",
+        "durationMs": 19634
+      },
+      {
+        "caseId": "cash-10",
+        "passed": true,
+        "score": 1,
+        "output": {
+          "scenario": "campaign",
+          "days": 60,
+          "projection": [
+            {
+              "date": "2026-05-16",
+              "balance": 453975.83
+            },
+            {
+              "date": "2026-05-17",
+              "balance": 457061.67
+            },
+            {
+              "date": "2026-05-18",
+              "balance": 460147.5
+            },
+            {
+              "date": "2026-05-19",
+              "balance": 463233.33
+            },
+            {
+              "date": "2026-05-20",
+              "balance": 466319.17
+            },
+            {
+              "date": "2026-05-21",
+              "balance": 469405
+            },
+            {
+              "date": "2026-05-22",
+              "balance": 472490.83
+            },
+            {
+              "date": "2026-05-23",
+              "balance": 475576.67
+            },
+            {
+              "date": "2026-05-24",
+              "balance": 478662.5
+            },
+            {
+              "date": "2026-05-25",
+              "balance": 481748.33
+            },
+            {
+              "date": "2026-05-26",
+              "balance": 484834.17
+            },
+            {
+              "date": "2026-05-27",
+              "balance": 487920
+            },
+            {
+              "date": "2026-05-28",
+              "balance": 491005.83
+            },
+            {
+              "date": "2026-05-29",
+              "balance": 494091.67
+            },
+            {
+              "date": "2026-05-30",
+              "balance": 497177.5
+            },
+            {
+              "date": "2026-05-31",
+              "balance": 500263.33
+            },
+            {
+              "date": "2026-06-01",
+              "balance": 503349.17
+            },
+            {
+              "date": "2026-06-02",
+              "balance": 506435
+            },
+            {
+              "date": "2026-06-03",
+              "balance": 509520.83
+            },
+            {
+              "date": "2026-06-04",
+              "balance": 512606.67
+            },
+            {
+              "date": "2026-06-05",
+              "balance": 515692.5
+            },
+            {
+              "date": "2026-06-06",
+              "balance": 518778.33
+            },
+            {
+              "date": "2026-06-07",
+              "balance": 521864.17
+            },
+            {
+              "date": "2026-06-08",
+              "balance": 524950
+            },
+            {
+              "date": "2026-06-09",
+              "balance": 528035.83
+            },
+            {
+              "date": "2026-06-10",
+              "balance": 531121.67
+            },
+            {
+              "date": "2026-06-11",
+              "balance": 534207.5
+            },
+            {
+              "date": "2026-06-12",
+              "balance": 537293.33
+            },
+            {
+              "date": "2026-06-13",
+              "balance": 540379.17
+            },
+            {
+              "date": "2026-06-14",
+              "balance": 543465
+            },
+            {
+              "date": "2026-06-15",
+              "balance": 546550.83
+            },
+            {
+              "date": "2026-06-16",
+              "balance": 549636.67
+            },
+            {
+              "date": "2026-06-17",
+              "balance": 552722.5
+            },
+            {
+              "date": "2026-06-18",
+              "balance": 555808.33
+            },
+            {
+              "date": "2026-06-19",
+              "balance": 558894.17
+            },
+            {
+              "date": "2026-06-20",
+              "balance": 561980
+            },
+            {
+              "date": "2026-06-21",
+              "balance": 565065.83
+            },
+            {
+              "date": "2026-06-22",
+              "balance": 568151.67
+            },
+            {
+              "date": "2026-06-23",
+              "balance": 571237.5
+            },
+            {
+              "date": "2026-06-24",
+              "balance": 574323.33
+            },
+            {
+              "date": "2026-06-25",
+              "balance": 577409.17
+            },
+            {
+              "date": "2026-06-26",
+              "balance": 580495
+            },
+            {
+              "date": "2026-06-27",
+              "balance": 583580.83
+            },
+            {
+              "date": "2026-06-28",
+              "balance": 586666.67
+            },
+            {
+              "date": "2026-06-29",
+              "balance": 589752.5
+            },
+            {
+              "date": "2026-06-30",
+              "balance": 592838.33
+            },
+            {
+              "date": "2026-07-01",
+              "balance": 595924.17
+            },
+            {
+              "date": "2026-07-02",
+              "balance": 599010
+            },
+            {
+              "date": "2026-07-03",
+              "balance": 602095.83
+            },
+            {
+              "date": "2026-07-04",
+              "balance": 605181.67
+            },
+            {
+              "date": "2026-07-05",
+              "balance": 608267.5
+            },
+            {
+              "date": "2026-07-06",
+              "balance": 611353.33
+            },
+            {
+              "date": "2026-07-07",
+              "balance": 614439.17
+            },
+            {
+              "date": "2026-07-08",
+              "balance": 617525
+            },
+            {
+              "date": "2026-07-09",
+              "balance": 620610.83
+            },
+            {
+              "date": "2026-07-10",
+              "balance": 623696.67
+            },
+            {
+              "date": "2026-07-11",
+              "balance": 626782.5
+            },
+            {
+              "date": "2026-07-12",
+              "balance": 629868.33
+            },
+            {
+              "date": "2026-07-13",
+              "balance": 632954.17
+            },
+            {
+              "date": "2026-07-14",
+              "balance": 636040
+            }
+          ],
+          "riskScore": "green",
+          "commentary": "Kaptan, mevcut kampanyanın getirdiği gelir artışıyla kasamız oldukça güçlü görünüyor ve projeksiyonlara göre kısa vadede bir nakit sıkışıklığı riskimiz bulunmuyor. Ancak bu olumlu hava, tamamen kampanyanın başarısına bağlı olduğundan rehavete kapılmamak ve en kötü senaryoyu göz ardı etmemek gerekir.\n\n**Aksiyon Önerisi:** Kampanya bitiminde yaşanabilecek olası bir yavaşlamaya hazırlık olarak, bu dönemde elde edilen ek gelirin bir kısmıyla bir \"güvenlik fonu\" oluşturmaya başlayalım.",
+          "suggestedAction": "**Aksiyon Önerisi:** Kampanya bitiminde yaşanabilecek olası bir yavaşlamaya hazırlık olarak, bu dönemde elde edilen ek gelirin bir kısmıyla bir \"güvenlik fonu\" oluşturmaya başlayalım."
+        },
+        "reasoning": "proj:60(want:60):true, risk:green:true, commentary:485ch:true",
+        "durationMs": 16167
+      }
+    ]
+  }
+}
