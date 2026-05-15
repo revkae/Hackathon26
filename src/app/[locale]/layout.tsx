@@ -6,7 +6,6 @@ import { Notifications } from '@mantine/notifications';
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
 import { notFound } from 'next/navigation';
-import { Toaster } from '@/components/ui/sonner';
 import { locales, type Locale } from '@/i18n';
 import { mantineTheme } from '@/lib/mantine-theme';
 
@@ -27,12 +26,11 @@ export default async function LocaleLayout({
       <head>
         <ColorSchemeScript defaultColorScheme="auto" />
       </head>
-      <body className="min-h-screen bg-background text-foreground antialiased">
+      <body className="antialiased">
         <MantineProvider theme={mantineTheme} defaultColorScheme="auto">
           <NextIntlClientProvider messages={messages}>
             <Notifications position="top-right" />
             {children}
-            <Toaster />
           </NextIntlClientProvider>
         </MantineProvider>
       </body>
