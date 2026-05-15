@@ -8,7 +8,7 @@ const nextConfig: NextConfig = {
     serverActions: { bodySizeLimit: '2mb' },
   },
   // Genkit needs Node.js runtime, not Edge
-  serverExternalPackages: ['@genkit-ai/googleai', 'genkit'],
+  serverExternalPackages: ['@genkit-ai/vertexai', 'genkit'],
 };
 
 export default withNextIntl(nextConfig);
