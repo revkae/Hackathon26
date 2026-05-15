@@ -1,10 +1,12 @@
 'use client';
 import { useRouter, usePathname } from 'next/navigation';
-import { Button } from '@/components/ui/button';
-import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from '@/components/ui/dropdown-menu';
-import { Globe } from 'lucide-react';
+import { Menu, Button } from '@mantine/core';
+import { IconWorld } from '@tabler/icons-react';
 
-const localesList = [{ code: 'tr', label: '🇹🇷 Türkçe' }, { code: 'en', label: '🇬🇧 English' }];
+const localesList = [
+  { code: 'tr', label: '🇹🇷 Türkçe' },
+  { code: 'en', label: '🇬🇧 English' },
+];
 
 export function LanguageToggle({ currentLocale }: { currentLocale: string }) {
   const router = useRouter();
@@ -16,20 +18,19 @@ export function LanguageToggle({ currentLocale }: { currentLocale: string }) {
   }
 
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="sm" className="gap-2">
-          <Globe className="size-4" />
+    <Menu position="bottom-end" withArrow shadow="md">
+      <Menu.Target>
+        <Button variant="subtle" size="sm" leftSection={<IconWorld size={16} />}>
           {currentLocale === 'tr' ? '🇹🇷 TR' : '🇬🇧 EN'}
         </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="end">
+      </Menu.Target>
+      <Menu.Dropdown>
         {localesList.map((l) => (
-          <DropdownMenuItem key={l.code} onClick={() => switchLocale(l.code)}>
+          <Menu.Item key={l.code} onClick={() => switchLocale(l.code)}>
             {l.label}
-          </DropdownMenuItem>
+          </Menu.Item>
         ))}
-      </DropdownMenuContent>
-    </DropdownMenu>
+      </Menu.Dropdown>
+    </Menu>
   );
 }

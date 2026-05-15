@@ -1,13 +1,13 @@
 'use client';
-import { LanguageToggle } from './LanguageToggle';
-import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from '@/components/ui/dropdown-menu';
-import { Button } from '@/components/ui/button';
-import { User, LogOut } from 'lucide-react';
+import { Group, Menu, ActionIcon, Text } from '@mantine/core';
+import { IconUser, IconLogout } from '@tabler/icons-react';
 import { useTranslations } from 'next-intl';
 import { createClient } from '@/lib/supabase/client';
 import { useRouter } from 'next/navigation';
+import { LanguageToggle } from './LanguageToggle';
+import { ColorSchemeToggle } from './ColorSchemeToggle';
 
-export function Topbar({ businessName, locale }: { businessName: string; locale: string }) {
+export function TopbarContent({ businessName, locale }: { businessName: string; locale: string }) {
   const t = useTranslations('nav');
   const router = useRouter();
 
@@ -18,21 +18,22 @@ export function Topbar({ businessName, locale }: { businessName: string; locale:
   }
 
   return (
-    <header className="h-14 border-b flex items-center justify-between px-6 bg-card">
-      <div className="text-sm text-muted-foreground">{businessName}</div>
-      <div className="flex items-center gap-3">
-        <LanguageToggle currentLocale={locale} />
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" size="icon"><User className="size-4" /></Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuItem onClick={logout}>
-              <LogOut className="size-4 mr-2" /> {t('logout')}
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      </div>
-    </header>
+    <Group gap="sm">
+      <Text size="sm" c="dimmed" visibleFrom="sm">{businessName}</Text>
+      <LanguageToggle currentLocale={locale} />
+      <ColorSchemeToggle />
+      <Menu position="bottom-end" withArrow shadow="md">
+        <Menu.Target>
+          <ActionIcon variant="subtle" size="lg" aria-label="User menu">
+            <IconUser size={18} />
+          </ActionIcon>
+        </Menu.Target>
+        <Menu.Dropdown>
+          <Menu.Item leftSection={<IconLogout size={16} />} onClick={logout}>
+            {t('logout')}
+          </Menu.Item>
+        </Menu.Dropdown>
+      </Menu>
+    </Group>
   );
 }
