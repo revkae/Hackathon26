@@ -1,13 +1,20 @@
 'use client';
 import { useState, useTransition } from 'react';
 import { useTranslations } from 'next-intl';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { Card, CardContent } from '@/components/ui/card';
+import {
+  ScrollArea,
+  TextInput,
+  ActionIcon,
+  Paper,
+  Card,
+  Stack,
+  Group,
+  Text,
+  Loader,
+} from '@mantine/core';
+import { notifications } from '@mantine/notifications';
+import { IconSend } from '@tabler/icons-react';
 import { AgentChip } from './AgentChip';
-import { Send } from 'lucide-react';
-import { toast } from 'sonner';
 import type { CaptainBrief } from '@/agents/schemas';
 
 interface Message {
@@ -59,80 +66,99 @@ export function ChatPanel({ locale }: { locale: string }) {
                 },
               ]);
             } else if (event.type === 'error') {
-              toast.error(event.message);
+              notifications.show({ color: 'red', message: event.message });
             }
           }
         }
-      } catch (e) {
-        toast.error('Bağlantı hatası');
+      } catch {
+        notifications.show({ color: 'red', message: 'Bağlantı hatası' });
       }
     });
   }
 
   return (
-    <div className="flex flex-col h-full">
-      <ScrollArea className="flex-1 px-4">
-        <div className="space-y-4 py-4">
+    <Stack gap={0} style={{ height: '100%', overflow: 'hidden' }}>
+      <ScrollArea style={{ flex: 1 }} p="md">
+        <Stack gap="md" py="md">
           {messages.map((m, i) => (
             <MessageBubble key={i} message={m} />
           ))}
           {pending && <ThinkingIndicator />}
-        </div>
+        </Stack>
       </ScrollArea>
-      <div className="border-t p-4 flex gap-2">
-        <Input
+      <Group
+        gap="sm"
+        p="md"
+        style={{ borderTop: '1px solid var(--mantine-color-default-border)', flexShrink: 0 }}
+      >
+        <TextInput
+          style={{ flex: 1 }}
           placeholder={t('placeholder')}
           value={input}
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={(e) => { if (e.key === 'Enter') send(); }}
         />
-        <Button onClick={send} disabled={pending || !input.trim()}>
-          <Send className="size-4" />
-        </Button>
-      </div>
-    </div>
+        <ActionIcon
+          onClick={send}
+          disabled={pending || !input.trim()}
+          size="lg"
+          aria-label="Gönder"
+          color="shopifyGreen"
+        >
+          <IconSend size={18} />
+        </ActionIcon>
+      </Group>
+    </Stack>
   );
 }
 
 function MessageBubble({ message }: { message: Message }) {
   if (message.role === 'user') {
     return (
-      <div className="flex justify-end">
-        <div className="bg-emerald-500/10 rounded-lg px-4 py-2 max-w-[80%]">
-          {message.text}
-        </div>
-      </div>
+      <Group justify="flex-end">
+        <Paper
+          px="md"
+          py="sm"
+          style={{
+            maxWidth: '80%',
+            background: 'var(--mantine-color-shopifyGreen-0)',
+          }}
+        >
+          <Text>{message.text}</Text>
+        </Paper>
+      </Group>
     );
   }
   return (
-    <div className="space-y-2">
-      <div className="flex items-center gap-2">
+    <Stack gap="xs">
+      <Group gap="xs">
         <AgentChip agent="captain" />
-      </div>
+      </Group>
       <Card>
-        <CardContent className="pt-4">
-          <p className="whitespace-pre-wrap">{message.text}</p>
-          {message.brief?.items && (
-            <ul className="mt-3 space-y-1">
-              {message.brief.items.map((item, i) => (
-                <li key={i} className="text-sm flex items-start gap-2">
-                  <span>{item.status === 'critical' ? '🔴' : item.status === 'warn' ? '⚠' : item.status === 'ok' ? '✓' : 'ℹ'}</span>
-                  <span>{item.text}</span>
-                </li>
-              ))}
-            </ul>
-          )}
-        </CardContent>
+        <Text className="whitespace-pre-wrap">{message.text}</Text>
+        {message.brief?.items && (
+          <Stack gap="xs" mt="sm">
+            {message.brief.items.map((item, i) => (
+              <Group key={i} gap="xs" align="flex-start">
+                <Text size="sm">
+                  {item.status === 'critical' ? '🔴' : item.status === 'warn' ? '⚠' : item.status === 'ok' ? '✓' : 'ℹ'}
+                </Text>
+                <Text size="sm">{item.text}</Text>
+              </Group>
+            ))}
+          </Stack>
+        )}
       </Card>
-    </div>
+    </Stack>
   );
 }
 
 function ThinkingIndicator() {
   return (
-    <div className="flex items-center gap-2 text-muted-foreground text-sm">
+    <Group gap="sm">
       <AgentChip agent="captain" />
-      <span className="animate-pulse">Ajanlar düşünüyor...</span>
-    </div>
+      <Loader size="xs" />
+      <Text size="sm" c="dimmed">Ajanlar düşünüyor...</Text>
+    </Group>
   );
 }

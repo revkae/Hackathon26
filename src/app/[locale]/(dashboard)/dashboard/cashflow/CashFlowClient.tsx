@@ -2,8 +2,7 @@
 import { useState, useTransition } from 'react';
 import { useTranslations } from 'next-intl';
 import { CashFlowChart } from '@/components/CashFlowChart';
-import { Card, CardContent } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
+import { Card, Button, Stack, Title, Group, Text } from '@mantine/core';
 import type { CashFlowForecast } from '@/agents/schemas';
 
 type Scenario = 'current' | 'discount15' | 'campaign';
@@ -40,43 +39,45 @@ export function CashFlowClient({
   };
 
   return (
-    <div className="space-y-6">
-      <h1 className="text-2xl font-bold">📊 {t('title')}</h1>
+    <Stack gap="lg">
+      <Title order={1}>📊 {t('title')}</Title>
 
       <CashFlowChart data={data.projection} riskScore={data.riskScore as 'green' | 'yellow' | 'red'} />
 
       <Card>
-        <CardContent className="pt-6">
-          <h3 className="font-medium mb-3">Senaryolar</h3>
-          <div className="flex gap-2">
-            {(['current', 'discount15', 'campaign'] as Scenario[]).map(s => (
-              <Button
-                key={s}
-                variant={scenario === s ? 'default' : 'outline'}
-                size="sm"
-                onClick={() => switchScenario(s)}
-                disabled={pending}
-              >
-                {t(scenarioLabels[s])}
-              </Button>
-            ))}
-          </div>
-        </CardContent>
+        <Text fw={500} mb="sm">Senaryolar</Text>
+        <Button.Group>
+          {(['current', 'discount15', 'campaign'] as Scenario[]).map(s => (
+            <Button
+              key={s}
+              variant={scenario === s ? 'filled' : 'default'}
+              size="sm"
+              onClick={() => switchScenario(s)}
+              disabled={pending}
+            >
+              {t(scenarioLabels[s])}
+            </Button>
+          ))}
+        </Button.Group>
       </Card>
 
       <Card>
-        <CardContent className="pt-6">
-          <div className="flex items-start gap-3">
-            <span className="text-2xl">{data.riskScore === 'red' ? '🔴' : data.riskScore === 'yellow' ? '⚠️' : '🟢'}</span>
-            <div className="flex-1">
-              <p className="text-sm whitespace-pre-wrap">{data.commentary}</p>
-              {data.suggestedAction && (
-                <p className="text-sm mt-2 font-medium text-emerald-500">→ {data.suggestedAction}</p>
-              )}
-            </div>
-          </div>
-        </CardContent>
+        <Group align="flex-start" gap="sm">
+          <Text fz="xl">
+            {data.riskScore === 'red' ? '🔴' : data.riskScore === 'yellow' ? '⚠️' : '🟢'}
+          </Text>
+          <Stack gap="xs" style={{ flex: 1 }}>
+            <p className="whitespace-pre-wrap" style={{ margin: 0, fontSize: 'var(--mantine-font-size-sm)' }}>
+              {data.commentary}
+            </p>
+            {data.suggestedAction && (
+              <Text size="sm" fw={500} c="shopifyGreen">
+                → {data.suggestedAction}
+              </Text>
+            )}
+          </Stack>
+        </Group>
       </Card>
-    </div>
+    </Stack>
   );
 }

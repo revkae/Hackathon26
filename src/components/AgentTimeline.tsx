@@ -1,30 +1,22 @@
+import { Timeline, Text } from '@mantine/core';
 import { AgentChip } from './AgentChip';
 import type { TraceStep } from '@/agents/schemas';
 
 export function AgentTimeline({ steps }: { steps: TraceStep[] }) {
   return (
-    <div className="font-mono text-sm space-y-2">
+    <Timeline active={steps.length} bulletSize={20} lineWidth={2}>
       {steps.map((step, i) => (
-        <div key={i} className="flex items-start gap-3">
-          <span className="text-muted-foreground text-xs w-20 tabular-nums">
-            {new Date(step.timestamp).toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit', second: '2-digit' })}
-          </span>
-          <AgentChip agent={step.agent} />
-          <div className="flex-1">
-            <span className="text-sm">{step.action}</span>
-            {step.calledBy && (
-              <span className="text-xs text-muted-foreground ml-2">
-                ← {step.calledBy}
-              </span>
-            )}
-          </div>
-          {step.durationMs && (
-            <span className="text-xs text-muted-foreground">
-              {step.durationMs}ms
-            </span>
+        <Timeline.Item key={i} title={<AgentChip agent={step.agent} />}>
+          <Text size="sm">{step.action}</Text>
+          {step.calledBy && (
+            <Text size="xs" c="dimmed">← {step.calledBy}</Text>
           )}
-        </div>
+          <Text size="xs" c="dimmed">
+            {new Date(step.timestamp).toLocaleTimeString('tr-TR')}
+            {step.durationMs ? ` • ${step.durationMs}ms` : ''}
+          </Text>
+        </Timeline.Item>
       ))}
-    </div>
+    </Timeline>
   );
 }

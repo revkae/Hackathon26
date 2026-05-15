@@ -1,7 +1,7 @@
 import { createClient } from '@/lib/supabase/server';
 import { ReviewItem } from '@/components/ReviewItem';
 import { reviewsAgent } from '@/agents/reviews';
-import { Card, CardContent } from '@/components/ui/card';
+import { Title, Stack, Card, Text, SimpleGrid, Paper, Group, Badge } from '@mantine/core';
 
 export const dynamic = 'force-dynamic';
 
@@ -26,42 +26,48 @@ export default async function ReviewsPage({
   }
 
   return (
-    <div className="space-y-6">
-      <h1 className="text-2xl font-bold">Yorumlar</h1>
+    <Stack gap="lg">
+      <Title order={1}>Yorumlar</Title>
 
       {analysis && (
         <Card>
-          <CardContent className="pt-6">
-            <h2 className="font-semibold mb-4">Genel Duygu</h2>
-            <div className="grid grid-cols-3 gap-2 mb-6">
-              <div className="bg-emerald-500/10 rounded p-3 text-center">
-                <div className="text-2xl font-bold text-emerald-500">{analysis.sentiment.positive}</div>
-                <div className="text-xs text-muted-foreground">Olumlu</div>
-              </div>
-              <div className="bg-muted rounded p-3 text-center">
-                <div className="text-2xl font-bold">{analysis.sentiment.neutral}</div>
-                <div className="text-xs text-muted-foreground">Nötr</div>
-              </div>
-              <div className="bg-red-500/10 rounded p-3 text-center">
-                <div className="text-2xl font-bold text-red-500">{analysis.sentiment.negative}</div>
-                <div className="text-xs text-muted-foreground">Olumsuz</div>
-              </div>
-            </div>
-            <div>
-              <h3 className="text-sm font-medium mb-2">Öne Çıkan Temalar</h3>
-              <div className="flex gap-2 flex-wrap">
-                {analysis.topThemes.slice(0, 5).map(t => (
-                  <span key={t.theme} className="px-2 py-1 bg-muted rounded text-xs">
-                    {t.theme} ({t.count})
-                  </span>
-                ))}
-              </div>
-            </div>
-          </CardContent>
+          <Text fw={600} size="lg" mb="md">Genel Duygu</Text>
+          <SimpleGrid cols={3} mb="lg">
+            <Paper
+              p="md"
+              ta="center"
+              style={{ background: 'var(--mantine-color-shopifyGreen-0)' }}
+            >
+              <Text fz="2xl" fw={700} c="shopifyGreen">{analysis.sentiment.positive}</Text>
+              <Text size="xs" c="dimmed">Olumlu</Text>
+            </Paper>
+            <Paper p="md" ta="center">
+              <Text fz="2xl" fw={700}>{analysis.sentiment.neutral}</Text>
+              <Text size="xs" c="dimmed">Nötr</Text>
+            </Paper>
+            <Paper
+              p="md"
+              ta="center"
+              style={{ background: 'var(--mantine-color-red-0)' }}
+            >
+              <Text fz="2xl" fw={700} c="red">{analysis.sentiment.negative}</Text>
+              <Text size="xs" c="dimmed">Olumsuz</Text>
+            </Paper>
+          </SimpleGrid>
+          <div>
+            <Text size="sm" fw={500} mb="xs">Öne Çıkan Temalar</Text>
+            <Group gap="xs" wrap="wrap">
+              {analysis.topThemes.slice(0, 5).map(t => (
+                <Badge key={t.theme} variant="light" color="gray">
+                  {t.theme} ({t.count})
+                </Badge>
+              ))}
+            </Group>
+          </div>
         </Card>
       )}
 
-      <div className="grid gap-3">
+      <Stack gap="sm">
         {(reviews ?? []).map(r => (
           <ReviewItem
             key={r.id}
@@ -72,7 +78,7 @@ export default async function ReviewsPage({
             postedAt={r.posted_at}
           />
         ))}
-      </div>
-    </div>
+      </Stack>
+    </Stack>
   );
 }

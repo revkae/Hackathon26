@@ -1,5 +1,5 @@
 import { createClient } from '@/lib/supabase/server';
-import { Card, CardContent } from '@/components/ui/card';
+import { Title, Stack, Card, Text, Code, Group } from '@mantine/core';
 
 export const dynamic = 'force-dynamic';
 
@@ -12,32 +12,26 @@ export default async function TracePage() {
     .limit(20);
 
   return (
-    <div className="space-y-6">
-      <h1 className="text-2xl font-bold">🔬 Agent Trace</h1>
+    <Stack gap="lg">
+      <Title order={1}>🔬 Agent Trace</Title>
       {(traces ?? []).length === 0 && (
-        <Card>
-          <CardContent className="pt-6">
-            <p className="text-muted-foreground text-sm">
-              Henüz ajan çalışması yok. Kaptan sekmesinde bir soru sor, sonra buraya dön.
-            </p>
-          </CardContent>
-        </Card>
+        <Text c="dimmed" size="sm">
+          Henüz ajan çalışması yok. Kaptan sekmesinde bir soru sor, sonra buraya dön.
+        </Text>
       )}
       {(traces ?? []).map(trace => (
         <Card key={trace.id}>
-          <CardContent className="pt-6">
-            <div className="flex items-center justify-between mb-4">
-              <div className="text-sm text-muted-foreground italic">"{trace.query}"</div>
-              <div className="text-xs text-muted-foreground">
-                {trace.duration_ms}ms • {new Date(trace.created_at).toLocaleString('tr-TR')}
-              </div>
-            </div>
-            <pre className="text-xs bg-muted p-3 rounded overflow-x-auto max-h-80">
-              {JSON.stringify(trace.trace_json, null, 2)}
-            </pre>
-          </CardContent>
+          <Group justify="space-between" mb="md">
+            <Text size="sm" c="dimmed" fs="italic">"{trace.query}"</Text>
+            <Text size="xs" c="dimmed">
+              {trace.duration_ms}ms • {new Date(trace.created_at).toLocaleString('tr-TR')}
+            </Text>
+          </Group>
+          <Code block mah={320} style={{ overflowX: 'auto' }}>
+            {JSON.stringify(trace.trace_json, null, 2)}
+          </Code>
         </Card>
       ))}
-    </div>
+    </Stack>
   );
 }

@@ -1,6 +1,6 @@
 'use client';
-import { AreaChart, Area, XAxis, YAxis, Tooltip, ReferenceLine, ResponsiveContainer } from 'recharts';
-import { Card, CardContent } from '@/components/ui/card';
+import { AreaChart } from '@mantine/charts';
+import { Card } from '@mantine/core';
 
 interface CashFlowChartProps {
   data: { date: string; balance: number }[];
@@ -8,31 +8,27 @@ interface CashFlowChartProps {
 }
 
 export function CashFlowChart({ data, riskScore }: CashFlowChartProps) {
-  const color = riskScore === 'red' ? '#ef4444' : riskScore === 'yellow' ? '#eab308' : '#10b981';
+  const color =
+    riskScore === 'red'
+      ? 'red.6'
+      : riskScore === 'yellow'
+      ? 'yellow.6'
+      : 'shopifyGreen.6';
 
   return (
     <Card>
-      <CardContent className="pt-6">
-        <ResponsiveContainer width="100%" height={300}>
-          <AreaChart data={data}>
-            <defs>
-              <linearGradient id="cashGradient" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor={color} stopOpacity={0.4} />
-                <stop offset="100%" stopColor={color} stopOpacity={0.05} />
-              </linearGradient>
-            </defs>
-            <XAxis dataKey="date" tickFormatter={(d) => d.slice(5)} />
-            <YAxis tickFormatter={(v) => `₺${(v / 1000).toFixed(0)}k`} />
-            <Tooltip
-              formatter={(value) => [`₺${Number(value ?? 0).toFixed(0)}`, 'Bakiye']}
-              labelFormatter={(date) => date}
-              contentStyle={{ background: '#1a1a1a', border: '1px solid #333' }}
-            />
-            <ReferenceLine y={0} stroke="#ef4444" strokeDasharray="3 3" />
-            <Area type="monotone" dataKey="balance" stroke={color} fill="url(#cashGradient)" />
-          </AreaChart>
-        </ResponsiveContainer>
-      </CardContent>
+      <AreaChart
+        h={300}
+        data={data}
+        dataKey="date"
+        series={[{ name: 'balance', label: 'Bakiye', color }]}
+        curveType="monotone"
+        withGradient
+        gridAxis="xy"
+        valueFormatter={(value) => `₺${(value / 1000).toFixed(0)}k`}
+        referenceLines={[{ y: 0, color: 'red.6', label: 'Sıfır' }]}
+        tickLine="xy"
+      />
     </Card>
   );
 }

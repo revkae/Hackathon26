@@ -3,6 +3,7 @@ import path from 'node:path';
 import { createClient } from '@/lib/supabase/server';
 import { DashboardCard } from '@/components/DashboardCard';
 import { BriefCard } from '@/components/BriefCard';
+import { Title, SimpleGrid, Stack } from '@mantine/core';
 import type { BriefItem } from '@/agents/schemas';
 
 async function loadEvalsScore(): Promise<{
@@ -74,12 +75,12 @@ export default async function DashboardPage({
       ];
 
   return (
-    <div className="space-y-6">
-      <h1 className="text-2xl font-bold">{locale === 'tr' ? 'Günaydın 👋' : 'Good morning 👋'}</h1>
+    <Stack gap="lg">
+      <Title order={1}>{locale === 'tr' ? 'Günaydın 👋' : 'Good morning 👋'}</Title>
 
       <BriefCard locale={locale} items={brief} />
 
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+      <SimpleGrid cols={{ base: 2, sm: 3, lg: 5 }}>
         <DashboardCard label={locale === 'tr' ? 'Bugün Sipariş' : "Today's Orders"} value={orderCount ?? 0} />
         <DashboardCard label={locale === 'tr' ? 'Bekleyen Yorum' : 'Pending Reviews'} value={reviewCount ?? 0} />
         <DashboardCard label={locale === 'tr' ? 'Açık Aksiyon' : 'Open Actions'} value={brief.filter(b => b.status !== 'ok').length} />
@@ -91,7 +92,7 @@ export default async function DashboardPage({
             hint={`${evalsScore.totalCases} ${locale === 'tr' ? 'senaryo' : 'scenarios'}`}
           />
         )}
-      </div>
-    </div>
+      </SimpleGrid>
+    </Stack>
   );
 }

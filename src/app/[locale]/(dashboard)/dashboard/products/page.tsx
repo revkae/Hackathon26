@@ -1,5 +1,6 @@
 import { createClient } from '@/lib/supabase/server';
 import { ProductCard } from '@/components/ProductCard';
+import { Title, Stack, SimpleGrid } from '@mantine/core';
 
 export default async function ProductsPage() {
   const supabase = await createClient();
@@ -8,9 +9,9 @@ export default async function ProductsPage() {
     .select('id, name, current_price, category, channels, images');
 
   return (
-    <div className="space-y-6">
-      <h1 className="text-2xl font-bold">Ürünler</h1>
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+    <Stack gap="lg">
+      <Title order={1}>Ürünler</Title>
+      <SimpleGrid cols={{ base: 2, sm: 3, lg: 4 }}>
         {(products ?? []).map(p => (
           <ProductCard
             key={p.id}
@@ -21,7 +22,7 @@ export default async function ProductsPage() {
             imageUrl={(p.images as string[])?.[0]}
           />
         ))}
-      </div>
-    </div>
+      </SimpleGrid>
+    </Stack>
   );
 }
