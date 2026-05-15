@@ -1,0 +1,56 @@
+{
+  "nav": {
+    "today": "Today",
+    "chat": "Captain",
+    "products": "Products",
+    "reviews": "Reviews",
+    "cashflow": "Finance",
+    "trace": "Trace",
+    "settings": "Settings",
+    "logout": "Logout"
+  },
+  "auth": {
+    "login": "Login",
+    "signup": "Sign Up",
+    "email": "Email",
+    "password": "Password",
+    "businessName": "Business Name",
+    "magicLink": "Send Magic Link",
+    "noAccount": "Don't have an account?",
+    "haveAccount": "Already have an account?",
+    "tagline": "Five assistants, one captain, zero worries."
+  },
+  "dashboard": {
+    "greeting": "Good morning",
+    "briefTitle": "Today's Brief",
+    "todayOrders": "Today's Orders",
+    "pendingReviews": "Pending Reviews",
+    "openActions": "Open Actions",
+    "cashPosition": "Cash Position",
+    "viewDetails": "View Details",
+    "talkToCaptain": "Talk to Captain",
+    "recentAgentActivity": "Recent Agent Activity"
+  },
+  "chat": {
+    "placeholder": "Ask...",
+    "send": "Send",
+    "liveTrace": "Live Trace",
+    "viewDetails": "View details"
+  },
+  "cashflow": {
+    "title": "Cash Flow Projection",
+    "scenarioCurrent": "Current",
+    "scenarioDiscount": "15% discount",
+    "scenarioCampaign": "New campaign",
+    "askMarketing": "Ask Marketing agent",
+    "addScenario": "Add scenario"
+  },
+  "agents": {
+    "captain": "Captain",
+    "seo": "SEO",
+    "marketing": "Marketing",
+    "pricing": "Pricing",
+    "reviews": "Reviews",
+    "cashflow": "Cash Flow"
+  }
+}

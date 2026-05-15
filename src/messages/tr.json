@@ -1,0 +1,56 @@
+{
+  "nav": {
+    "today": "Bugün",
+    "chat": "Kaptan",
+    "products": "Ürünler",
+    "reviews": "Yorumlar",
+    "cashflow": "Finans",
+    "trace": "Trace",
+    "settings": "Ayarlar",
+    "logout": "Çıkış"
+  },
+  "auth": {
+    "login": "Giriş Yap",
+    "signup": "Kayıt Ol",
+    "email": "E-posta",
+    "password": "Şifre",
+    "businessName": "İşletme Adı",
+    "magicLink": "Magic Link Gönder",
+    "noAccount": "Hesabın yok mu?",
+    "haveAccount": "Hesabın var mı?",
+    "tagline": "Beş asistan, bir kaptan, sıfır endişe."
+  },
+  "dashboard": {
+    "greeting": "Günaydın",
+    "briefTitle": "Günün Brief'i",
+    "todayOrders": "Bugün Sipariş",
+    "pendingReviews": "Bekleyen Yorum",
+    "openActions": "Açık Aksiyon",
+    "cashPosition": "Nakit Pozisyon",
+    "viewDetails": "Detayları Gör",
+    "talkToCaptain": "Kaptanla Konuş",
+    "recentAgentActivity": "Son Ajan Aktivitesi"
+  },
+  "chat": {
+    "placeholder": "Sor...",
+    "send": "Gönder",
+    "liveTrace": "Canlı Trace",
+    "viewDetails": "Detayları gör"
+  },
+  "cashflow": {
+    "title": "Nakit Akışı Projeksiyonu",
+    "scenarioCurrent": "Mevcut",
+    "scenarioDiscount": "%15 indirim",
+    "scenarioCampaign": "Yeni kampanya",
+    "askMarketing": "Pazarlama ajanına sor",
+    "addScenario": "Yeni senaryo ekle"
+  },
+  "agents": {
+    "captain": "Kaptan",
+    "seo": "SEO",
+    "marketing": "Pazarlama",
+    "pricing": "Fiyat",
+    "reviews": "Yorum",
+    "cashflow": "Nakit"
+  }
+}
