@@ -47,7 +47,7 @@ const runPricingTool = ai.defineTool(
     }),
   },
   async ({ productId }) => {
-    const result = await pricingAgent({ productId });
+    const result = await pricingAgent({ productId, minMarginPct: 20 });
     return {
       suggestedPrice: result.suggestedPrice,
       reasoning: result.reasoning,
