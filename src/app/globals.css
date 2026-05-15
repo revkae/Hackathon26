@@ -7,7 +7,8 @@
 }
 
 @layer base {
-  :root {
+  :root,
+  [data-mantine-color-scheme="light"] {
     --background: oklch(0.99 0 0);
     --foreground: oklch(0.15 0 0);
     --card: oklch(0.99 0 0);
@@ -19,7 +20,8 @@
     --border: oklch(0.9 0 0);
     --radius: 0.5rem;
   }
-  .dark {
+  .dark,
+  [data-mantine-color-scheme="dark"] {
     --background: oklch(0.13 0 0);
     --foreground: oklch(0.96 0 0);
     --card: oklch(0.17 0 0);
