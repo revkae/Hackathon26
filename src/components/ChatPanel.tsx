@@ -7,6 +7,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { Card, CardContent } from '@/components/ui/card';
 import { AgentChip } from './AgentChip';
 import { Send } from 'lucide-react';
+import { toast } from 'sonner';
 import type { CaptainBrief } from '@/agents/schemas';
 
 interface Message {
@@ -58,12 +59,12 @@ export function ChatPanel({ locale }: { locale: string }) {
                 },
               ]);
             } else if (event.type === 'error') {
-              setMessages(prev => [...prev, { role: 'captain', text: `Hata: ${event.message}` }]);
+              toast.error(event.message);
             }
           }
         }
       } catch (e) {
-        setMessages(prev => [...prev, { role: 'captain', text: 'Bağlantı hatası' }]);
+        toast.error('Bağlantı hatası');
       }
     });
   }
