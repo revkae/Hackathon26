@@ -1,12 +1,6 @@
-import { Card, CardContent } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
+import { Card, Text, Title, Badge, Group, Stack, Button } from '@mantine/core';
 import Link from 'next/link';
-
-interface BriefItem {
-  status: 'ok' | 'warn' | 'critical' | 'info';
-  text: string;
-}
+import type { BriefItem } from '@/agents/schemas';
 
 export function BriefCard({
   locale,
@@ -15,36 +9,36 @@ export function BriefCard({
   locale: string;
   items: BriefItem[];
 }) {
-  const iconMap = { ok: '✓', warn: '⚠', critical: '🔴', info: 'ℹ' };
-  const colorMap = {
-    ok: 'text-emerald-500',
-    warn: 'text-yellow-500',
-    critical: 'text-red-500',
-    info: 'text-blue-500',
+  const iconMap: Record<string, string> = { ok: '✓', warn: '⚠', critical: '🔴', info: 'ℹ' };
+  const colorMap: Record<string, string> = {
+    ok: 'teal',
+    warn: 'yellow',
+    critical: 'red',
+    info: 'blue',
   };
 
   return (
-    <Card className="border-emerald-500/20">
-      <CardContent className="pt-6">
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-lg font-semibold">Günün Brief'i</h2>
-          <Badge variant="outline">5 ajan</Badge>
-        </div>
-        <ul className="space-y-2">
-          {items.map((item, i) => (
-            <li key={i} className="flex items-start gap-2 text-sm">
-              <span className={colorMap[item.status]}>{iconMap[item.status]}</span>
-              <span>{item.text}</span>
-            </li>
-          ))}
-        </ul>
-        <div className="flex gap-2 mt-6">
-          <Button asChild>
-            <Link href={`/${locale}/dashboard/chat`}>Kaptanla Konuş →</Link>
-          </Button>
-          <Button variant="outline">Detayları Gör</Button>
-        </div>
-      </CardContent>
+    <Card>
+      <Group justify="space-between" mb="md">
+        <Title order={2} size="h5">Günün Brief&apos;i</Title>
+        <Badge variant="outline">5 ajan</Badge>
+      </Group>
+      <Stack gap="xs">
+        {items.map((item, i) => (
+          <Group key={i} align="flex-start" gap="xs">
+            <Text size="sm" c={colorMap[item.status]} style={{ flexShrink: 0 }}>
+              {iconMap[item.status]}
+            </Text>
+            <Text size="sm">{item.text}</Text>
+          </Group>
+        ))}
+      </Stack>
+      <Group gap="sm" mt="lg">
+        <Button component={Link} href={`/${locale}/dashboard/chat`}>
+          Kaptanla Konuş →
+        </Button>
+        <Button variant="default">Detayları Gör</Button>
+      </Group>
     </Card>
   );
 }

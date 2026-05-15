@@ -1,6 +1,4 @@
-import { Card, CardContent } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Star } from 'lucide-react';
+import { Card, Text, Badge, Group, Rating } from '@mantine/core';
 
 interface ReviewItemProps {
   rating: number;
@@ -13,32 +11,23 @@ interface ReviewItemProps {
 
 export function ReviewItem({ rating, body, language, channel, sentiment, postedAt }: ReviewItemProps) {
   const sentimentColor =
-    sentiment === 'positive' ? 'text-emerald-500' :
-    sentiment === 'negative' ? 'text-red-500' :
-    'text-muted-foreground';
+    sentiment === 'positive' ? 'teal' :
+    sentiment === 'negative' ? 'red' :
+    'dimmed';
 
   return (
     <Card>
-      <CardContent className="pt-4 space-y-2">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-1">
-            {Array.from({ length: 5 }).map((_, i) => (
-              <Star
-                key={i}
-                className={`size-4 ${i < rating ? 'fill-yellow-500 text-yellow-500' : 'text-muted-foreground/30'}`}
-              />
-            ))}
-          </div>
-          <div className="flex gap-1">
-            {language && <Badge variant="outline" className="text-xs">{language.toUpperCase()}</Badge>}
-            <Badge variant="secondary" className="text-xs">{channel}</Badge>
-          </div>
-        </div>
-        <p className={`text-sm ${sentimentColor}`}>{body}</p>
-        {postedAt && (
-          <p className="text-xs text-muted-foreground">{new Date(postedAt).toLocaleDateString()}</p>
-        )}
-      </CardContent>
+      <Group justify="space-between">
+        <Rating value={rating} readOnly size="sm" />
+        <Group gap={4}>
+          {language && <Badge variant="outline" size="sm">{language.toUpperCase()}</Badge>}
+          <Badge variant="light" size="sm">{channel}</Badge>
+        </Group>
+      </Group>
+      <Text size="sm" c={sentimentColor} mt="xs">{body}</Text>
+      {postedAt && (
+        <Text size="xs" c="dimmed" mt={4}>{new Date(postedAt).toLocaleDateString()}</Text>
+      )}
     </Card>
   );
 }

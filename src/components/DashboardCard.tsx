@@ -1,4 +1,4 @@
-import { Card, CardContent } from '@/components/ui/card';
+import { Card, Text } from '@mantine/core';
 
 export function DashboardCard({
   label, value, hint,
@@ -9,11 +9,9 @@ export function DashboardCard({
 }) {
   return (
     <Card>
-      <CardContent className="pt-6">
-        <div className="text-sm text-muted-foreground">{label}</div>
-        <div className="text-3xl font-bold mt-1">{value}</div>
-        {hint && <div className="text-xs text-muted-foreground mt-2">{hint}</div>}
-      </CardContent>
+      <Text size="sm" c="dimmed">{label}</Text>
+      <Text size="1.75rem" fw={700} mt={4}>{value}</Text>
+      {hint && <Text size="xs" c="dimmed" mt={8}>{hint}</Text>}
     </Card>
   );
 }

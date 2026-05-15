@@ -1,5 +1,4 @@
-import { Card, CardContent } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
+import { Card, Text, Badge, Group, Image } from '@mantine/core';
 
 interface ProductCardProps {
   name: string;
@@ -11,31 +10,35 @@ interface ProductCardProps {
 
 export function ProductCard({ name, price, category, channels, imageUrl }: ProductCardProps) {
   return (
-    <Card className="overflow-hidden">
-      {imageUrl ? (
-        <div className="aspect-square bg-muted overflow-hidden">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={imageUrl} alt={name} className="w-full h-full object-cover" />
-        </div>
-      ) : (
-        <div className="aspect-square bg-muted flex items-center justify-center text-4xl">
-          🏺
-        </div>
-      )}
-      <CardContent className="pt-4 space-y-2">
-        <h3 className="font-medium line-clamp-2">{name}</h3>
-        <div className="flex items-center justify-between">
-          <span className="text-emerald-500 font-bold">
-            {price ? `₺${price.toFixed(2)}` : '—'}
-          </span>
-          {category && <Badge variant="outline" className="text-xs">{category}</Badge>}
-        </div>
-        <div className="flex gap-1 flex-wrap">
-          {channels.map(ch => (
-            <Badge key={ch} variant="secondary" className="text-xs">{ch}</Badge>
-          ))}
-        </div>
-      </CardContent>
+    <Card>
+      <Card.Section>
+        {imageUrl ? (
+          <Image src={imageUrl} alt={name} h={180} fit="cover" />
+        ) : (
+          <div
+            style={{
+              height: 180,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontSize: 48,
+              background: 'var(--mantine-color-default-hover)',
+            }}
+          >
+            🏺
+          </div>
+        )}
+      </Card.Section>
+      <Text fw={500} mt="sm" lineClamp={2}>{name}</Text>
+      <Group justify="space-between" mt="xs">
+        <Text fw={700} c="teal">{price ? `₺${price.toFixed(2)}` : '—'}</Text>
+        {category && <Badge variant="outline">{category}</Badge>}
+      </Group>
+      <Group gap={4} mt="xs">
+        {channels.map(ch => (
+          <Badge key={ch} variant="light" size="sm">{ch}</Badge>
+        ))}
+      </Group>
     </Card>
   );
 }
