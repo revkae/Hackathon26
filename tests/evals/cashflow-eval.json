@@ -1,0 +1,69 @@
+{
+  "agent": "cashflow",
+  "cases": [
+    {
+      "id": "cash-1",
+      "input": { "scenario": "current", "days": 30, "userLanguage": "tr" },
+      "groundTruth": {
+        "projectionLength": 30,
+        "validRiskScores": ["green", "yellow", "red"],
+        "minCommentaryLength": 20
+      },
+      "rubric": "30 günlük projection, geçerli risk skoru, Türkçe yorum üretildi."
+    },
+    {
+      "id": "cash-2",
+      "input": { "scenario": "discount15", "days": 30, "userLanguage": "tr" },
+      "groundTruth": { "projectionLength": 30, "validRiskScores": ["green", "yellow", "red"], "minCommentaryLength": 20 },
+      "rubric": "Discount senaryo."
+    },
+    {
+      "id": "cash-3",
+      "input": { "scenario": "campaign", "days": 30, "userLanguage": "tr" },
+      "groundTruth": { "projectionLength": 30, "validRiskScores": ["green", "yellow", "red"], "minCommentaryLength": 20 },
+      "rubric": "Campaign senaryo."
+    },
+    {
+      "id": "cash-4",
+      "input": { "scenario": "current", "days": 60, "userLanguage": "tr" },
+      "groundTruth": { "projectionLength": 60, "validRiskScores": ["green", "yellow", "red"], "minCommentaryLength": 20 },
+      "rubric": "60 gün projection."
+    },
+    {
+      "id": "cash-5",
+      "input": { "scenario": "current", "days": 90, "userLanguage": "tr" },
+      "groundTruth": { "projectionLength": 90, "validRiskScores": ["green", "yellow", "red"], "minCommentaryLength": 20 },
+      "rubric": "90 gün projection."
+    },
+    {
+      "id": "cash-6",
+      "input": { "scenario": "discount15", "days": 90, "userLanguage": "tr" },
+      "groundTruth": { "projectionLength": 90, "validRiskScores": ["green", "yellow", "red"], "minCommentaryLength": 20 },
+      "rubric": "Discount 90 gün."
+    },
+    {
+      "id": "cash-7",
+      "input": { "scenario": "campaign", "days": 90, "userLanguage": "tr" },
+      "groundTruth": { "projectionLength": 90, "validRiskScores": ["green", "yellow", "red"], "minCommentaryLength": 20 },
+      "rubric": "Campaign 90 gün."
+    },
+    {
+      "id": "cash-8",
+      "input": { "scenario": "current", "days": 30, "userLanguage": "en" },
+      "groundTruth": { "projectionLength": 30, "validRiskScores": ["green", "yellow", "red"], "minCommentaryLength": 20 },
+      "rubric": "EN commentary."
+    },
+    {
+      "id": "cash-9",
+      "input": { "scenario": "discount15", "days": 60, "userLanguage": "en" },
+      "groundTruth": { "projectionLength": 60, "validRiskScores": ["green", "yellow", "red"], "minCommentaryLength": 20 },
+      "rubric": "EN discount."
+    },
+    {
+      "id": "cash-10",
+      "input": { "scenario": "campaign", "days": 60, "userLanguage": "tr" },
+      "groundTruth": { "projectionLength": 60, "validRiskScores": ["green", "yellow", "red"], "minCommentaryLength": 20 },
+      "rubric": "Campaign 60 gün."
+    }
+  ]
+}

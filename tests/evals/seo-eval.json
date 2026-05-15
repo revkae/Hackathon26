@@ -1,0 +1,95 @@
+{
+  "agent": "seo",
+  "cases": [
+    {
+      "id": "seo-1",
+      "input": { "productIndex": 0 },
+      "groundTruth": {
+        "keywords": ["el yapımı", "vazo"],
+        "maxTitleLength": 70
+      },
+      "rubric": "Yeni başlık 70 char ≤, en az 1 keyword içermeli."
+    },
+    {
+      "id": "seo-2",
+      "input": { "productIndex": 1 },
+      "groundTruth": {
+        "keywords": ["seramik", "fincan"],
+        "maxTitleLength": 70
+      },
+      "rubric": "Türkçe başlık, kahve/fincan teması net görünmeli."
+    },
+    {
+      "id": "seo-3",
+      "input": { "productIndex": 2 },
+      "groundTruth": {
+        "keywords": ["tabak", "dekoratif"],
+        "maxTitleLength": 70
+      },
+      "rubric": "Tabak ürünü için tema."
+    },
+    {
+      "id": "seo-4",
+      "input": { "productIndex": 3 },
+      "groundTruth": {
+        "keywords": ["el yapımı"],
+        "maxTitleLength": 70
+      },
+      "rubric": "Vazo varyantı için."
+    },
+    {
+      "id": "seo-5",
+      "input": { "productIndex": 4 },
+      "groundTruth": {
+        "keywords": ["fincan"],
+        "maxTitleLength": 70
+      },
+      "rubric": "Fincan varyantı."
+    },
+    {
+      "id": "seo-6",
+      "input": { "productIndex": 5 },
+      "groundTruth": {
+        "keywords": ["tabak", "set"],
+        "maxTitleLength": 70
+      },
+      "rubric": "Set ürünü tema."
+    },
+    {
+      "id": "seo-7",
+      "input": { "productIndex": 6 },
+      "groundTruth": {
+        "keywords": ["vazo"],
+        "maxTitleLength": 70
+      },
+      "rubric": "Büyük vazo."
+    },
+    {
+      "id": "seo-8",
+      "input": { "productIndex": 7 },
+      "groundTruth": {
+        "keywords": ["fincan", "set"],
+        "maxTitleLength": 70
+      },
+      "rubric": "Espresso varyantı."
+    },
+    {
+      "id": "seo-9",
+      "input": { "productIndex": 8 },
+      "groundTruth": {
+        "keywords": ["tabak"],
+        "maxTitleLength": 70
+      },
+      "rubric": "Servis tabağı."
+    },
+    {
+      "id": "seo-10",
+      "input": { "productIndex": 9 },
+      "groundTruth": {
+        "keywords": ["vazo", "set"],
+        "maxTitleLength": 70
+      },
+      "rubric": "Minyatür vazo set."
+    }
+  ]
+}

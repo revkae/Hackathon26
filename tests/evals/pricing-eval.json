@@ -1,0 +1,69 @@
+{
+  "agent": "pricing",
+  "cases": [
+    {
+      "id": "price-1",
+      "input": { "productIndex": 0, "minMarginPct": 20 },
+      "groundTruth": {
+        "minSuggestedPrice": 200,
+        "maxSuggestedPrice": 400,
+        "acceptableRiskLevels": ["low", "medium"]
+      },
+      "rubric": "Önerilen fiyat aralıkta, risk seviyesi makul."
+    },
+    {
+      "id": "price-2",
+      "input": { "productIndex": 1, "minMarginPct": 20 },
+      "groundTruth": { "minSuggestedPrice": 60, "maxSuggestedPrice": 150, "acceptableRiskLevels": ["low", "medium"] },
+      "rubric": "Fincan fiyat aralığı."
+    },
+    {
+      "id": "price-3",
+      "input": { "productIndex": 2, "minMarginPct": 20 },
+      "groundTruth": { "minSuggestedPrice": 300, "maxSuggestedPrice": 550, "acceptableRiskLevels": ["low", "medium", "high"] },
+      "rubric": "Tabak set."
+    },
+    {
+      "id": "price-4",
+      "input": { "productIndex": 3, "minMarginPct": 20 },
+      "groundTruth": { "minSuggestedPrice": 200, "maxSuggestedPrice": 400, "acceptableRiskLevels": ["low", "medium"] },
+      "rubric": "Vazo varyantı."
+    },
+    {
+      "id": "price-5",
+      "input": { "productIndex": 4, "minMarginPct": 20 },
+      "groundTruth": { "minSuggestedPrice": 50, "maxSuggestedPrice": 150, "acceptableRiskLevels": ["low", "medium", "high"] },
+      "rubric": "Espresso fincan."
+    },
+    {
+      "id": "price-6",
+      "input": { "productIndex": 5, "minMarginPct": 25 },
+      "groundTruth": { "minSuggestedPrice": 280, "maxSuggestedPrice": 500, "acceptableRiskLevels": ["low", "medium"] },
+      "rubric": "Yemek tabağı set."
+    },
+    {
+      "id": "price-7",
+      "input": { "productIndex": 6, "minMarginPct": 20 },
+      "groundTruth": { "minSuggestedPrice": 250, "maxSuggestedPrice": 450, "acceptableRiskLevels": ["low", "medium"] },
+      "rubric": "Büyük vazo."
+    },
+    {
+      "id": "price-8",
+      "input": { "productIndex": 7, "minMarginPct": 20 },
+      "groundTruth": { "minSuggestedPrice": 100, "maxSuggestedPrice": 200, "acceptableRiskLevels": ["low", "medium"] },
+      "rubric": "Cappuccino set."
+    },
+    {
+      "id": "price-9",
+      "input": { "productIndex": 8, "minMarginPct": 20 },
+      "groundTruth": { "minSuggestedPrice": 150, "maxSuggestedPrice": 300, "acceptableRiskLevels": ["low", "medium"] },
+      "rubric": "Servis tabağı."
+    },
+    {
+      "id": "price-10",
+      "input": { "productIndex": 9, "minMarginPct": 20 },
+      "groundTruth": { "minSuggestedPrice": 140, "maxSuggestedPrice": 280, "acceptableRiskLevels": ["low", "medium"] },
+      "rubric": "Minyatür vazo set."
+    }
+  ]
+}

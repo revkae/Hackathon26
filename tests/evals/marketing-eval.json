@@ -1,0 +1,62 @@
+{
+  "agent": "marketing",
+  "cases": [
+    {
+      "id": "mkt-1",
+      "input": { "productIndex": 0, "tone": "casual" },
+      "rubric": {
+        "captionLengthMin": 50,
+        "captionLengthMax": 350,
+        "hashtagsMin": 3,
+        "hashtagsMax": 15,
+        "imagePromptsMin": 1,
+        "imagePromptsMax": 5
+      }
+    },
+    {
+      "id": "mkt-2",
+      "input": { "productIndex": 1, "tone": "professional" },
+      "rubric": { "captionLengthMin": 50, "captionLengthMax": 350, "hashtagsMin": 3, "hashtagsMax": 15, "imagePromptsMin": 1, "imagePromptsMax": 5 }
+    },
+    {
+      "id": "mkt-3",
+      "input": { "productIndex": 2, "tone": "premium" },
+      "rubric": { "captionLengthMin": 50, "captionLengthMax": 350, "hashtagsMin": 3, "hashtagsMax": 15, "imagePromptsMin": 1, "imagePromptsMax": 5 }
+    },
+    {
+      "id": "mkt-4",
+      "input": { "productIndex": 3, "tone": "casual" },
+      "rubric": { "captionLengthMin": 50, "captionLengthMax": 350, "hashtagsMin": 3, "hashtagsMax": 15, "imagePromptsMin": 1, "imagePromptsMax": 5 }
+    },
+    {
+      "id": "mkt-5",
+      "input": { "productIndex": 4, "tone": "casual" },
+      "rubric": { "captionLengthMin": 50, "captionLengthMax": 350, "hashtagsMin": 3, "hashtagsMax": 15, "imagePromptsMin": 1, "imagePromptsMax": 5 }
+    },
+    {
+      "id": "mkt-6",
+      "input": { "productIndex": 5, "tone": "professional" },
+      "rubric": { "captionLengthMin": 50, "captionLengthMax": 350, "hashtagsMin": 3, "hashtagsMax": 15, "imagePromptsMin": 1, "imagePromptsMax": 5 }
+    },
+    {
+      "id": "mkt-7",
+      "input": { "productIndex": 6, "tone": "premium" },
+      "rubric": { "captionLengthMin": 50, "captionLengthMax": 350, "hashtagsMin": 3, "hashtagsMax": 15, "imagePromptsMin": 1, "imagePromptsMax": 5 }
+    },
+    {
+      "id": "mkt-8",
+      "input": { "productIndex": 7, "tone": "casual" },
+      "rubric": { "captionLengthMin": 50, "captionLengthMax": 350, "hashtagsMin": 3, "hashtagsMax": 15, "imagePromptsMin": 1, "imagePromptsMax": 5 }
+    },
+    {
+      "id": "mkt-9",
+      "input": { "productIndex": 8, "tone": "professional" },
+      "rubric": { "captionLengthMin": 50, "captionLengthMax": 350, "hashtagsMin": 3, "hashtagsMax": 15, "imagePromptsMin": 1, "imagePromptsMax": 5 }
+    },
+    {
+      "id": "mkt-10",
+      "input": { "productIndex": 9, "tone": "premium" },
+      "rubric": { "captionLengthMin": 50, "captionLengthMax": 350, "hashtagsMin": 3, "hashtagsMax": 15, "imagePromptsMin": 1, "imagePromptsMax": 5 }
+    }
+  ]
+}

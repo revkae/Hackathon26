@@ -1,0 +1,68 @@
+{
+  "agent": "reviews",
+  "cases": [
+    {
+      "id": "rev-1",
+      "input": { "productIndex": 0, "daysBack": 90, "userLanguage": "tr" },
+      "groundTruth": {
+        "minTotalReviews": 1,
+        "sentimentMustSumToTotal": true
+      },
+      "rubric": "Sentiment toplamı totalReviews ile eşit, en az 1 review işlendi."
+    },
+    {
+      "id": "rev-2",
+      "input": { "productIndex": 1, "daysBack": 90, "userLanguage": "tr" },
+      "groundTruth": { "minTotalReviews": 1, "sentimentMustSumToTotal": true },
+      "rubric": "Sentiment integrity."
+    },
+    {
+      "id": "rev-3",
+      "input": { "productIndex": 2, "daysBack": 90, "userLanguage": "tr" },
+      "groundTruth": { "minTotalReviews": 1, "sentimentMustSumToTotal": true },
+      "rubric": "Sentiment integrity."
+    },
+    {
+      "id": "rev-4",
+      "input": { "productIndex": 3, "daysBack": 90, "userLanguage": "en" },
+      "groundTruth": { "minTotalReviews": 1, "sentimentMustSumToTotal": true },
+      "rubric": "EN multilingual handling."
+    },
+    {
+      "id": "rev-5",
+      "input": { "productIndex": 4, "daysBack": 90, "userLanguage": "tr" },
+      "groundTruth": { "minTotalReviews": 1, "sentimentMustSumToTotal": true },
+      "rubric": "Sentiment integrity."
+    },
+    {
+      "id": "rev-6",
+      "input": { "productIndex": 5, "daysBack": 90, "userLanguage": "tr" },
+      "groundTruth": { "minTotalReviews": 1, "sentimentMustSumToTotal": true },
+      "rubric": "Sentiment integrity."
+    },
+    {
+      "id": "rev-7",
+      "input": { "productIndex": 6, "daysBack": 90, "userLanguage": "tr" },
+      "groundTruth": { "minTotalReviews": 1, "sentimentMustSumToTotal": true },
+      "rubric": "Sentiment integrity."
+    },
+    {
+      "id": "rev-8",
+      "input": { "productIndex": 7, "daysBack": 90, "userLanguage": "en" },
+      "groundTruth": { "minTotalReviews": 1, "sentimentMustSumToTotal": true },
+      "rubric": "EN multilingual."
+    },
+    {
+      "id": "rev-9",
+      "input": { "productIndex": 8, "daysBack": 90, "userLanguage": "tr" },
+      "groundTruth": { "minTotalReviews": 1, "sentimentMustSumToTotal": true },
+      "rubric": "Sentiment integrity."
+    },
+    {
+      "id": "rev-10",
+      "input": { "productIndex": 9, "daysBack": 90, "userLanguage": "tr" },
+      "groundTruth": { "minTotalReviews": 1, "sentimentMustSumToTotal": true },
+      "rubric": "Sentiment integrity."
+    }
+  ]
+}
