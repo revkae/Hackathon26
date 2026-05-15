@@ -6,10 +6,10 @@ const envSchema = z.object({
   SUPABASE_SERVICE_ROLE_KEY: z.string().min(10),
   RESEND_API_KEY: z.string().startsWith('re_'),
   RESEND_FROM_EMAIL: z.string().email(),
-  // Legacy (not used after Vertex AI migration; kept optional for fallback)
-  GEMINI_API_KEY: z.string().optional(),
-  // Vertex AI (Google Cloud)
-  GCP_PROJECT_ID: z.string().min(1),
+  // Google GenAI — at least one of these must be configured at runtime
+  GEMINI_API_KEY: z.string().optional(), // Google AI Studio (fallback when GCP_PROJECT_ID absent)
+  // Vertex AI (Google Cloud) — optional; if absent, falls back to AI Studio
+  GCP_PROJECT_ID: z.string().optional(),
   GCP_LOCATION: z.string().default('us-central1'),
   GCP_SERVICE_ACCOUNT_JSON: z.string().optional(), // optional in dev (ADC), required on Vercel
   // Shopify
