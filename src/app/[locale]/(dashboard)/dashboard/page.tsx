@@ -1,7 +1,26 @@
+import fs from 'node:fs/promises';
+import path from 'node:path';
 import { createClient } from '@/lib/supabase/server';
 import { DashboardCard } from '@/components/DashboardCard';
 import { BriefCard } from '@/components/BriefCard';
 import type { BriefItem } from '@/agents/schemas';
+
+async function loadEvalsScore(): Promise<{
+  overallAvg: number;
+  totalCases: number;
+  passRate: number;
+} | null> {
+  try {
+    const file = await fs.readFile(
+      path.join(process.cwd(), 'tests/evals/results.json'),
+      'utf-8',
+    );
+    const data = JSON.parse(file);
+    return data.summary ?? null;
+  } catch {
+    return null;
+  }
+}
 
 export const dynamic = 'force-dynamic';
 
@@ -17,7 +36,13 @@ export default async function DashboardPage({
 
   const sinceYesterday = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
 
-  const [{ count: orderCount }, { count: reviewCount }, { count: negReviewCount }] = await Promise.all([
+  const [
+    evalsScore,
+    { count: orderCount },
+    { count: reviewCount },
+    { count: negReviewCount },
+  ] = await Promise.all([
+    loadEvalsScore(),
     supabase
       .from('sales')
       .select('*', { count: 'exact', head: true })
@@ -54,11 +79,18 @@ export default async function DashboardPage({
 
       <BriefCard locale={locale} items={brief} />
 
-      <div className="grid grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
         <DashboardCard label={locale === 'tr' ? 'Bugün Sipariş' : "Today's Orders"} value={orderCount ?? 0} />
         <DashboardCard label={locale === 'tr' ? 'Bekleyen Yorum' : 'Pending Reviews'} value={reviewCount ?? 0} />
         <DashboardCard label={locale === 'tr' ? 'Açık Aksiyon' : 'Open Actions'} value={brief.filter(b => b.status !== 'ok').length} />
         <DashboardCard label={locale === 'tr' ? 'Nakit Pozisyon' : 'Cash Position'} value="🟢 OK" />
+        {evalsScore && (
+          <DashboardCard
+            label={locale === 'tr' ? 'Ajan Doğruluk' : 'Agent Accuracy'}
+            value={`${(evalsScore.overallAvg * 100).toFixed(0)}%`}
+            hint={`${evalsScore.totalCases} ${locale === 'tr' ? 'senaryo' : 'scenarios'}`}
+          />
+        )}
       </div>
     </div>
   );
