@@ -3,10 +3,35 @@ import { ai, flashModel } from './genkit';
 import { PriceSuggestionSchema } from './schemas';
 import { getProductTool } from './tools/shopify-tools';
 import { registerMarketplaceTools } from './tools/marketplace-tools';
+import { cashFlowAgent } from './cashflow';
 
 // Register the marketplace tool (lazy factory pattern to avoid env-load in tests).
 // registerMarketplaceTools returns the tool directly (not a named-property object).
 const competitorPricesTool = registerMarketplaceTools(ai);
+
+const consultCashFlowTool = ai.defineTool(
+  {
+    name: 'consultCashFlow',
+    description: 'Asks the Cash Flow agent: "if I change pricing this way, what is the financial impact?"',
+    inputSchema: z.object({
+      scenarioDescription: z.string(),
+      simulatedScenario: z.enum(['current', 'discount15', 'campaign']),
+    }),
+    outputSchema: z.object({
+      riskScore: z.string(),
+      commentary: z.string(),
+      projectedMinBalance: z.number(),
+    }),
+  },
+  async ({ simulatedScenario }: { scenarioDescription: string; simulatedScenario: 'current' | 'discount15' | 'campaign' }) => {
+    const result = await cashFlowAgent({ scenario: simulatedScenario, days: 90, userLanguage: 'tr' });
+    return {
+      riskScore: result.riskScore,
+      commentary: result.commentary,
+      projectedMinBalance: Math.min(...result.projection.map(p => p.balance)),
+    };
+  }
+);
 
 const PRICING_SYSTEM_PROMPT = `Sen "KOBİ Kaptanı" sisteminde fiyatlandırma analisti bir ajansın.
 Karakterin: analitik, soğukkanlı, sayılarla konuşur. "Sayılar yalan söylemez."
@@ -21,6 +46,8 @@ Kurallar:
 - Eğer rakipler %10+ daha yüksekse fiyat artırma fırsatı varsa öner (riskLevel: low).
 - Eğer rakipler %10+ daha düşükse, marjı koruyarak indirim öner veya value-add (riskLevel: medium).
 - Eğer maliyet yakın → "fiyat sabit, kâr marjı dar" uyar (riskLevel: high).
+
+Eğer önereceğin fiyat değişikliğinin finansal etkisini öğrenmek istersen consultCashFlow tool'unu çağırarak Nakit Akışı ajanından senaryo bazlı projeksiyon al.
 
 JSON output: PriceSuggestion schema.`;
 
@@ -57,7 +84,7 @@ Kategori (rakip arama): "${keyword}"
       model: flashModel,
       system: PRICING_SYSTEM_PROMPT,
       prompt: userPrompt,
-      tools: [competitorPricesTool],
+      tools: [competitorPricesTool, consultCashFlowTool],
       output: { schema: PriceSuggestionSchema },
     });
 
