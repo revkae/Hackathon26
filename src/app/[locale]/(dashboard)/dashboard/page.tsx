@@ -28,15 +28,21 @@ export default async function DashboardPage({
     .from('reviews')
     .select('*', { count: 'exact', head: true });
 
-  // Real captain brief
+  // Real captain brief — with 15s timeout to keep dashboard responsive
   let brief: BriefItem[];
   try {
-    const captainResult = await captainAgent({
-      query: locale === 'tr'
-        ? 'Bu sabah için kısa brief: en kritik 4 madde, durum işaretlerini kullan (ok/warn/critical/info).'
-        : 'Morning brief for today: top 4 critical items, with status flags (ok/warn/critical/info).',
-      userLanguage: locale,
-    });
+    const timeoutPromise = new Promise<never>((_, reject) =>
+      setTimeout(() => reject(new Error('Captain brief timed out')), 15_000)
+    );
+    const captainResult = await Promise.race([
+      captainAgent({
+        query: locale === 'tr'
+          ? 'Bu sabah için kısa brief: en kritik 4 madde, durum işaretlerini kullan (ok/warn/critical/info).'
+          : 'Morning brief for today: top 4 critical items, with status flags (ok/warn/critical/info).',
+        userLanguage: locale,
+      }),
+      timeoutPromise,
+    ]);
     brief = captainResult.items.slice(0, 4);
   } catch (e) {
     console.error('Captain brief failed:', e);
