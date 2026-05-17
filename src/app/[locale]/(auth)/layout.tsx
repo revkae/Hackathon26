@@ -1,5 +1,6 @@
 import { useTranslations } from 'next-intl';
-import { Stack, Title, Text, Center } from '@mantine/core';
+import { Stack, Title, Text } from '@mantine/core';
+import { IconAnchor } from '@tabler/icons-react';
 
 export default function AuthLayout({ children }: { children: React.ReactNode }) {
   return <AuthShell>{children}</AuthShell>;
@@ -15,7 +16,7 @@ function AuthShell({ children }: { children: React.ReactNode }) {
           background: 'linear-gradient(135deg, var(--mantine-color-shopifyGreen-9) 0%, var(--mantine-color-shopifyGreen-7) 50%, var(--mantine-color-dark-7, #1a1b1e) 100%)',
         }}
       >
-        <div style={{ fontSize: '2.5rem' }}>⚓</div>
+        <IconAnchor size={44} color="white" stroke={1.5} />
 
         <Stack gap="md">
           <Title order={1} style={{ fontSize: '3.5rem', lineHeight: 1.15, color: 'white' }}>

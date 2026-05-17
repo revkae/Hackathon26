@@ -10,6 +10,16 @@ yarn-error.log*
 
 .vscode/*
 
+# Next.js build output (generated — never commit)
+/.next/
+/out/
+/build/
+next-env.d.ts
+tsconfig.tsbuildinfo
+
+# IDE
+/.idea
+
 # Environment variables
 .env.local
 .env*.local

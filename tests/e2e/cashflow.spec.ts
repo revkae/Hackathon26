@@ -9,17 +9,19 @@ test.beforeEach(async ({ page }) => {
 });
 
 test('cash flow scenario toggle updates chart commentary', async ({ page }) => {
-  // Initial load may take a while (cash flow agent runs on server)
+  // Page now renders instantly (deterministic chart); commentary loads async.
   await page.goto('/tr/dashboard/cashflow', { waitUntil: 'load' });
-  await expect(page.locator('h1')).toContainText(/Nakit/, { timeout: 60_000 });
+  await expect(page.locator('h1')).toContainText(/Nakit/, { timeout: 20_000 });
 
-  // The current scenario commentary should be visible
-  const commentaryBefore = await page.locator('p.whitespace-pre-wrap').first().textContent();
+  // The current scenario commentary appears once Gemini responds.
+  const commentary = page.locator('p.whitespace-pre-wrap').first();
+  await expect(commentary).toBeVisible({ timeout: 90_000 });
+  const commentaryBefore = await commentary.textContent();
   expect(commentaryBefore?.length ?? 0).toBeGreaterThan(20);
 
   // Click %15 indirim scenario
   await page.click('button:has-text("indirim")');
 
-  // Wait for new commentary (or risk emoji change)
-  await expect(page.locator('p.whitespace-pre-wrap').first()).not.toHaveText(commentaryBefore ?? '', { timeout: 60_000 });
+  // Wait for new commentary
+  await expect(commentary).not.toHaveText(commentaryBefore ?? '', { timeout: 90_000 });
 });

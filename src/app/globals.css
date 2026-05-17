@@ -5,3 +5,16 @@
   --font-sans: "Inter", system-ui, sans-serif;
   --font-mono: "JetBrains Mono", monospace;
 }
+
+html {
+  scroll-behavior: smooth;
+}
+
+.landing-feature-card {
+  transition: transform 150ms ease, border-color 150ms ease;
+}
+
+.landing-feature-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--mantine-color-shopifyGreen-5);
+}

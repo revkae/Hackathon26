@@ -1,6 +1,7 @@
 'use client';
 import { AppShell, Burger, Group, Text } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
+import { IconAnchor } from '@tabler/icons-react';
 import { SidebarNav } from './Sidebar';
 import { TopbarContent } from './Topbar';
 
@@ -25,7 +26,8 @@ export function DashboardShell({
         <Group h="100%" px="md" justify="space-between">
           <Group gap="xs">
             <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" />
-            <Text fw={700}>⚓ KOBİ Kaptanı</Text>
+            <IconAnchor size={20} color="var(--mantine-color-shopifyGreen-6)" />
+            <Text fw={700}>KOBİ Kaptanı</Text>
           </Group>
           <TopbarContent businessName={businessName} locale={locale} />
         </Group>

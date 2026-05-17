@@ -30,7 +30,8 @@ export async function updateSession(request: NextRequest) {
 
   const path = request.nextUrl.pathname;
   const isAuthRoute = path.includes('/login') || path.includes('/signup') || path.includes('/verify');
-  const isDashboardRoute = path.includes('/dashboard') || /^\/(tr|en)\/?$/.test(path);
+  // The locale root (/tr, /en) is the public landing page — only /dashboard is gated.
+  const isDashboardRoute = path.includes('/dashboard');
 
   if (!user && isDashboardRoute) {
     const url = request.nextUrl.clone();

@@ -1,5 +1,6 @@
 import { Card, Text, Title, Badge, Group, Stack, Button } from '@mantine/core';
 import Link from 'next/link';
+import { StatusIcon } from './StatusIcon';
 import type { BriefItem } from '@/agents/schemas';
 
 export function BriefCard({
@@ -9,14 +10,6 @@ export function BriefCard({
   locale: string;
   items: BriefItem[];
 }) {
-  const iconMap: Record<string, string> = { ok: '✓', warn: '⚠', critical: '🔴', info: 'ℹ' };
-  const colorMap: Record<string, string> = {
-    ok: 'teal',
-    warn: 'yellow',
-    critical: 'red',
-    info: 'blue',
-  };
-
   return (
     <Card>
       <Group justify="space-between" mb="md">
@@ -25,10 +18,10 @@ export function BriefCard({
       </Group>
       <Stack gap="xs">
         {items.map((item, i) => (
-          <Group key={i} align="flex-start" gap="xs">
-            <Text size="sm" c={colorMap[item.status]} style={{ flexShrink: 0 }}>
-              {iconMap[item.status]}
-            </Text>
+          <Group key={i} align="flex-start" gap="xs" wrap="nowrap">
+            <div style={{ flexShrink: 0, marginTop: 1, lineHeight: 0 }}>
+              <StatusIcon status={item.status} size={16} />
+            </div>
             <Text size="sm">{item.text}</Text>
           </Group>
         ))}

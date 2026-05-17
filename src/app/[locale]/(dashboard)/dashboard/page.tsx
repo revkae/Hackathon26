@@ -3,7 +3,7 @@ import path from 'node:path';
 import { createClient } from '@/lib/supabase/server';
 import { DashboardCard } from '@/components/DashboardCard';
 import { BriefCard } from '@/components/BriefCard';
-import { Title, SimpleGrid, Stack } from '@mantine/core';
+import { Title, SimpleGrid, Stack, Badge } from '@mantine/core';
 import type { BriefItem } from '@/agents/schemas';
 
 async function loadEvalsScore(): Promise<{
@@ -65,18 +65,18 @@ export default async function DashboardPage({
         { status: 'warn', text: `${negReviewCount ?? 0} yorum negatif eğilimde — yanıt taslakları için Kaptan ile konuş` },
         { status: 'info', text: 'Rakipler son 7 günde ortalama %12 fiyat artırdı — Fiyat ajanı analizi hazır' },
         { status: 'ok', text: '3 ürünün SEO başlığı zayıf görünüyor — SEO ajanı taslak hazırladı' },
-        { status: 'ok', text: 'Bu ay nakit pozisyon: GÜVENLİ 🟢' },
+        { status: 'ok', text: 'Bu ay nakit pozisyon güvenli görünüyor' },
       ]
     : [
         { status: 'warn', text: `${negReviewCount ?? 0} reviews trending negative — talk to Captain for reply drafts` },
         { status: 'info', text: 'Competitors raised prices ~12% in last 7 days — Pricing agent analysis ready' },
         { status: 'ok', text: '3 products have weak SEO titles — SEO agent has drafts ready' },
-        { status: 'ok', text: 'Cash position this month: SAFE 🟢' },
+        { status: 'ok', text: 'Cash position looks safe this month' },
       ];
 
   return (
     <Stack gap="lg">
-      <Title order={1}>{locale === 'tr' ? 'Günaydın 👋' : 'Good morning 👋'}</Title>
+      <Title order={1}>{locale === 'tr' ? 'Günaydın' : 'Good morning'}</Title>
 
       <BriefCard locale={locale} items={brief} />
 
@@ -84,7 +84,10 @@ export default async function DashboardPage({
         <DashboardCard label={locale === 'tr' ? 'Bugün Sipariş' : "Today's Orders"} value={orderCount ?? 0} />
         <DashboardCard label={locale === 'tr' ? 'Bekleyen Yorum' : 'Pending Reviews'} value={reviewCount ?? 0} />
         <DashboardCard label={locale === 'tr' ? 'Açık Aksiyon' : 'Open Actions'} value={brief.filter(b => b.status !== 'ok').length} />
-        <DashboardCard label={locale === 'tr' ? 'Nakit Pozisyon' : 'Cash Position'} value="🟢 OK" />
+        <DashboardCard
+          label={locale === 'tr' ? 'Nakit Pozisyon' : 'Cash Position'}
+          value={<Badge color="teal" variant="light" size="lg">{locale === 'tr' ? 'Güvenli' : 'Safe'}</Badge>}
+        />
         {evalsScore && (
           <DashboardCard
             label={locale === 'tr' ? 'Ajan Doğruluk' : 'Agent Accuracy'}

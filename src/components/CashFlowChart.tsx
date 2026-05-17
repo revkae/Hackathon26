@@ -1,13 +1,14 @@
 'use client';
 import { AreaChart } from '@mantine/charts';
-import { Card } from '@mantine/core';
+import { Card, LoadingOverlay } from '@mantine/core';
 
 interface CashFlowChartProps {
   data: { date: string; balance: number }[];
   riskScore: 'green' | 'yellow' | 'red';
+  loading?: boolean;
 }
 
-export function CashFlowChart({ data, riskScore }: CashFlowChartProps) {
+export function CashFlowChart({ data, riskScore, loading = false }: CashFlowChartProps) {
   const color =
     riskScore === 'red'
       ? 'red.6'
@@ -16,7 +17,8 @@ export function CashFlowChart({ data, riskScore }: CashFlowChartProps) {
       : 'shopifyGreen.6';
 
   return (
-    <Card>
+    <Card pos="relative">
+      <LoadingOverlay visible={loading} zIndex={2} overlayProps={{ blur: 1 }} />
       <AreaChart
         h={300}
         data={data}

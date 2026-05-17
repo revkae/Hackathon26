@@ -15,6 +15,7 @@ import {
 import { notifications } from '@mantine/notifications';
 import { IconSend } from '@tabler/icons-react';
 import { AgentChip } from './AgentChip';
+import { StatusIcon } from './StatusIcon';
 import type { CaptainBrief } from '@/agents/schemas';
 
 interface Message {
@@ -139,10 +140,10 @@ function MessageBubble({ message }: { message: Message }) {
         {message.brief?.items && (
           <Stack gap="xs" mt="sm">
             {message.brief.items.map((item, i) => (
-              <Group key={i} gap="xs" align="flex-start">
-                <Text size="sm">
-                  {item.status === 'critical' ? '🔴' : item.status === 'warn' ? '⚠' : item.status === 'ok' ? '✓' : 'ℹ'}
-                </Text>
+              <Group key={i} gap="xs" align="flex-start" wrap="nowrap">
+                <div style={{ flexShrink: 0, marginTop: 1, lineHeight: 0 }}>
+                  <StatusIcon status={item.status} size={16} />
+                </div>
                 <Text size="sm">{item.text}</Text>
               </Group>
             ))}
