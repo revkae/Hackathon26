@@ -1,5 +1,5 @@
+import Link from 'next/link';
 import { useTranslations } from 'next-intl';
-import { Stack, Title, Text } from '@mantine/core';
 import { IconAnchor } from '@tabler/icons-react';
 
 export default function AuthLayout({ children }: { children: React.ReactNode }) {
@@ -9,38 +9,66 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
 function AuthShell({ children }: { children: React.ReactNode }) {
   const t = useTranslations('auth');
   return (
-    <div className="grid min-h-screen lg:grid-cols-2">
-      <aside
-        className="hidden lg:flex flex-col justify-between p-12"
-        style={{
-          background: 'linear-gradient(135deg, var(--mantine-color-shopifyGreen-9) 0%, var(--mantine-color-shopifyGreen-7) 50%, var(--mantine-color-dark-7, #1a1b1e) 100%)',
-        }}
-      >
-        <IconAnchor size={44} color="white" stroke={1.5} />
+    <div className="auth-root">
+      {/* Atmosphere */}
+      <div className="hero-blob" style={{ position: 'fixed', opacity: 0.7 }} />
+      <div className="noise-overlay" style={{ position: 'fixed' }} />
 
-        <Stack gap="md">
-          <Title order={1} style={{ fontSize: '3.5rem', lineHeight: 1.15, color: 'white' }}>
-            KOBİ<br />Kaptanı
-          </Title>
-          <Text
-            size="lg"
-            fs="italic"
-            style={{ color: 'rgba(255,255,255,0.75)', maxWidth: '320px' }}
+      <aside className="auth-aside">
+        <Link
+          href="/"
+          style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: 10,
+            color: 'var(--fg)',
+            textDecoration: 'none',
+            position: 'relative',
+            zIndex: 2,
+          }}
+        >
+          <span className="brand-mark">
+            <IconAnchor size={17} stroke={2.4} />
+          </span>
+          <span style={{ fontSize: 16, fontWeight: 600, letterSpacing: '-0.02em' }}>
+            KOBİ Kaptanı
+          </span>
+        </Link>
+
+        <div style={{ position: 'relative', zIndex: 2 }}>
+          <h1
+            className="landing-display"
+            style={{
+              fontSize: 'clamp(2.6rem, 4.5vw, 3.6rem)',
+              lineHeight: 1.02,
+              margin: 0,
+            }}
+          >
+            <em>Beş</em>{' '}
+            <span style={{ fontFamily: 'var(--font-sans)', fontWeight: 600, letterSpacing: '-0.04em' }}>
+              asistan,<br />bir kaptan.
+            </span>
+          </h1>
+          <p
+            style={{
+              marginTop: 18,
+              maxWidth: 360,
+              fontSize: 15,
+              lineHeight: 1.55,
+              color: 'var(--fg-mute)',
+              fontStyle: 'italic',
+            }}
           >
             &ldquo;{t('tagline')}&rdquo;
-          </Text>
-        </Stack>
+          </p>
+        </div>
 
-        <Text size="sm" style={{ color: 'rgba(255,255,255,0.5)' }}>
-          © 2026 KOBİ Kaptanı
-        </Text>
+        <p style={{ fontSize: 13, color: 'var(--fg-dim)', position: 'relative', zIndex: 2 }}>
+          © 2026 KOBİ Kaptanı · Gemini AI Hackathon
+        </p>
       </aside>
 
-      <main className="flex items-center justify-center p-8">
-        <div style={{ width: '100%', maxWidth: '380px' }}>
-          {children}
-        </div>
-      </main>
+      <main className="auth-main">{children}</main>
     </div>
   );
 }

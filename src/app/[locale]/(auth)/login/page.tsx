@@ -1,24 +1,44 @@
 'use client';
-import { useTransition, useState } from 'react';
+
+import { useTransition, useState, useEffect } from 'react';
 import { useTranslations } from 'next-intl';
-import { TextInput, PasswordInput, Button, Title, Text, Stack, Anchor, Divider } from '@mantine/core';
+import { useParams, useSearchParams } from 'next/navigation';
 import { notifications } from '@mantine/notifications';
-import { IconMail } from '@tabler/icons-react';
+import { IconMail, IconArrowRight } from '@tabler/icons-react';
 import { loginWithPassword, loginWithMagicLink } from './actions';
 
 export default function LoginPage() {
   const t = useTranslations('auth');
+  const params = useParams<{ locale: string }>();
+  const search = useSearchParams();
   const [pending, startTransition] = useTransition();
   const [email, setEmail] = useState('');
+
+  const locale = params.locale ?? 'tr';
+  const signupHref = `/${locale}/signup`;
+
+  // If user came from the landing chat input we get ?q=...; surface it as a hint.
+  const seedQuery = search.get('q');
+
+  useEffect(() => {
+    if (seedQuery) {
+      notifications.show({
+        color: 'green',
+        title: locale === 'tr' ? 'Sorgun kaydedildi' : 'Your query is saved',
+        message:
+          locale === 'tr'
+            ? `Giriş yaptıktan sonra Kaptan şununla başlayacak: "${seedQuery}"`
+            : `After you sign in, the Captain will start with: "${seedQuery}"`,
+        autoClose: 6000,
+      });
+    }
+  }, [seedQuery, locale]);
 
   function handlePasswordLogin(formData: FormData) {
     startTransition(async () => {
       const result = await loginWithPassword(formData);
       if (result?.error) {
-        notifications.show({
-          color: 'red',
-          message: result.error,
-        });
+        notifications.show({ color: 'red', message: result.error });
       }
     });
   }
@@ -29,66 +49,72 @@ export default function LoginPage() {
     startTransition(async () => {
       const result = await loginWithMagicLink(formData);
       if (result?.error) {
-        notifications.show({
-          color: 'red',
-          message: result.error,
-        });
+        notifications.show({ color: 'red', message: result.error });
       } else {
         notifications.show({
           color: 'green',
-          message: 'Magic link gönderildi — e-postanı kontrol et',
+          message:
+            locale === 'tr'
+              ? 'Magic link gönderildi — e-postanı kontrol et'
+              : 'Magic link sent — check your inbox',
         });
       }
     });
   }
 
   return (
-    <Stack gap="xl">
-      <div>
-        <Title order={2}>{t('login')}</Title>
-        <Text size="sm" c="dimmed" mt={4}>{t('tagline')}</Text>
-      </div>
+    <div className="auth-card reveal reveal-1">
+      <h2>{t('login')}</h2>
+      <p className="lead">{t('tagline')}</p>
 
       <form action={handlePasswordLogin}>
-        <Stack gap="md">
-          <TextInput
-            name="email"
-            type="email"
-            required
-            label={t('email')}
-            placeholder="ornek@sirket.com"
-            value={email}
-            onChange={(e) => setEmail(e.currentTarget.value)}
-          />
-          <PasswordInput
-            name="password"
-            required
-            label={t('password')}
-          />
-          <Button type="submit" fullWidth loading={pending} mt="xs">
-            {t('login')}
-          </Button>
-        </Stack>
+        <label htmlFor="email">{t('email')}</label>
+        <input
+          id="email"
+          name="email"
+          type="email"
+          required
+          autoComplete="email"
+          placeholder="ornek@sirket.com"
+          className="auth-input"
+          value={email}
+          onChange={(e) => setEmail(e.currentTarget.value)}
+        />
+
+        <label htmlFor="password">{t('password')}</label>
+        <input
+          id="password"
+          name="password"
+          type="password"
+          required
+          autoComplete="current-password"
+          placeholder="••••••••"
+          className="auth-input"
+        />
+
+        <button type="submit" className="auth-submit" disabled={pending}>
+          {pending ? '…' : t('login')}
+          {!pending && <IconArrowRight size={15} stroke={2.4} />}
+        </button>
       </form>
 
-      <Divider label="veya" labelPosition="center" />
+      <div className="auth-divider">
+        <span>{locale === 'tr' ? 'veya' : 'or'}</span>
+      </div>
 
-      <Button
-        variant="default"
-        fullWidth
-        leftSection={<IconMail size={16} />}
+      <button
+        type="button"
+        className="auth-ghost"
         onClick={handleMagicLink}
         disabled={pending || !email}
       >
+        <IconMail size={15} stroke={2.2} />
         {t('magicLink')}
-      </Button>
+      </button>
 
-      <Text size="sm" ta="center" c="dimmed">
-        {t('noAccount')}{' '}
-        <Anchor href="/tr/signup" c="shopifyGreen">
-          {t('signup')}
-        </Anchor>
-      </Text>
-    </Stack>
+      <p className="auth-foot">
+        {t('noAccount')} <a href={signupHref}>{t('signup')}</a>
+      </p>
+    </div>
   );
 }

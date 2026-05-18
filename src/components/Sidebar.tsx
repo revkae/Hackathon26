@@ -10,6 +10,7 @@ import {
   IconMessageCircle,
   IconChartBar,
   IconActivity,
+  IconBrandInstagram,
   IconSettings,
 } from '@tabler/icons-react';
 
@@ -20,6 +21,7 @@ const items = [
   { key: 'reviews', href: 'dashboard/reviews', icon: IconMessageCircle },
   { key: 'cashflow', href: 'dashboard/cashflow', icon: IconChartBar },
   { key: 'trace', href: 'dashboard/trace', icon: IconActivity },
+  { key: 'social', href: 'dashboard/social', icon: IconBrandInstagram },
 ];
 
 export function SidebarNav({ locale }: { locale: string }) {

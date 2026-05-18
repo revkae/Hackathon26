@@ -6,6 +6,7 @@ import { createClient } from '@/lib/supabase/client';
 import { useRouter } from 'next/navigation';
 import { LanguageToggle } from './LanguageToggle';
 import { ColorSchemeToggle } from './ColorSchemeToggle';
+import { ViewStoreButton } from './ViewStoreButton';
 
 export function TopbarContent({ businessName, locale }: { businessName: string; locale: string }) {
   const t = useTranslations('nav');
@@ -20,6 +21,7 @@ export function TopbarContent({ businessName, locale }: { businessName: string; 
   return (
     <Group gap="sm">
       <Text size="sm" c="dimmed" visibleFrom="sm">{businessName}</Text>
+      <ViewStoreButton locale={locale} />
       <LanguageToggle currentLocale={locale} />
       <ColorSchemeToggle />
       <Menu position="bottom-end" withArrow shadow="md">
