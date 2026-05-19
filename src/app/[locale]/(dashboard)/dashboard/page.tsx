@@ -1,6 +1,10 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { createClient } from '@/lib/supabase/server';
+import { getAppMode } from '@/lib/app-mode';
+import { getShopifyConnection } from '@/lib/store-connections';
+import { fetchShopifyOrders } from '@/lib/shopify';
+import { SourceErrorBanner } from '@/components/SourceErrorBanner';
 import { DashboardCard } from '@/components/DashboardCard';
 import { BriefCard } from '@/components/BriefCard';
 import { Title, SimpleGrid, Stack, Badge } from '@mantine/core';
@@ -35,28 +39,39 @@ export default async function DashboardPage({
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return null;
 
+  const mode = await getAppMode(supabase);
   const sinceYesterday = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
 
-  const [
-    evalsScore,
-    { count: orderCount },
-    { count: reviewCount },
-    { count: negReviewCount },
-  ] = await Promise.all([
-    loadEvalsScore(),
-    supabase
+  // Today's order count: live Shopify in real mode, seeded `sales` otherwise.
+  let orderCount = 0;
+  let sourceError = false;
+  const shopify = mode === 'real' ? await getShopifyConnection(supabase) : null;
+  if (shopify) {
+    try {
+      const orders = await fetchShopifyOrders({ ...shopify, sinceDays: 1 });
+      orderCount = orders.length;
+    } catch {
+      sourceError = true;
+    }
+  }
+  if (!shopify || sourceError) {
+    const { count } = await supabase
       .from('sales')
       .select('*', { count: 'exact', head: true })
       .eq('profile_id', user.id)
-      .gte('occurred_at', sinceYesterday),
-    supabase
-      .from('reviews')
-      .select('*', { count: 'exact', head: true }),
-    supabase
-      .from('reviews')
-      .select('*', { count: 'exact', head: true })
-      .lte('rating', 3),
-  ]);
+      .gte('occurred_at', sinceYesterday);
+    orderCount = count ?? 0;
+  }
+
+  const [evalsScore, { count: reviewCount }, { count: negReviewCount }] =
+    await Promise.all([
+      loadEvalsScore(),
+      supabase.from('reviews').select('*', { count: 'exact', head: true }),
+      supabase
+        .from('reviews')
+        .select('*', { count: 'exact', head: true })
+        .lte('rating', 3),
+    ]);
 
   // Brief is derived from current data state (fast, no Gemini call).
   // For real agentic interaction, user goes to /chat where Captain runs live.
@@ -78,10 +93,12 @@ export default async function DashboardPage({
     <Stack gap="lg">
       <Title order={1}>{locale === 'tr' ? 'Günaydın' : 'Good morning'}</Title>
 
+      {sourceError && <SourceErrorBanner locale={locale} />}
+
       <BriefCard locale={locale} items={brief} />
 
       <SimpleGrid cols={{ base: 2, sm: 3, lg: 5 }}>
-        <DashboardCard label={locale === 'tr' ? 'Bugün Sipariş' : "Today's Orders"} value={orderCount ?? 0} />
+        <DashboardCard label={locale === 'tr' ? 'Bugün Sipariş' : "Today's Orders"} value={orderCount} />
         <DashboardCard label={locale === 'tr' ? 'Bekleyen Yorum' : 'Pending Reviews'} value={reviewCount ?? 0} />
         <DashboardCard label={locale === 'tr' ? 'Açık Aksiyon' : 'Open Actions'} value={brief.filter(b => b.status !== 'ok').length} />
         <DashboardCard
