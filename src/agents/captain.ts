@@ -101,3 +101,39 @@ export const captainAgent = ai.defineFlow(
     return output;
   }
 );
+
+export interface CaptainCallbacks {
+  onToolCall?: (tool: string) => void;
+}
+
+// New: wrapper that accepts callbacks the API route uses to forward progress events.
+export async function runCaptainWithCallbacks(
+  input: { query: string; userLanguage: string },
+  callbacks: CaptainCallbacks,
+): Promise<z.infer<typeof CaptainBriefSchema>> {
+  const TOOL_TO_HUMAN: Record<string, string> = {
+    runSeoAgent: 'SEO ajanı',
+    runMarketingAgent: 'Pazarlama ajanı',
+    runPricingAgent: 'Fiyat ajanı',
+    listProducts: 'Ürün listesi',
+    getProduct: 'Ürün detayı',
+  };
+
+  const { output } = await ai.generate({
+    model: proModel,
+    system: CAPTAIN_SYSTEM_PROMPT,
+    prompt: `Kullanıcı dili: ${input.userLanguage}\nSoru: ${input.query}`,
+    tools: [runSeoTool, runMarketingTool, runPricingTool, listProductsTool, getProductTool],
+    output: { schema: CaptainBriefSchema },
+    onChunk: (chunk) => {
+      const calls = chunk.toolRequests ?? [];
+      for (const call of calls) {
+        const human = TOOL_TO_HUMAN[call.toolRequest.name] ?? call.toolRequest.name;
+        callbacks.onToolCall?.(human);
+      }
+    },
+  });
+
+  if (!output) throw new Error('Captain returned no output');
+  return output;
+}
