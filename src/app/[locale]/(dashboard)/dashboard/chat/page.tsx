@@ -2,6 +2,87 @@ import { ChatPanel } from '@/components/ChatPanel';
 import { ChatList } from '@/components/chat/ChatList';
 import { A2AGraph } from '@/components/A2AGraph';
 import { IconRoute2 } from '@tabler/icons-react';
+import { createClient } from '@/lib/supabase/server';
+import { getAppMode } from '@/lib/app-mode';
+import { getShopifyConnection } from '@/lib/store-connections';
+import { fetchShopifyProducts } from '@/lib/shopify';
+
+// Re-runs on every visit so the suggestion chips are fresh each time.
+export const dynamic = 'force-dynamic';
+
+function shuffle<T>(arr: T[]): T[] {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+// Live Shopify catalog in real mode, seeded products otherwise — names only.
+async function loadProductNames(): Promise<string[]> {
+  const supabase = await createClient();
+  const mode = await getAppMode(supabase);
+  const shopify = mode === 'real' ? await getShopifyConnection(supabase) : null;
+  if (shopify) {
+    try {
+      const products = await fetchShopifyProducts(shopify);
+      const names = products.map((p) => p.title).filter(Boolean);
+      if (names.length) return names;
+    } catch {
+      /* fall through to seeded products */
+    }
+  }
+  const { data } = await supabase.from('products').select('name').limit(30);
+  return (data ?? []).map((p) => p.name as string).filter(Boolean);
+}
+
+// Builds 4 starter prompts — mostly tied to real products, one general —
+// reshuffled on every call so the Captain greets you differently each visit.
+function buildSuggestions(productNames: string[], locale: string): string[] {
+  const isTr = locale === 'tr';
+  const pool = shuffle(productNames);
+  let cursor = 0;
+  const nextProduct = () =>
+    pool.length > 0
+      ? pool[cursor++ % pool.length]
+      : isTr ? 'ürünlerinden biri' : 'one of your products';
+
+  const productTemplates: Array<(p: string) => string> = isTr
+    ? [
+        (p) => `${p} için Instagram lansman planı çıkar`,
+        (p) => `${p} için rakip fiyatlarını analiz et`,
+        (p) => `${p} için daha güçlü bir SEO başlığı yaz`,
+        (p) => `${p} için ideal satış fiyatını öner`,
+        (p) => `${p} ürününün son yorumlarını özetle`,
+      ]
+    : [
+        (p) => `Draft an Instagram launch plan for ${p}`,
+        (p) => `Analyze competitor prices for ${p}`,
+        (p) => `Write a stronger SEO title for ${p}`,
+        (p) => `Suggest an ideal selling price for ${p}`,
+        (p) => `Summarize the latest reviews for ${p}`,
+      ];
+
+  const generalTemplates: string[] = isTr
+    ? [
+        'Son 7 günde olumsuz yorum alan ürünleri listele',
+        '60 günlük nakit projeksiyonu göster',
+        'Bu hafta hangi ürüne odaklanmalıyım?',
+      ]
+    : [
+        'List products with negative reviews in the last 7 days',
+        'Show me a 60-day cash projection',
+        'Which product should I focus on this week?',
+      ];
+
+  const productPicks = shuffle(productTemplates)
+    .slice(0, 3)
+    .map((t) => t(nextProduct()));
+  const generalPick = shuffle(generalTemplates).slice(0, 1);
+
+  return shuffle([...productPicks, ...generalPick]);
+}
 
 export default async function ChatPage({
   params,
@@ -9,6 +90,8 @@ export default async function ChatPage({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
+  const productNames = await loadProductNames();
+  const suggestions = buildSuggestions(productNames, locale);
 
   return (
     <div
@@ -43,7 +126,7 @@ export default async function ChatPage({
           </span>
         </div>
         <div style={{ flex: 1, minHeight: 0, overflow: 'hidden' }}>
-          <ChatPanel locale={locale} />
+          <ChatPanel locale={locale} suggestions={suggestions} />
         </div>
       </section>
 

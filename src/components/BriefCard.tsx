@@ -10,11 +10,12 @@ export function BriefCard({
   locale: string;
   items: BriefItem[];
 }) {
+  const isTr = locale === 'tr';
   return (
     <Card>
       <Group justify="space-between" mb="md">
-        <Title order={2} size="h5">Günün Brief&apos;i</Title>
-        <Badge variant="outline">5 ajan</Badge>
+        <Title order={2} size="h5">{isTr ? 'Günün Brief’i' : "Today's Brief"}</Title>
+        <Badge variant="outline">{isTr ? '5 ajan' : '5 agents'}</Badge>
       </Group>
       <Stack gap="xs">
         {items.map((item, i) => (
@@ -28,9 +29,9 @@ export function BriefCard({
       </Stack>
       <Group gap="sm" mt="lg">
         <Button component={Link} href={`/${locale}/dashboard/chat`}>
-          Kaptanla Konuş →
+          {isTr ? 'Kaptanla Konuş →' : 'Talk to Captain →'}
         </Button>
-        <Button variant="default">Detayları Gör</Button>
+        <Button variant="default">{isTr ? 'Detayları Gör' : 'View Details'}</Button>
       </Group>
     </Card>
   );

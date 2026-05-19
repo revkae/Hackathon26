@@ -52,7 +52,7 @@ export default async function ProductsPage({
       platforms={['Shopify', 'Trendyol']}
     >
       <Stack gap="lg">
-        <Title order={1}>Ürünler</Title>
+        <Title order={1}>{locale === 'tr' ? 'Ürünler' : 'Products'}</Title>
         {sourceError && <SourceErrorBanner locale={locale} />}
         <SimpleGrid cols={{ base: 2, sm: 3, lg: 4 }}>
           {items.map((p, i) => (

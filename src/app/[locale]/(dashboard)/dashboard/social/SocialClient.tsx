@@ -34,12 +34,88 @@ const STYLES: Array<{ id: Style; label: { tr: string; en: string } }> = [
   { id: 'editorial', label: { tr: 'Editöryel', en: 'Editorial' } },
 ];
 
-const PROMPT_PRESETS: Array<{ tr: string; en: string }> = [
+type Suggestion = { tr: string; en: string };
+
+// Generic fallback chips — used only when there are no products in the catalog.
+const PROMPT_PRESETS: Suggestion[] = [
   { tr: 'Bayram indirimi — sıcak tonlar, doğal ışık', en: 'Holiday sale — warm tones, natural light' },
   { tr: 'Yeni ürün lansmanı — premium, sade arka plan', en: 'New product launch — premium, clean backdrop' },
   { tr: 'İlkbahar koleksiyonu — pastel, dış mekan', en: 'Spring collection — pastel, outdoor' },
   { tr: 'Hediye paketi — sıcak ev atmosferi', en: 'Gift box — cozy home atmosphere' },
 ];
+
+// Scene templates anchored to a real product (or its category). Each one is
+// combined with a styling DETAIL below to form a full scene/prompt suggestion.
+const SCENES: Array<{
+  tr: (p: { name: string; category: string }) => string;
+  en: (p: { name: string; category: string }) => string;
+}> = [
+  { tr: (p) => `${p.name} lansmanı`,          en: (p) => `${p.name} launch` },
+  { tr: (p) => `${p.name} — bayram indirimi`, en: (p) => `${p.name} — holiday sale` },
+  { tr: (p) => `${p.name} hediye paketi`,     en: (p) => `${p.name} as a gift` },
+  { tr: (p) => `${p.name} yakın çekim`,       en: (p) => `${p.name} close-up` },
+  { tr: (p) => `Yeni: ${p.name}`,             en: (p) => `New arrival: ${p.name}` },
+  { tr: (p) => `${p.name} flatlay`,           en: (p) => `${p.name} flatlay` },
+  { tr: (p) => `Çok satan: ${p.name}`,        en: (p) => `Bestseller: ${p.name}` },
+  {
+    tr: (p) => (p.category ? `${p.category} koleksiyonu` : `${p.name} koleksiyonu`),
+    en: (p) => (p.category ? `${p.category} collection` : `${p.name} collection`),
+  },
+];
+
+// Styling half of a suggestion — the bit after the em dash.
+const DETAILS: Suggestion[] = [
+  { tr: 'sıcak tonlar, doğal ışık',      en: 'warm tones, natural light' },
+  { tr: 'premium, sade arka plan',       en: 'premium, clean backdrop' },
+  { tr: 'pastel, dış mekan',             en: 'pastel, outdoor' },
+  { tr: 'sıcak ev atmosferi',            en: 'cozy home atmosphere' },
+  { tr: 'minimal stüdyo, yumuşak gölge', en: 'minimal studio, soft shadow' },
+  { tr: 'editöryel, tekstür detayı',     en: 'editorial, texture detail' },
+  { tr: 'üstten çekim, doğal zemin',     en: 'top-down, natural surface' },
+];
+
+function shuffle<T>(arr: readonly T[]): T[] {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+// Keep chip text short so suggestions don't overflow their row.
+function trimName(value: string): string {
+  const v = value.trim();
+  return v.length > 26 ? `${v.slice(0, 25).trimEnd()}…` : v;
+}
+
+// Builds a fresh, product-anchored set of scene prompts. Runs on the client
+// each time the Social page mounts, so the chips differ on every visit.
+function buildPromptSuggestions(products: Product[], count: number): Suggestion[] {
+  if (products.length === 0) return shuffle(PROMPT_PRESETS).slice(0, count);
+
+  const out: Suggestion[] = [];
+  const seen = new Set<string>();
+  for (let attempt = 0; out.length < count && attempt < 80; attempt++) {
+    const product = products[Math.floor(Math.random() * products.length)];
+    const scene = SCENES[Math.floor(Math.random() * SCENES.length)];
+    const detail = DETAILS[Math.floor(Math.random() * DETAILS.length)];
+    const p = { name: trimName(product.name), category: trimName(product.category) };
+    const en = `${scene.en(p)} — ${detail.en}`;
+    if (seen.has(en)) continue;
+    seen.add(en);
+    out.push({ tr: `${scene.tr(p)} — ${detail.tr}`, en });
+  }
+  // Tiny catalog that couldn't fill the row → pad with generic presets.
+  for (const preset of shuffle(PROMPT_PRESETS)) {
+    if (out.length >= count) break;
+    if (!seen.has(preset.en)) {
+      seen.add(preset.en);
+      out.push(preset);
+    }
+  }
+  return out;
+}
 
 interface GenerationResult {
   dataUrl: string;
@@ -68,6 +144,10 @@ export function SocialClient({ locale, products }: { locale: string; products: P
   const [pending, startTransition] = useTransition();
   const fileRef = useRef<HTMLInputElement | null>(null);
 
+  // Prompt-suggestion chips: rebuilt from the live catalog on every mount, so
+  // they always reference real products and differ each time you open the page.
+  const [presets, setPresets] = useState<Suggestion[]>(PROMPT_PRESETS);
+
   const product = products.find((p) => p.id === productId);
 
   // When the product changes, default the reference image to that product's photo
@@ -80,6 +160,12 @@ export function SocialClient({ locale, products }: { locale: string; products: P
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [productId]);
+
+  // Randomise the suggestion chips once per page visit.
+  useEffect(() => {
+    setPresets(buildPromptSuggestions(products, 4));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const generate = () => {
     if (!prompt.trim()) return;
@@ -172,7 +258,7 @@ export function SocialClient({ locale, products }: { locale: string; products: P
 
   const copyCaption = async () => {
     if (!result) return;
-    const caption = generateCaption(product?.name ?? '', style, prompt, isTr);
+    const caption = generateCaption(product, style, isTr);
     try {
       await navigator.clipboard.writeText(caption);
       setCopied(true);
@@ -351,7 +437,7 @@ export function SocialClient({ locale, products }: { locale: string; products: P
               placeholder={isTr ? 'Örn. Yaz aylarına özel, doğal ışık, sıcak tonlar' : 'e.g. Summer vibe, natural light, warm tones'}
             />
             <div className="social-presets">
-              {PROMPT_PRESETS.map((p) => (
+              {presets.map((p) => (
                 <button
                   key={p.tr}
                   type="button"
@@ -438,7 +524,7 @@ export function SocialClient({ locale, products }: { locale: string; products: P
                   </button>
                 </div>
                 <p style={{ fontSize: 14, lineHeight: 1.55, color: 'var(--fg)', whiteSpace: 'pre-wrap', margin: 0 }}>
-                  {generateCaption(product?.name ?? '', style, prompt, isTr)}
+                  {generateCaption(product, style, isTr)}
                 </p>
               </div>
 
@@ -488,22 +574,52 @@ function SocialPreviewLoading({ isTr }: { isTr: boolean }) {
   );
 }
 
-function generateCaption(productName: string, style: Style, prompt: string, isTr: boolean): string {
-  const product = productName || (isTr ? 'Yeni koleksiyon' : 'New collection');
+// Builds a product-focused caption from the selected product, never echoing
+// the raw scene/prompt (that's an image-gen instruction, not caption copy).
+function generateCaption(product: Product | undefined, style: Style, isTr: boolean): string {
+  const name = product?.name?.trim() || (isTr ? 'Yeni koleksiyon' : 'New collection');
+  const category = product?.category?.trim() ?? '';
+
   if (isTr) {
-    const styleHook = {
-      product: 'El emeği. Detay detay.',
-      lifestyle: 'Evde, bir köşede, hep yakında.',
+    const headline = {
+      product: 'El emeği, detay detay.',
+      lifestyle: 'Evde, tam da senin köşende.',
       minimal: 'Yalın. Ama tam.',
-      editorial: 'Hikâyesi olan parçalar.',
+      editorial: 'Hikâyesi olan bir parça.',
     }[style];
-    return `✨ ${product} — ${styleHook}\n\n${prompt}\n\n#elemegi #seramik #tasarım #yeniürün #atölye`;
+    const body = {
+      product: `Her ${name}, atölyemizde tek tek elde üretiliyor.`,
+      lifestyle: `${name}, günlük hayatının bir parçası olmak için tasarlandı.`,
+      minimal: `${name}: gereksiz hiçbir şey yok, gereken her şey var.`,
+      editorial: `${name} — sade çizgileriyle kendi hikâyesini anlatıyor.`,
+    }[style];
+    return `✨ ${name} — ${headline}\n\n${body}\n\n${buildTags(category, true)}`;
   }
-  const styleHook = {
-    product: 'Handcrafted. Detail by detail.',
-    lifestyle: 'In a corner of your home, always close.',
+
+  const headline = {
+    product: 'Handcrafted, detail by detail.',
+    lifestyle: 'Made for your everyday corner.',
     minimal: 'Simple. Yet complete.',
-    editorial: 'Pieces with a story.',
+    editorial: 'A piece with a story.',
   }[style];
-  return `✨ ${product} — ${styleHook}\n\n${prompt}\n\n#handmade #ceramic #design #newdrop #studio`;
+  const body = {
+    product: `Every ${name} is made by hand, one at a time, in our studio.`,
+    lifestyle: `The ${name} is designed to belong in your everyday life.`,
+    minimal: `The ${name}: nothing unnecessary, everything that matters.`,
+    editorial: `The ${name} — clean lines telling their own story.`,
+  }[style];
+  return `✨ ${name} — ${headline}\n\n${body}\n\n${buildTags(category, false)}`;
+}
+
+// A category-aware hashtag line so the tags track the chosen product.
+function buildTags(category: string, isTr: boolean): string {
+  const base = isTr
+    ? ['#elemegi', '#seramik', '#tasarım', '#atölye']
+    : ['#handmade', '#ceramic', '#design', '#studio'];
+  const slug = category
+    .toLowerCase()
+    .replace(/[^a-z0-9çğıöşü ]/gi, '')
+    .trim()
+    .replace(/\s+/g, '');
+  return [...new Set(slug ? [`#${slug}`, ...base] : base)].join(' ');
 }

@@ -96,7 +96,7 @@ export function CashFlowClient({
       />
 
       <Card>
-        <Text fw={500} mb="sm">Senaryolar</Text>
+        <Text fw={500} mb="sm">{locale === 'tr' ? 'Senaryolar' : 'Scenarios'}</Text>
         <Button.Group>
           {(['current', 'discount15', 'campaign'] as Scenario[]).map(s => (
             <Button
@@ -123,7 +123,9 @@ export function CashFlowClient({
                 <Skeleton height={9} width="92%" radius="sm" />
                 <Skeleton height={9} width="84%" radius="sm" />
                 <Skeleton height={9} width="60%" radius="sm" />
-                <Text size="xs" c="dimmed" mt={4}>Kaptan yorumu hazırlanıyor…</Text>
+                <Text size="xs" c="dimmed" mt={4}>
+                  {locale === 'tr' ? 'Kaptan yorumu hazırlanıyor…' : 'Captain is preparing commentary…'}
+                </Text>
               </>
             ) : (
               <>

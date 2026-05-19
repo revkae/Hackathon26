@@ -15,21 +15,33 @@ export interface InitialMessage {
 }
 type Message = InitialMessage;
 
-const SUGGESTIONS = [
-  'Vazo X için Instagram lansman planı çıkar',
-  'Son 7 günde olumsuz yorum alan ürünleri listele',
-  'Rakip fiyatlarını analiz et',
-  '60 günlük nakit projeksiyonu göster',
-];
+// Used only when the page didn't pass freshly-built suggestions (e.g. the
+// /chat/[id] route, where the empty state rarely shows).
+const FALLBACK_SUGGESTIONS: Record<'tr' | 'en', string[]> = {
+  tr: [
+    'Son 7 günde olumsuz yorum alan ürünleri listele',
+    '60 günlük nakit projeksiyonu göster',
+    'Rakip fiyatlarını analiz et',
+    'Bu hafta hangi ürüne odaklanmalıyım?',
+  ],
+  en: [
+    'List products with negative reviews in the last 7 days',
+    'Show me a 60-day cash projection',
+    'Analyze competitor prices',
+    'Which product should I focus on this week?',
+  ],
+};
 
 export function ChatPanel({
   locale,
   conversationId: initialConversationId,
   initialMessages,
+  suggestions,
 }: {
   locale: string;
   conversationId?: string;
   initialMessages?: InitialMessage[];
+  suggestions?: string[];
 }) {
   const t = useTranslations('chat');
   const [input, setInput] = useState('');
@@ -148,6 +160,10 @@ export function ChatPanel({
   };
 
   const showEmpty = messages.length === 0 && !pending;
+  const emptySuggestions =
+    suggestions && suggestions.length > 0
+      ? suggestions
+      : FALLBACK_SUGGESTIONS[locale === 'tr' ? 'tr' : 'en'];
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100%', minHeight: 0 }}>
@@ -167,7 +183,7 @@ export function ChatPanel({
         }}
       >
         {showEmpty && (
-          <EmptyState onSuggest={(q) => send(q)} locale={locale} />
+          <EmptyState onSuggest={(q) => send(q)} locale={locale} suggestions={emptySuggestions} />
         )}
         {messages.map((m, i) => (
           <MessageBubble key={i} message={m} />
@@ -237,7 +253,15 @@ export function ChatPanel({
   );
 }
 
-function EmptyState({ onSuggest, locale }: { onSuggest: (q: string) => void; locale: string }) {
+function EmptyState({
+  onSuggest,
+  locale,
+  suggestions,
+}: {
+  onSuggest: (q: string) => void;
+  locale: string;
+  suggestions: string[];
+}) {
   return (
     <div
       style={{
@@ -277,7 +301,7 @@ function EmptyState({ onSuggest, locale }: { onSuggest: (q: string) => void; loc
           maxWidth: 500,
         }}
       >
-        {SUGGESTIONS.map((s) => (
+        {suggestions.map((s) => (
           <button
             key={s}
             type="button"
