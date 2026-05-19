@@ -1634,21 +1634,6 @@ html { scroll-behavior: smooth; }
   color: var(--fg);
 }
 
-.connect-modal-shot {
-  margin-top: 10px;
-  max-width: 420px;
-  border-radius: 12px;
-  overflow: hidden;
-  border: 1px solid var(--border);
-  background: color-mix(in srgb, var(--c-emerald) 4%, var(--bg-soft));
-}
-
-.connect-modal-shot img {
-  width: 100%;
-  height: auto;
-  display: block;
-}
-
 /* ---------- Social media generator ---------- */
 .social-label {
   display: block;

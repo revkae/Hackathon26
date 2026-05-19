@@ -9,30 +9,29 @@ export const guide: ConnectGuide = {
   adminUrl: 'https://admin.shopify.com',
   steps: [
     {
-      tr: 'Shopify yöneticine gir → Settings → Apps and sales channels → "Develop apps".',
-      en: 'In your Shopify admin → Settings → Apps and sales channels → "Develop apps".',
-      screenshot: '/connect-guides/placeholder.svg',
+      tr: 'Shopify yönetim panelini aç ve sol alttaki "Ayarlar"a gir.',
+      en: 'Open your Shopify admin and click "Settings" at the bottom-left.',
     },
     {
-      tr: '"Create an app" → uygulama adı: "KOBİ Kaptanı" → Create.',
-      en: 'Click "Create an app" → name it "KOBI Kaptani" → Create.',
-      screenshot: '/connect-guides/placeholder.svg',
+      tr: 'Ayarlar içinde "Uygulamalar" sekmesine geç, sağ üstteki "Uygulama geliştirin" düğmesine tıkla.',
+      en: 'In Settings open the "Apps" tab, then click "Develop apps" at the top-right.',
+    },
+    {
+      tr: '"Uygulama oluştur" → uygulama adı: "KOBİ Kaptanı" → oluştur.',
+      en: 'Click "Create an app" → name it "KOBI Kaptani" → create.',
       copySnippet: 'KOBİ Kaptanı',
     },
     {
-      tr: 'Configuration → "Configure Admin API scopes": read_products, read_orders, read_customers.',
-      en: 'Configuration → "Configure Admin API scopes": read_products, read_orders, read_customers.',
-      screenshot: '/connect-guides/placeholder.svg',
+      tr: '"Yapılandırma" sekmesinde "Admin API kapsamlarını yapılandırın"a gir; read_products, read_orders ve read_customers kapsamlarını işaretle ve "Kaydet"e bas.',
+      en: 'On the "Configuration" tab open "Configure Admin API scopes"; tick read_products, read_orders and read_customers, then "Save".',
     },
     {
-      tr: 'API credentials → "Install app" → Admin API access token\'ı kopyala.',
-      en: 'API credentials → "Install app" → copy the Admin API access token.',
-      screenshot: '/connect-guides/placeholder.svg',
+      tr: '"API kimlik bilgileri" sekmesine geç, "Uygulamayı yükle"ye tıkla ve açılan pencerede "Yükle"yi onayla.',
+      en: 'Switch to the "API credentials" tab, click "Install app" and confirm "Install" in the dialog.',
     },
     {
-      tr: 'Bu ekranda Mağaza URL\'si (magaza-adin.myshopify.com) ve token\'ı yapıştır.',
-      en: 'Paste the store URL (your-store.myshopify.com) and the token into this app.',
-      screenshot: '/connect-guides/placeholder.svg',
+      tr: 'Oluşan "Admin API erişim belirteci"ni kopyala. Mağaza URL\'si (magaza-adin.myshopify.com) ile birlikte bu ekrana yapıştır.',
+      en: 'Copy the generated "Admin API access token". Paste it with your store URL (your-store.myshopify.com) into this app.',
     },
   ],
 };

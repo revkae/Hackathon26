@@ -2,7 +2,6 @@
 
 import { Modal } from '@mantine/core';
 import { useState } from 'react';
-import Image from 'next/image';
 import {
   IconCheck,
   IconCopy,
@@ -109,19 +108,6 @@ export function ConnectHelpModal({
                     {copied === idx ? <IconCheck size={12} stroke={2.4} /> : <IconCopy size={12} stroke={2.2} />}
                     <code style={{ fontFamily: 'var(--font-mono, monospace)' }}>{step.copySnippet}</code>
                   </button>
-                )}
-
-                {step.screenshot && (
-                  <div className="connect-modal-shot">
-                    <Image
-                      src={step.screenshot}
-                      alt=""
-                      width={440}
-                      height={248}
-                      style={{ width: '100%', height: 'auto', display: 'block' }}
-                      unoptimized
-                    />
-                  </div>
                 )}
               </div>
             </li>
