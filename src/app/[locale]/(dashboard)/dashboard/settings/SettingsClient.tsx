@@ -1,16 +1,21 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useTransition } from 'react';
+import { Switch } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import {
   IconBrandShopee,
   IconBuildingStore,
   IconCheck,
   IconExternalLink,
+  IconSettings as IconMode,
   IconShoppingCart,
   IconTag,
   IconX,
 } from '@tabler/icons-react';
+import { useAppMode } from '@/components/AppModeProvider';
+import { useConnections } from '@/lib/connections';
+import { setAppMode } from './actions';
 
 interface MarketplaceDef {
   id: 'shopify' | 'trendyol' | 'hepsiburada' | 'etsy';
@@ -130,6 +135,38 @@ export function SettingsClient({ locale }: { locale: string }) {
     });
   };
 
+  const { mode, setMode } = useAppMode();
+  const { hasAnyMarketplace } = useConnections();
+  const [modePending, startModeTransition] = useTransition();
+
+  const toggleMode = (checked: boolean) => {
+    const next = checked ? 'real' : 'mock';
+    if (next === 'real' && !hasAnyMarketplace) {
+      notifications.show({
+        color: 'red',
+        message: isTr
+          ? 'Önce en az bir mağaza bağla.'
+          : 'Connect at least one store first.',
+      });
+      return;
+    }
+    startModeTransition(async () => {
+      const result = await setAppMode(next);
+      if ('error' in result) {
+        notifications.show({ color: 'red', message: result.error });
+        return;
+      }
+      setMode(next);
+      notifications.show({
+        color: 'green',
+        message: isTr
+          ? `Mod değişti: ${next === 'real' ? 'Gerçek' : 'Demo'}`
+          : `Mode set to ${next === 'real' ? 'Real' : 'Demo'}`,
+        autoClose: 2500,
+      });
+    });
+  };
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 28, maxWidth: 920 }}>
       {/* Header */}
@@ -161,6 +198,55 @@ export function SettingsClient({ locale }: { locale: string }) {
             : 'So the Captain and specialists can read real data from your stores. Your data stays yours — disconnect any time.'}
         </p>
       </div>
+
+      {/* Mode card */}
+      <section
+        style={{
+          border: '1px solid var(--border)',
+          borderRadius: 16,
+          padding: 20,
+          background: 'var(--bg-elev)',
+          display: 'flex',
+          alignItems: 'flex-start',
+          gap: 16,
+        }}
+      >
+        <span
+          style={{
+            width: 36, height: 36, borderRadius: 10,
+            display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+            background: 'color-mix(in srgb, var(--c-emerald) 12%, transparent)',
+            color: 'var(--c-emerald)', flexShrink: 0,
+          }}
+        >
+          <IconMode size={18} stroke={2} />
+        </span>
+        <div style={{ flex: 1 }}>
+          <h3 style={{ margin: 0, fontSize: 15, fontWeight: 600, letterSpacing: '-0.01em' }}>
+            {isTr ? 'Çalışma Modu' : 'Working Mode'}
+          </h3>
+          <p style={{ margin: '4px 0 12px', fontSize: 13, color: 'var(--fg-mute)', lineHeight: 1.55 }}>
+            {isTr
+              ? 'Demo: örnek veri ile çalışır. Gerçek: en az bir mağaza bağlı olmalı.'
+              : 'Demo: runs on seeded data. Real: requires at least one connected store.'}
+          </p>
+          <Switch
+            checked={mode === 'real'}
+            disabled={modePending}
+            onChange={(e) => toggleMode(e.currentTarget.checked)}
+            size="md"
+            onLabel={isTr ? 'GERÇEK' : 'REAL'}
+            offLabel={isTr ? 'DEMO' : 'DEMO'}
+            label={
+              <span style={{ fontSize: 13, color: 'var(--fg)', fontWeight: 500 }}>
+                {mode === 'real'
+                  ? (isTr ? 'Gerçek mod aktif' : 'Real mode active')
+                  : (isTr ? 'Demo modu' : 'Demo mode')}
+              </span>
+            }
+          />
+        </div>
+      </section>
 
       {/* Marketplace grid */}
       <div
