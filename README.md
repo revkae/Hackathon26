@@ -10,7 +10,7 @@ panelden birleşik, uygulanabilir bir günlük brief sunar.
 **Gemini AI Hackathon 2026 — Finans & E-ticaret teması için inşa edildi.**
 
 <!-- Gerçek ekran görüntüsü veya tanıtım GIF'i ile değiştirin -->
-![Uygulama genel görünüm](docs/screenshots/hero.png)
+<img width="2506" height="1304" alt="image" src="https://github.com/user-attachments/assets/6eba4adb-1e75-4d47-87c9-e9195b43309f" />
 
 ---
 
@@ -62,15 +62,15 @@ skorunu sorabilir. Bu çağrıların hepsi **Agent Trace** ekranında görselle�
 
 | Panel ("Bugün") | Kaptan Sohbet |
 |---|---|
-| ![Panel](docs/screenshots/dashboard.png) | ![Sohbet](docs/screenshots/chat.png) |
+| <img width="2506" height="1303" alt="image" src="https://github.com/user-attachments/assets/4565308d-97e5-4686-b568-c772264907d3" /> | <img width="2504" height="1305" alt="image" src="https://github.com/user-attachments/assets/874882fc-e2aa-48ac-af93-805e2fdf4e02" /> |
 
 | Agent Trace | Nakit Akışı |
 |---|---|
-| ![Agent Trace](docs/screenshots/trace.png) | ![Nakit Akışı](docs/screenshots/cashflow.png) |
+| <img width="2502" height="1304" alt="image" src="https://github.com/user-attachments/assets/fa0957c6-925c-48b6-b00d-de990cd772d5" /> | <img width="2505" height="1305" alt="image" src="https://github.com/user-attachments/assets/357ee6d8-ca86-46e5-9327-96d466b170c6" /> |
 
 | Ürünler | Ayarlar & Bağlantılar |
 |---|---|
-| ![Ürünler](docs/screenshots/products.png) | ![Ayarlar](docs/screenshots/settings.png) |
+| <img width="2507" height="1306" alt="image" src="https://github.com/user-attachments/assets/fa23304f-c863-4205-90ff-63101853097d" /> | <img width="2505" height="1305" alt="image" src="https://github.com/user-attachments/assets/4451d8bd-21e0-4d0c-a028-c9215aa38234" /> |
 
 ---
 
