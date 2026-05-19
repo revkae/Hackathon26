@@ -1,40 +1,37 @@
-import { env } from './env';
+import type { ShopifyProduct, ShopifyOrder } from './shopify-map';
 
-interface ShopifyProduct {
-  id: number;
-  title: string;
-  body_html: string;
-  vendor: string;
-  product_type: string;
-  tags: string;
-  variants: { id: number; price: string; sku: string }[];
-  images: { src: string }[];
+export type { ShopifyProduct, ShopifyOrder };
+
+interface ShopifyCreds {
+  domain: string;
+  token: string;
 }
 
-export async function fetchShopifyProducts(): Promise<ShopifyProduct[]> {
-  if (!env.SHOPIFY_STORE_DOMAIN || !env.SHOPIFY_ADMIN_ACCESS_TOKEN) {
-    return [];
-  }
-  const url = `https://${env.SHOPIFY_STORE_DOMAIN}/admin/api/2024-10/products.json?limit=50`;
-  const res = await fetch(url, {
-    headers: {
-      'X-Shopify-Access-Token': env.SHOPIFY_ADMIN_ACCESS_TOKEN,
-      'Content-Type': 'application/json',
-    },
-    cache: 'no-store',
-  });
-  if (!res.ok) throw new Error(`Shopify API error: ${res.status}`);
-  const data = await res.json() as { products: ShopifyProduct[] };
+const API_VERSION = '2024-10';
+
+function authHeaders(token: string): HeadersInit {
+  return { 'X-Shopify-Access-Token': token, 'Content-Type': 'application/json' };
+}
+
+export async function fetchShopifyProducts(
+  { domain, token }: ShopifyCreds,
+): Promise<ShopifyProduct[]> {
+  const url = `https://${domain}/admin/api/${API_VERSION}/products.json?limit=50`;
+  const res = await fetch(url, { headers: authHeaders(token), cache: 'no-store' });
+  if (!res.ok) throw new Error(`Shopify products API error: ${res.status}`);
+  const data = (await res.json()) as { products: ShopifyProduct[] };
   return data.products;
 }
 
-export async function fetchShopifyProduct(externalId: string): Promise<ShopifyProduct | null> {
-  if (!env.SHOPIFY_STORE_DOMAIN || !env.SHOPIFY_ADMIN_ACCESS_TOKEN) return null;
-  const url = `https://${env.SHOPIFY_STORE_DOMAIN}/admin/api/2024-10/products/${externalId}.json`;
-  const res = await fetch(url, {
-    headers: { 'X-Shopify-Access-Token': env.SHOPIFY_ADMIN_ACCESS_TOKEN },
-  });
-  if (!res.ok) return null;
-  const data = await res.json() as { product: ShopifyProduct };
-  return data.product;
+export async function fetchShopifyOrders(
+  { domain, token, sinceDays }: ShopifyCreds & { sinceDays: number },
+): Promise<ShopifyOrder[]> {
+  const since = new Date(Date.now() - sinceDays * 24 * 60 * 60 * 1000).toISOString();
+  const url =
+    `https://${domain}/admin/api/${API_VERSION}/orders.json` +
+    `?status=any&created_at_min=${encodeURIComponent(since)}&limit=250`;
+  const res = await fetch(url, { headers: authHeaders(token), cache: 'no-store' });
+  if (!res.ok) throw new Error(`Shopify orders API error: ${res.status}`);
+  const data = (await res.json()) as { orders: ShopifyOrder[] };
+  return data.orders;
 }
