@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState, useTransition } from 'react';
+import { useState, useTransition } from 'react';
 import { Switch } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import {
@@ -40,8 +40,6 @@ interface Connection {
   storeName: string;
   connectedAt: string;
 }
-
-type ConnectionMap = Partial<Record<MarketplaceDef['id'], Connection>>;
 
 const MARKETPLACES: MarketplaceDef[] = [
   {
@@ -140,35 +138,29 @@ const SOCIALS: SocialDef[] = [
   },
 ];
 
-const STORAGE_KEY = 'kobi-kaptani.marketplaces';
-
 export function SettingsClient({ locale }: { locale: string }) {
-  const [conns, setConns] = useState<ConnectionMap>({});
   const [openForm, setOpenForm] = useState<MarketplaceDef['id'] | null>(null);
   const [helpFor, setHelpFor] = useState<PlatformWithGuide | null>(null);
   const isTr = locale === 'tr';
 
-  // Load from localStorage on mount (demo persistence)
-  useEffect(() => {
-    try {
-      const raw = localStorage.getItem(STORAGE_KEY);
-      if (raw) setConns(JSON.parse(raw));
-    } catch {
-      /* ignore */
-    }
-  }, []);
-
-  const save = (next: ConnectionMap) => {
-    setConns(next);
-    try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
-    } catch {
-      /* ignore */
-    }
-  };
+  const { mode, setMode } = useAppMode();
+  // One localStorage-backed hook for every connection consumer — the
+  // marketplace cards, the mode toggle's gate, and the dashboard page
+  // gates all read the same state, so connecting a store reflects
+  // everywhere immediately (the hook broadcasts a change event that
+  // a private SettingsClient copy never did).
+  const {
+    marketplaces,
+    setMarketplaces,
+    hasAnyMarketplace,
+    socials,
+    setSocials,
+  } = useConnections();
+  const [openSocialForm, setOpenSocialForm] = useState<SocialId | null>(null);
+  const [modePending, startModeTransition] = useTransition();
 
   const connect = (id: MarketplaceDef['id'], data: Connection) => {
-    save({ ...conns, [id]: data });
+    setMarketplaces({ ...marketplaces, [id]: data });
     setOpenForm(null);
     notifications.show({
       color: 'green',
@@ -179,20 +171,15 @@ export function SettingsClient({ locale }: { locale: string }) {
   };
 
   const disconnect = (id: MarketplaceDef['id']) => {
-    const next = { ...conns };
+    const next = { ...marketplaces };
     delete next[id];
-    save(next);
+    setMarketplaces(next);
     notifications.show({
       color: 'gray',
       message: isTr ? 'Bağlantı kaldırıldı' : 'Disconnected',
       autoClose: 2500,
     });
   };
-
-  const { mode, setMode } = useAppMode();
-  const { hasAnyMarketplace, socials, setSocials } = useConnections();
-  const [openSocialForm, setOpenSocialForm] = useState<SocialId | null>(null);
-  const [modePending, startModeTransition] = useTransition();
 
   const connectSocial = (id: SocialId, data: SocialConnection) => {
     setSocials({ ...socials, [id]: data });
@@ -334,7 +321,7 @@ export function SettingsClient({ locale }: { locale: string }) {
         }}
       >
         {MARKETPLACES.map((m) => {
-          const conn = conns[m.id];
+          const conn = marketplaces[m.id];
           const connected = !!conn;
           const isOpen = openForm === m.id;
           return (
