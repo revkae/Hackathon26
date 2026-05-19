@@ -14,7 +14,7 @@ alter table public.profiles
 create table public.conversations (
   id uuid primary key default gen_random_uuid(),
   profile_id uuid not null references public.profiles(id) on delete cascade,
-  title text not null default 'Yeni sohbet',
+  title text not null default 'New conversation',
   created_at timestamptz default now(),
   updated_at timestamptz default now()
 );
