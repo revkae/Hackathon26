@@ -45,15 +45,34 @@ export function ConnectHelpModal({
       size="lg"
       centered
       withCloseButton
-      title={
-        <span style={{ fontSize: 16, fontWeight: 600, letterSpacing: '-0.01em' }}>
-          {isTr ? guide.title.tr : guide.title.en}
-        </span>
-      }
-      styles={{
-        content: { background: 'var(--bg-elev)', color: 'var(--fg)' },
-        header:  { background: 'var(--bg-elev)', color: 'var(--fg)', borderBottom: '1px solid var(--border)' },
+      overlayProps={{ color: '#06120E', backgroundOpacity: 0.72, blur: 6 }}
+      classNames={{
+        content: 'connect-modal',
+        header: 'connect-modal-header',
+        body: 'connect-modal-body',
+        close: 'connect-modal-close',
       }}
+      title={
+        <div>
+          <span
+            className="section-eyebrow"
+            style={{ display: 'block', margin: '0 0 3px' }}
+          >
+            {isTr ? 'Bağlantı Kılavuzu' : 'Connection Guide'}
+          </span>
+          <span
+            style={{
+              fontFamily: 'var(--font-sans)',
+              fontSize: 17,
+              fontWeight: 600,
+              letterSpacing: '-0.02em',
+              color: 'var(--fg)',
+            }}
+          >
+            {isTr ? guide.title.tr : guide.title.en}
+          </span>
+        </div>
+      }
     >
       <p style={{ fontSize: 14, lineHeight: 1.55, color: 'var(--fg-mute)', margin: '0 0 20px' }}>
         {isTr ? guide.blurb.tr : guide.blurb.en}
@@ -93,20 +112,12 @@ export function ConnectHelpModal({
                 )}
 
                 {step.screenshot && (
-                  <div
-                    style={{
-                      marginTop: 10,
-                      borderRadius: 10,
-                      overflow: 'hidden',
-                      border: '1px solid var(--border)',
-                      maxWidth: 480,
-                    }}
-                  >
+                  <div className="connect-modal-shot">
                     <Image
                       src={step.screenshot}
                       alt=""
-                      width={480}
-                      height={270}
+                      width={440}
+                      height={248}
                       style={{ width: '100%', height: 'auto', display: 'block' }}
                       unoptimized
                     />

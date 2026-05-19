@@ -18,7 +18,8 @@ html { scroll-behavior: smooth; }
 
 .landing-root,
 .auth-root,
-.dash-root {
+.dash-root,
+.connect-modal {
   /* default = LIGHT mode */
   --bg-deep:     #FAFAF5;           /* warm cream, slight green */
   --bg-elev:     #FFFFFF;
@@ -58,6 +59,7 @@ html { scroll-behavior: smooth; }
 [data-mantine-color-scheme="dark"] .landing-root,
 [data-mantine-color-scheme="dark"] .auth-root,
 [data-mantine-color-scheme="dark"] .dash-root,
+[data-mantine-color-scheme="dark"] .connect-modal,
 .landing-root[data-mantine-color-scheme="dark"],
 .auth-root[data-mantine-color-scheme="dark"],
 .dash-root[data-mantine-color-scheme="dark"] {
@@ -81,7 +83,8 @@ html { scroll-behavior: smooth; }
 @media (prefers-color-scheme: dark) {
   [data-mantine-color-scheme="auto"] .landing-root,
   [data-mantine-color-scheme="auto"] .auth-root,
-  [data-mantine-color-scheme="auto"] .dash-root {
+  [data-mantine-color-scheme="auto"] .dash-root,
+  [data-mantine-color-scheme="auto"] .connect-modal {
     --bg-deep:       #06120E;
     --bg-elev:       #0E1F1A;
     --bg-soft:       #14241F;
@@ -1590,6 +1593,60 @@ html { scroll-behavior: smooth; }
   gap: 8px;
   margin-top: auto;
   padding-top: 4px;
+}
+
+/* ---------- Connect-help modal ----------
+   Mantine's Modal portals to <body>, outside the .dash-root theme
+   scope — `.connect-modal` is added to the variable-declaration
+   selectors near the top of this file so the brand tokens resolve
+   inside the portal.  These rules then give it the landing skin. */
+.connect-modal {
+  /* override the .bg-deep / min-height:100vh inherited from the
+     shared variable-declaration block */
+  background: var(--bg-elev);
+  min-height: unset;
+  border: 1px solid var(--border-strong);
+  border-radius: 24px;
+  box-shadow:
+    0 40px 90px -25px color-mix(in srgb, var(--c-emerald) 24%, transparent),
+    0 1px 0 0 color-mix(in srgb, var(--fg) 6%, transparent) inset;
+  overflow: hidden;
+}
+
+.connect-modal-header {
+  background: color-mix(in srgb, var(--c-emerald) 4%, var(--bg-elev));
+  border-bottom: 1px solid var(--border);
+  padding: 16px 22px;
+  align-items: flex-start;
+}
+
+.connect-modal-body {
+  padding: 22px 24px 24px;
+}
+
+.connect-modal-close {
+  color: var(--fg-mute);
+  border-radius: 999px;
+}
+
+.connect-modal-close:hover {
+  background: color-mix(in srgb, var(--c-emerald) 10%, transparent);
+  color: var(--fg);
+}
+
+.connect-modal-shot {
+  margin-top: 10px;
+  max-width: 420px;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  background: color-mix(in srgb, var(--c-emerald) 4%, var(--bg-soft));
+}
+
+.connect-modal-shot img {
+  width: 100%;
+  height: auto;
+  display: block;
 }
 
 /* ---------- Social media generator ---------- */
