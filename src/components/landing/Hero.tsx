@@ -79,7 +79,7 @@ export function Hero({ copy, signupHref, loginHref }: HeroProps) {
         <ChatInput
           placeholder={copy.chatPlaceholder}
           modes={copy.chatModes}
-          signinHref={loginHref}
+          signupHref={signupHref}
           rotatingPlaceholders={copy.chatRotating}
         />
 
