@@ -2,7 +2,7 @@
 
 import { type ReactNode } from 'react';
 import { useAppMode } from './AppModeProvider';
-import { useConnections } from '@/lib/connections';
+import { useStoreConnections } from './StoreConnectionsProvider';
 import { ConnectionRequired } from './ConnectionRequired';
 
 export function RealModeGate({
@@ -15,7 +15,7 @@ export function RealModeGate({
   children: ReactNode;
 }) {
   const { mode } = useAppMode();
-  const { hasAnyMarketplace } = useConnections();
+  const { hasAnyMarketplace } = useStoreConnections();
   if (mode === 'real' && !hasAnyMarketplace) {
     return <ConnectionRequired feature={feature} platforms={platforms} />;
   }
