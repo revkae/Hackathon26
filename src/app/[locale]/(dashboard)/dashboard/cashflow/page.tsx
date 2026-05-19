@@ -1,6 +1,7 @@
 import { computeCashFlowBase } from '@/agents/tools/cashflow-compute';
 import { CashFlowClient } from './CashFlowClient';
 import type { CashFlowForecast } from '@/agents/schemas';
+import { RealModeGate } from '@/components/RealModeGate';
 
 export const dynamic = 'force-dynamic';
 
@@ -22,5 +23,12 @@ export default async function CashFlowPage({
     commentary: '',
   };
 
-  return <CashFlowClient initial={initial} locale={locale} />;
+  return (
+    <RealModeGate
+      feature={locale === 'tr' ? 'Nakit Akışı' : 'Cash Flow'}
+      platforms={['Shopify']}
+    >
+      <CashFlowClient initial={initial} locale={locale} />
+    </RealModeGate>
+  );
 }
