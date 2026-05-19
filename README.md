@@ -1,53 +1,76 @@
-# ⚓ KOBİ Kaptanı
+# ⚓ KOBİ Kaptanı — *Captain*
 
 > **Beş asistan, bir kaptan, sıfır endişe.**
 
-Multi-agent yapay zeka uygulaması — çok kanallı satış yapan küçük işletmeler için 5 sanal uzman ajan ve bir Kaptan orchestrator. Ajanlar birbiriyle otomatik konuşur (Agent-to-Agent / A2A), kullanıcıya birleşik bir günlük brief ve aksiyon önerisi sunar.
+Çok kanallı satış yapan küçük işletmelerin arka ofisini yöneten **çok ajanlı yapay
+zekâ uygulaması**. Tek bir orkestratör ajan — **Kaptan** — beş uzman ajanı yönetir;
+ajanlar gerektiğinde birbirleriyle de konuşur (Agent-to-Agent / A2A) ve size tek
+panelden birleşik, uygulanabilir bir günlük brief sunar.
 
-**Gemini AI Hackathon 2026 — Finans & E-ticaret teması**
+**Gemini AI Hackathon 2026 — Finans & E-ticaret teması için inşa edildi.**
+
+<!-- Gerçek ekran görüntüsü veya tanıtım GIF'i ile değiştirin -->
+![Uygulama genel görünüm](docs/screenshots/hero.png)
 
 ---
 
-## 🎬 Demo
+## 🎯 Bu uygulama ne işe yarar?
 
-| | |
+Küçük e-ticaret satıcıları her şapkayı aynı anda takar: tasarım, üretim, SEO,
+fiyatlandırma, müşteri hizmetleri, muhasebe, sosyal medya. **KOBİ Kaptanı** onlara
+bir ekip verir.
+
+Doğal dille tek bir soru sorarsınız; **Kaptan** isteği parçalara böler, doğru uzman
+ajanları görevlendirir, gerektiğinde onların *birbirine danışmasına* izin verir ve
+size tek bir net cevap döndürür.
+
+### Mürettebat
+
+| Ajan | Görevi |
 |---|---|
-| **Production URL** | _(deploy sonrası burada olacak)_ |
-| **Demo Video** | _(YouTube link)_ |
-| **Demo kullanıcı** | `ayse@seramik.com` / `AyseDemo2026!` |
-| **Persona** | Ayşe Hanım, El Yapımı Seramik Atölyesi sahibi |
+| ⚓ **Kaptan** | Orkestratör. İsteğinizi anlar, planı kurar, doğru uzmanlara dağıtır, sonuçları tek brief'te birleştirir. |
+| 🔍 **SEO Ajanı** | Ürün başlıklarını, açıklamalarını ve etiketlerini aramada üst sıralar için optimize eder. |
+| 📢 **Pazarlama Ajanı** | Instagram açıklaması, görsel fikirleri ve hazır hashtag setleri üretir. |
+| 💰 **Fiyat Ajanı** | Rakip pazaryeri fiyatlarını izler, kâr marjınızı koruyan fiyatı önerir. |
+| 💬 **Yorum Ajanı** | Müşteri yorumlarını analiz eder, tema ve duygu çıkarır, yanıt taslakları yazar — her dilde. |
+| 📊 **Nakit Akışı Ajanı** | 30/60/90 günlük nakit projeksiyonu yapar, "ne olur eğer" senaryolarını canlı simüle eder. |
+
+Öne çıkan özellik **ajanlar arası (A2A) iş birliği**: Fiyat Ajanı, siz söylemeden,
+kendi mantığıyla Nakit Akışı Ajanı'na finansal etkiyi ve Yorum Ajanı'na duygu
+skorunu sorabilir. Bu çağrıların hepsi **Agent Trace** ekranında görselleşir.
 
 ---
 
-## 🤖 Ajan Mimarisi (Hibrit C: Orchestrator + Peer-to-Peer A2A)
+## ✨ Özellikler
 
-```
-                     [ Kaptan Ajan (Gemini 2.5 Pro) ]
-                                  │
-       ┌──────────┬───────────────┼──────────────┬──────────┐
-       │          │               │              │          │
-     [SEO]    [Pazarlama]      [Fiyat]        [Yorum]    [Nakit]
+- 🤖 **Hibrit çok ajanlı mimari** — orkestratör + peer-to-peer uzman tool'ları
+- 🧵 **Canlı agent trace** — hangi ajan hangisini, ne zaman çağırdı? Swimlane görünümü
+- 🛒 **Gerçek Shopify entegrasyonu** — mağaza bağlayın, canlı ürün/sipariş/nakit verisi görün
+- 🎭 **Mock / Gerçek veri modu** — örnek demo verisiyle keşfedin ya da canlı veriye geçin
+- 💬 **Doğal dil sohbeti** — form yok, menü yok; sadece Kaptan'a sorun
+- 🌍 **Çift dilli (TR / EN)** — hem arayüz hem ajan zekâsı
+- 📊 **Nakit akışı tahmini** — canlı senaryo toggle'lı Recharts grafiği
+- 📧 **Markalı auth e-postaları** — Supabase Auth + Resend + React Email şablonları
+- ✅ **Test edilmiş** — Vitest birim testleri, Playwright E2E ve ajan benchmark'ı
 
-   Her uzman ajan, gerektiğinde DİĞER uzman ajanları "tool" olarak çağırır:
+---
 
-   • Pazarlama → SEO (başlık/keyword paylaşımı)
-   • Pazarlama → Yorum (müşteri dilini kullan)
-   • SEO → Yorum (keyword extraction)
-   • Fiyat → Nakit (finansal etki simülasyonu)
-   • Fiyat → Rakip API (mock pazaryeri data)
-   • Kaptan → tüm uzmanlar (orchestration)
-```
+## 📸 Ekran Görüntüleri
 
-### 5 Uzman Ajan
+> 📷 **Bunlar yer tutucudur.** Kendi görsellerinizi aynı dosya adlarıyla
+> `docs/screenshots/` klasörüne koyun; otomatik olarak burada görünürler.
 
-| Ajan | Görev | Model |
-|---|---|---|
-| 🔍 **SEO** | Ürün başlığı/açıklama/etiket optimizasyonu | Gemini 2.5 Flash |
-| 📢 **Pazarlama** | Instagram caption + görsel prompt + hashtag | Gemini 2.5 Flash |
-| 💰 **Fiyat** | Rakip-aware dinamik fiyat önerisi | Gemini 2.5 Flash |
-| 💬 **Yorum** | Multilingual sentiment analizi + tema çıkarma | Gemini 2.5 Flash |
-| 📊 **Nakit Akışı** | 30/60/90 gün forecast + senaryo simülasyonu | Gemini 2.5 Pro |
-| ⚓ **Kaptan** | Orchestrator, multi-agent koordinasyon | Gemini 2.5 Pro |
+| Panel ("Bugün") | Kaptan Sohbet |
+|---|---|
+| ![Panel](docs/screenshots/dashboard.png) | ![Sohbet](docs/screenshots/chat.png) |
+
+| Agent Trace | Nakit Akışı |
+|---|---|
+| ![Agent Trace](docs/screenshots/trace.png) | ![Nakit Akışı](docs/screenshots/cashflow.png) |
+
+| Ürünler | Ayarlar & Bağlantılar |
+|---|---|
+| ![Ürünler](docs/screenshots/products.png) | ![Ayarlar](docs/screenshots/settings.png) |
 
 ---
 
@@ -55,163 +78,166 @@ Multi-agent yapay zeka uygulaması — çok kanallı satış yapan küçük işl
 
 | Katman | Teknoloji |
 |---|---|
-| **Frontend** | Next.js 15 (App Router) + TypeScript + Tailwind v4 + shadcn/ui |
-| **Streaming UI** | Vercel AI SDK |
-| **i18n** | next-intl (TR + EN, route-based: `/tr/*`, `/en/*`) |
-| **Agents** | Google Genkit + Gemini 2.5 (Vertex AI backend) |
-| **Validation** | Zod schemas at every agent boundary |
-| **Charts** | Recharts |
-| **Auth** | Supabase Auth (email/password + magic link via Resend) |
-| **DB** | Supabase Postgres + RLS (multi-tenant) |
-| **Real Integration** | Shopify Admin API (dev store) |
-| **Mock Data** | JSON adapters (Trendyol, Hepsiburada, N11) |
-| **Email** | Resend + React Email templates |
-| **Testing** | Vitest (unit, TDD) + Playwright (E2E) + Genkit Evals (benchmark) |
-| **Deploy** | Vercel (Next.js native) |
+| Framework | Next.js 15 (App Router, Server Actions) · React 19 · TypeScript 5.5 |
+| Arayüz | Mantine 8 · Tailwind CSS v4 · Recharts · Tabler Icons |
+| Ajanlar | Genkit · Google Gemini (Vertex AI / AI Studio) · Vercel AI SDK · Zod |
+| Veri & Auth | Supabase (Postgres + RLS) · `@supabase/ssr` |
+| E-posta | Resend · React Email |
+| i18n | next-intl (`/tr/*`, `/en/*`) |
+| Test | Vitest · Playwright |
+| Deploy | Vercel |
 
 ---
 
 ## ⚡ Hızlı Başlangıç
 
 ### Gereksinimler
-- Node.js 22+
-- Supabase project (free tier)
-- Resend hesap (free tier)
-- Gemini API key (Google AI Studio) **veya** GCP project + Vertex AI
-- Shopify Partners dev store (opsiyonel — mock veriyle de çalışır)
 
-### Kurulum
+- **Node.js 22+** ve npm
+- Bir **Supabase** projesi (ücretsiz katman yeterli)
+- Bir **Google Gemini** API anahtarı (AI Studio) — veya Vertex AI için bir GCP projesi
+- Bir **Resend** hesabı (auth e-postaları için)
+- *(Opsiyonel)* Gerçek modu denemek için bir **Shopify** dev store + Admin API token
 
-```powershell
-# 1. Bağımlılıkları kur
+### 1. Kurulum
+
+```bash
+git clone https://github.com/revkae/Hackathon26.git
+cd Hackathon26
 npm install
+```
 
-# 2. .env.local doldur (.env.example'a bak — gereken keys'i listele)
-# Supabase, Resend, GCP/Gemini, Shopify
+### 2. Ortam değişkenlerini yapılandırın
 
-# 3. Supabase'de migration'ları uygula
-# supabase/migrations/20260514000001_initial_schema.sql
-# supabase/migrations/20260514000002_rls_policies.sql
+Proje kök dizininde bir `.env.local` dosyası oluşturun:
 
-# 4. Demo veriyi yükle (Ayşe Hanım: 15 ürün, 75 yorum, 1031 satış, 5 gider)
+```bash
+# Supabase
+NEXT_PUBLIC_SUPABASE_URL=https://projeniz.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=anon-anahtariniz
+SUPABASE_SERVICE_ROLE_KEY=service-role-anahtariniz
+
+# E-posta (Resend)
+RESEND_API_KEY=re_api_anahtariniz
+RESEND_FROM_EMAIL=merhaba@alanadiniz.com
+
+# Gemini — ya AI Studio…
+GEMINI_API_KEY=gemini-api-anahtariniz
+# …ya da Vertex AI (yukarıdaki GEMINI_API_KEY'i boş bırakın)
+# GCP_PROJECT_ID=gcp-projeniz
+# GCP_LOCATION=us-central1
+# GCP_SERVICE_ACCOUNT_JSON={...}   # Vercel deploy'da zorunlu
+
+# Shopify — opsiyonel, sadece Gerçek mod için gerekli
+# SHOPIFY_STORE_DOMAIN=magazaniz.myshopify.com
+# SHOPIFY_ADMIN_ACCESS_TOKEN=shpat_...
+
+# Uygulama
+NEXT_PUBLIC_APP_URL=http://localhost:3000
+```
+
+### 3. Veritabanını hazırlayın
+
+`supabase/migrations/` altındaki SQL dosyalarını **sırayla**, Supabase Dashboard →
+**SQL Editor** üzerinden uygulayın:
+
+1. `20260514000001_initial_schema.sql`
+2. `20260514000002_rls_policies.sql`
+3. `20260519000001_app_mode_and_chat.sql`
+4. `20260519000002_store_connections.sql`
+
+> ℹ️ Migration'lar elle uygulanır — bu repo Supabase CLI'ya bağlı değildir.
+
+### 4. Demo veriyi yükleyin
+
+Demo personası için ~80 ürün, 200 yorum ve 6 aylık satış verisi yükler:
+
+```bash
 npm run seed
+```
 
-# 5. Dev server
+### 5. Uygulamayı çalıştırın
+
+```bash
 npm run dev
-# http://localhost:3000 → /tr/login
+```
 
-# 6. (Opsiyonel) Genkit Dev UI — ajan flow'larını görsel debug et
+**http://localhost:3000** adresini açın — `/tr` veya `/en` adresine yönlendirilirsiniz.
+
+Ajan flow'larını görsel olarak debug etmek için Genkit Dev UI'ı ayrıca çalıştırın:
+
+```bash
 npm run genkit:dev
 ```
 
-### Login
-
-```
-E-posta: ayse@seramik.com
-Şifre: AyseDemo2026!
-```
-
 ---
 
-## 🧪 Testler
+## 🚀 Nasıl kullanılır?
 
-```powershell
-npm test              # Vitest unit tests (10 test, TDD)
-npm run test:e2e      # Playwright E2E (6 test: auth, chat, cashflow, i18n)
-npm run evals         # Genkit Evals — 5 ajan × 10 senaryo = 50 case benchmark
-```
-
-### Test Sonuçları (son çalıştırma)
-- **Unit:** 10/10 passing
-- **E2E:** 6/6 passing
-- **Evals:** `{EVAL_SCORE}` (npm run evals çalıştırıldıktan sonra dashboard'da görünür)
-
----
-
-## 📊 Değerlendirme Kriterleri Eşleştirmesi
-
-| Kriter (puan) | Bu projede nasıl |
-|---|---|
-| **Kullanıcı Değeri (20p)** | Spesifik persona (Ayşe Hanım, gerçek KOBİ acıları), 5 ajanın her biri ayrı bir acıyı çözüyor, 600K Türkiye KOBİ pazarı |
-| **Teknik Puan (20p)** | Multi-agent + peer A2A + Genkit + Supabase RLS + Shopify API + i18n + Evals + Playwright + TDD |
-| **Performans & Doğruluk (10p)** | Genkit Evals 50 senaryo benchmark, Zod schema validation her ajan çıktısında |
-| **Agentic Yapılar (10p)** | Hibrit C mimari: orchestrator + emergent peer A2A. Genkit Dev UI'da trace görselleştirme |
-| **Yenilikçilik (10p)** | "Çok kanallı satış + 5 ajan + birbiriyle konuşma" — örnek listede yok, niş+derinlik |
-| **Kullanıcı Dostu (10p)** | Tek panel, doğal dil chat, brief 10 saniyede özet, TR/EN i18n |
-| **Takım Çalışması (10p)** | (Solo) — temiz commit history (58 commits), incremental development, README'de net rol |
-| **Sunum & İletişim (10p)** | 8 slide deck, demo video, canlı 3-senaryo akışı |
+1. **Kaydolun** — açılış sayfasından kayıt olun, markalı Resend e-postasıyla doğrulayın.
+2. **Panel ("Bugün")** — Kaptan'ın günlük brief'i + stat kartları: bugünkü siparişler,
+   bekleyen yorumlar, açık aksiyonlar, nakit pozisyonu.
+3. **Sohbet** — Kaptan'a doğal dille her şeyi sorun, örneğin:
+   - *"Vazo X için Instagram lansmanı hazırla"*
+   - *"Vazo X için fiyatı %15 düşüreyim mi?"*
+   - *"60 günlük nakit akışı projeksiyonu göster"*
+   Yanıtlar solda akar; canlı agent trace sağda akar.
+4. **Agent Trace** — her ajan çağrısının swimlane görünümü; Kaptan'ın hiç emretmediği
+   ajanlar-arası çağrılar dâhil.
+5. **Ürünler / Yorumlar / Nakit Akışı / Sosyal** — her alan için ayrı ekranlar;
+   Nakit Akışı'nda senaryo toggle'ları.
+6. **Ayarlar** — mağazalarınızı bağlayın ve **Mock** ↔ **Gerçek** veri modu arasında geçin:
+   - **Mock mod** (varsayılan) — tüm ekranlar örnek demo verisini gösterir. Harici
+     hesap olmadan ürünü keşfetmek için idealdir.
+   - **Gerçek mod** — bir Shopify mağazası bağlayın; Ürünler, Nakit Akışı ve Bugün
+     ekranları **canlı veri** çeker. Bir istek başarısız olursa uygulama örnek veriye
+     geri döner ve bir uyarı şeridi gösterir; böylece canlı ve demo verisi karışmaz.
 
 ---
 
 ## 📁 Proje Yapısı
 
 ```
-Hackathon26/
-├── supabase/migrations/    # SQL schema + RLS policies
-├── data/                   # Mock pazaryeri JSON (Trendyol/Hepsi/N11)
-├── emails/                 # React Email şablonları
-├── scripts/
-│   ├── seed-db.ts          # Demo veri seed
-│   └── run-evals.ts        # 5 ajan benchmark
-├── src/
-│   ├── agents/             # 5 specialist + 1 captain + tools
-│   ├── app/[locale]/       # Next.js App Router, i18n routing
-│   │   ├── (auth)/         # login, signup
-│   │   └── (dashboard)/    # dashboard, chat, cashflow, products, reviews, trace
-│   ├── components/         # UI + agent visualization
-│   ├── lib/
-│   │   ├── supabase/       # @supabase/ssr clients
-│   │   └── env.ts          # Zod-validated env
-│   └── messages/           # tr.json, en.json
-└── tests/
-    ├── unit/               # Vitest (TDD)
-    ├── e2e/                # Playwright
-    └── evals/              # Genkit Evals datasets
+src/
+  agents/        # Kaptan + 5 uzman ajan, tool'lar, şemalar, Genkit kurulumu
+  app/[locale]/  # Next.js App Router — açılış, auth, dashboard route'ları
+  components/    # Arayüz bileşenleri (kartlar, grafikler, sohbet paneli, trace…)
+  lib/           # Supabase client'ları, Shopify katmanı, app-mode, bağlantılar, i18n
+supabase/
+  migrations/    # SQL şema, RLS politikaları (elle uygulanır)
+scripts/
+  seed-db.ts     # demo veri yükleyici
+  run-evals.ts   # ajan benchmark runner'ı
+tests/           # Vitest birim testleri + Playwright E2E
+docs/            # tasarım dokümanı, implementation planları, ekran görüntüleri
 ```
 
 ---
 
-## 🎯 Demo Akışı (3 senaryo, ~3 dakika)
+## 📜 Komutlar
 
-### 1. Büyüme — "Vazo X için lansman hazırla"
-SEO + Pazarlama + Fiyat ajanları paralel çalışıyor → başlık + Instagram post + fiyat önerisi tek tıkla.
-
-### 2. Satış Çarkları + A2A — "Vazo X için fiyatı %15 düşüreyim mi?"
-Fiyat ajanı **kendi başına** Nakit ve Yorum ajanlarına danışıyor → "İndirim YAPMA, paketleme kampanyası öner" çıktısı. **Agent Trace ekranında** A2A zinciri görselleşiyor.
-
-### 3. Finans — "Nakit akışı projeksiyonu"
-Senaryo toggle (mevcut / %15 indirim / kampanya) → chart kırmızıya/yeşile kayar. Nakit ajanın doğal dilde yorumu.
-
-### Bonus: Çoklu dil
-Yorumlar İngilizceyse de Yorum ajanı dil tespit + kullanıcı diline özet. UI dil toggle TR ↔ EN.
-
----
-
-## 🔐 Güvenlik
-
-- Supabase Row-Level Security (RLS) — her satıcı sadece kendi verisini görür
-- Server Components + Server Actions (no client-side secrets)
-- Zod schema validation her LLM çıktısında (halüsinasyon koruması)
-- Service account key ortam değişkeni (asla repo'da değil)
+| Komut | Açıklama |
+|---|---|
+| `npm run dev` | Geliştirme sunucusunu başlatır (Turbopack) |
+| `npm run build` | Production build |
+| `npm run start` | Production build'i çalıştırır |
+| `npm run lint` | Projeyi lint eder |
+| `npm run test` | Birim testleri (Vitest) |
+| `npm run test:e2e` | Uçtan uca testler (Playwright) |
+| `npm run genkit:dev` | Genkit geliştirici arayüzünü açar |
+| `npm run seed` | Veritabanını demo veriyle doldurur |
+| `npm run evals` | Ajan doğruluk benchmark'ını çalıştırır |
 
 ---
 
-## ⚠️ Production Hardening (Roadmap)
+## ☁️ Deploy
 
-- Trendyol/Hepsiburada/N11 gerçek Marketplace API entegrasyonu (şu an mock)
-- Rate limiting + cost monitoring (Gemini quota)
-- Background job queue (uzun agent runs için)
-- Multi-account Shopify OAuth
-- Mobile app (Expo + aynı backend)
+Uygulama **Vercel**'e sıfır yapılandırmayla deploy edilir. `.env.local` içindeki tüm
+değişkenleri Vercel projesinin ortam değişkenlerine ekleyin — Vertex AI kullanıyorsanız
+**`GCP_SERVICE_ACCOUNT_JSON` production'da zorunludur**.
 
 ---
 
-## 📜 Lisans
+## 📄 Lisans
 
-MIT — hackathon submission, open source.
-
----
-
-## 🙏 Teşekkürler
-
-Google Gemini ekibine, Genkit framework için. Supabase, Vercel, Resend ekiplerine free tier'ları için. Türkiye'de 600.000 KOBİ sahibine — bu ürün sizin için.
+Gemini AI Hackathon 2026 için inşa edildi. © 2026 KOBİ Kaptanı.
