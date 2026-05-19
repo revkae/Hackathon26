@@ -1,39 +1,107 @@
 import { createClient } from '@/lib/supabase/server';
-import { captainAgent } from '@/agents/captain';
+import { runCaptainWithCallbacks } from '@/agents/captain';
+import { getAppMode } from '@/lib/app-mode';
 import { NextRequest } from 'next/server';
 
-export const runtime = 'nodejs'; // CRITICAL: Genkit requires Node, not Edge
+export const runtime = 'nodejs';
+
+type ErrorCode =
+  | 'gemini_unauthorized'
+  | 'gemini_quota'
+  | 'no_tools_called'
+  | 'unknown';
+
+function classifyError(err: unknown): { code: ErrorCode; message: string } {
+  const message = err instanceof Error ? err.message : String(err);
+  const low = message.toLowerCase();
+  if (low.includes('unauthorized') || low.includes('api key') || low.includes('401')) {
+    return { code: 'gemini_unauthorized', message: 'Gemini API anahtarı eksik veya hatalı.' };
+  }
+  if (low.includes('quota') || low.includes('429')) {
+    return { code: 'gemini_quota', message: 'Gemini kotası doldu — biraz bekle ve tekrar dene.' };
+  }
+  if (low.includes('returned no output')) {
+    return { code: 'no_tools_called', message: 'Kaptan bir cevap üretemedi — soruyu farklı ifade et.' };
+  }
+  return { code: 'unknown', message };
+}
 
 export async function POST(req: NextRequest) {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
-  if (!user) {
-    return new Response('Unauthorized', { status: 401 });
-  }
+  if (!user) return new Response('Unauthorized', { status: 401 });
 
-  const { query, locale } = await req.json();
+  const { query, locale, conversationId: incomingConversationId } = await req.json();
 
   const encoder = new TextEncoder();
   const stream = new ReadableStream({
     async start(controller) {
-      try {
-        const startTime = Date.now();
-        const result = await captainAgent({ query, userLanguage: locale ?? 'tr' });
-        const durationMs = Date.now() - startTime;
+      const emit = (obj: unknown) =>
+        controller.enqueue(encoder.encode(JSON.stringify(obj) + '\n'));
 
-        // Persist trace
-        await supabase.from('agent_traces').insert({
-          profile_id: user.id,
-          query,
-          trace_json: result as unknown as Record<string, unknown>,
-          duration_ms: durationMs,
+      try {
+        const mode = await getAppMode(supabase);
+
+        // 1) Ensure a conversation exists; create one if not provided.
+        let conversationId = incomingConversationId as string | undefined;
+        if (!conversationId) {
+          const { data: convo, error: convoErr } = await supabase
+            .from('conversations')
+            .insert({ profile_id: user.id, title: query.slice(0, 40) })
+            .select('id')
+            .single();
+          if (convoErr || !convo) throw new Error(convoErr?.message ?? 'conversation create failed');
+          conversationId = convo.id;
+          emit({ type: 'conversation_created', conversationId });
+        }
+
+        // 2) Persist the user message.
+        await supabase.from('messages').insert({
+          conversation_id: conversationId,
+          role: 'user',
+          text: query,
         });
 
-        controller.enqueue(encoder.encode(JSON.stringify({ type: 'final', data: result }) + '\n'));
+        // 3) Initial thinking ping so the UI updates within ~50ms.
+        emit({ type: 'thinking', stage: 'planning' });
+
+        // 4) Run the captain with tool-call callbacks → forward each as a 'thinking' event.
+        const startTime = Date.now();
+        const result = await runCaptainWithCallbacks(
+          { query, userLanguage: locale ?? 'tr' },
+          {
+            onToolCall: (toolHuman) => {
+              emit({ type: 'thinking', stage: 'tool_call', tool: toolHuman });
+            },
+          },
+        );
+        const durationMs = Date.now() - startTime;
+
+        // 5) Persist trace + captain message.
+        const captainText = `${result.greeting}\n\n${result.topPriority ?? ''}`.trim();
+        await Promise.all([
+          supabase.from('agent_traces').insert({
+            profile_id: user.id,
+            query,
+            trace_json: { ...(result as unknown as Record<string, unknown>), mode },
+            duration_ms: durationMs,
+          }),
+          supabase.from('messages').insert({
+            conversation_id: conversationId,
+            role: 'captain',
+            text: captainText,
+            brief_json: result as unknown as Record<string, unknown>,
+          }),
+          supabase.from('conversations')
+            .update({ updated_at: new Date().toISOString() })
+            .eq('id', conversationId),
+        ]);
+
+        emit({ type: 'final', conversationId, data: result });
         controller.close();
       } catch (err) {
-        const message = err instanceof Error ? err.message : 'Unknown error';
-        controller.enqueue(encoder.encode(JSON.stringify({ type: 'error', message }) + '\n'));
+        const { code, message } = classifyError(err);
+        emit({ type: 'error', code, message });
         controller.close();
       }
     },

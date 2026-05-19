@@ -8,11 +8,12 @@ import { StatusIcon } from './StatusIcon';
 import { useVoiceInput } from './landing/useVoiceInput';
 import type { CaptainBrief } from '@/agents/schemas';
 
-interface Message {
+export interface InitialMessage {
   role: 'user' | 'captain';
   text: string;
   brief?: CaptainBrief;
 }
+type Message = InitialMessage;
 
 const SUGGESTIONS = [
   'Vazo X için Instagram lansman planı çıkar',
@@ -21,10 +22,20 @@ const SUGGESTIONS = [
   '60 günlük nakit projeksiyonu göster',
 ];
 
-export function ChatPanel({ locale }: { locale: string }) {
+export function ChatPanel({
+  locale,
+  conversationId: initialConversationId,
+  initialMessages,
+}: {
+  locale: string;
+  conversationId?: string;
+  initialMessages?: InitialMessage[];
+}) {
   const t = useTranslations('chat');
   const [input, setInput] = useState('');
-  const [messages, setMessages] = useState<Message[]>([]);
+  const [messages, setMessages] = useState<Message[]>(initialMessages ?? []);
+  const [conversationId, setConversationId] = useState<string | undefined>(initialConversationId);
+  const [thinkingLabel, setThinkingLabel] = useState<string | null>(null);
   const [pending, startTransition] = useTransition();
   const scrollRef = useRef<HTMLDivElement | null>(null);
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
@@ -57,7 +68,7 @@ export function ChatPanel({ locale }: { locale: string }) {
         const res = await fetch('/api/agent', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ query: q, locale }),
+          body: JSON.stringify({ query: q, locale, conversationId }),
         });
 
         const reader = res.body!.getReader();
@@ -72,7 +83,29 @@ export function ChatPanel({ locale }: { locale: string }) {
           for (const line of lines) {
             if (!line.trim()) continue;
             const event = JSON.parse(line);
-            if (event.type === 'final') {
+            if (event.type === 'conversation_created') {
+              setConversationId(event.conversationId);
+              // Shallow URL swap — keeps this ChatPanel mounted so the in-flight stream
+              // doesn't get interrupted. Next.js routing kicks in only on the next nav/reload.
+              if (typeof window !== 'undefined') {
+                window.history.replaceState(
+                  null,
+                  '',
+                  `/${locale}/dashboard/chat/${event.conversationId}`,
+                );
+              }
+            } else if (event.type === 'thinking') {
+              if (event.stage === 'planning') {
+                setThinkingLabel(locale === 'tr' ? 'Plan yapılıyor…' : 'Planning…');
+              } else if (event.stage === 'tool_call' && event.tool) {
+                setThinkingLabel(
+                  locale === 'tr'
+                    ? `${event.tool} çağrılıyor…`
+                    : `Calling ${event.tool}…`,
+                );
+              }
+            } else if (event.type === 'final') {
+              setThinkingLabel(null);
               setMessages(prev => [
                 ...prev,
                 {
@@ -82,11 +115,18 @@ export function ChatPanel({ locale }: { locale: string }) {
                 },
               ]);
             } else if (event.type === 'error') {
-              notifications.show({ color: 'red', message: event.message });
+              setThinkingLabel(null);
+              notifications.show({
+                color: 'red',
+                title: locale === 'tr' ? 'Kaptan hata verdi' : 'Captain error',
+                message: event.message,
+                autoClose: 6000,
+              });
             }
           }
         }
       } catch {
+        setThinkingLabel(null);
         notifications.show({ color: 'red', message: 'Bağlantı hatası' });
       }
     });
@@ -132,7 +172,7 @@ export function ChatPanel({ locale }: { locale: string }) {
         {messages.map((m, i) => (
           <MessageBubble key={i} message={m} />
         ))}
-        {pending && <ThinkingIndicator />}
+        {pending && <ThinkingIndicator label={thinkingLabel} />}
       </div>
 
       {/* Input footer — same chat-mock aesthetic. Centered horizontally
@@ -287,7 +327,7 @@ function MessageBubble({ message }: { message: Message }) {
   );
 }
 
-function ThinkingIndicator() {
+function ThinkingIndicator({ label }: { label?: string | null }) {
   return (
     <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 16 }}>
       <AgentChip agent="captain" />
@@ -295,7 +335,7 @@ function ThinkingIndicator() {
         <span /><span /><span />
       </div>
       <span style={{ fontSize: 13.5, color: 'var(--fg-mute)' }}>
-        Ajanlar düşünüyor…
+        {label ?? 'Ajanlar düşünüyor…'}
       </span>
     </div>
   );

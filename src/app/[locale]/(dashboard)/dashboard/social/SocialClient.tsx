@@ -15,6 +15,7 @@ import {
   IconUpload,
   IconX,
 } from '@tabler/icons-react';
+import { useConnections } from '@/lib/connections';
 
 interface Product {
   id: string;
@@ -55,6 +56,8 @@ type RefImageSource =
 
 export function SocialClient({ locale, products }: { locale: string; products: Product[] }) {
   const isTr = locale === 'tr';
+  const { socials } = useConnections();
+  const igHandle = socials.instagram?.handle;
   const [productId, setProductId] = useState<string | null>(products[0]?.id ?? null);
   const [style, setStyle] = useState<Style>('product');
   const [prompt, setPrompt] = useState(isTr ? PROMPT_PRESETS[1].tr : PROMPT_PRESETS[1].en);
@@ -142,12 +145,18 @@ export function SocialClient({ locale, products }: { locale: string; products: P
     setPosting(true);
     setTimeout(() => {
       setPosting(false);
+      const isIg = platform === 'Instagram';
+      const igConnected = isIg && igHandle;
       notifications.show({
         color: 'green',
         title: `${platform} ✓`,
-        message: isTr
-          ? `Paylaşıldı (demo). Gerçek API entegrasyonu Captain plan'da gelir.`
-          : `Posted (demo). Real API integration ships in the Captain plan.`,
+        message: igConnected
+          ? (isTr
+              ? `@${igHandle} adına paylaşıma hazır (gerçek API gelecek sürümde).`
+              : `Ready to post as @${igHandle} (real API ships next).`)
+          : (isTr
+              ? `Paylaşıldı (demo). Gerçek API entegrasyonu Captain plan'da gelir.`
+              : `Posted (demo). Real API integration ships in the Captain plan.`),
         autoClose: 4500,
       });
     }, 900);

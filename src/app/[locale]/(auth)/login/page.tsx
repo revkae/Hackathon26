@@ -1,8 +1,8 @@
 'use client';
 
-import { useTransition, useState, useEffect } from 'react';
+import { useTransition, useState } from 'react';
 import { useTranslations } from 'next-intl';
-import { useParams, useSearchParams } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import { notifications } from '@mantine/notifications';
 import { IconMail, IconArrowRight } from '@tabler/icons-react';
 import { loginWithPassword, loginWithMagicLink } from './actions';
@@ -10,29 +10,11 @@ import { loginWithPassword, loginWithMagicLink } from './actions';
 export default function LoginPage() {
   const t = useTranslations('auth');
   const params = useParams<{ locale: string }>();
-  const search = useSearchParams();
   const [pending, startTransition] = useTransition();
   const [email, setEmail] = useState('');
 
   const locale = params.locale ?? 'tr';
   const signupHref = `/${locale}/signup`;
-
-  // If user came from the landing chat input we get ?q=...; surface it as a hint.
-  const seedQuery = search.get('q');
-
-  useEffect(() => {
-    if (seedQuery) {
-      notifications.show({
-        color: 'green',
-        title: locale === 'tr' ? 'Sorgun kaydedildi' : 'Your query is saved',
-        message:
-          locale === 'tr'
-            ? `Giriş yaptıktan sonra Kaptan şununla başlayacak: "${seedQuery}"`
-            : `After you sign in, the Captain will start with: "${seedQuery}"`,
-        autoClose: 6000,
-      });
-    }
-  }, [seedQuery, locale]);
 
   function handlePasswordLogin(formData: FormData) {
     startTransition(async () => {

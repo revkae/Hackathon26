@@ -1,14 +1,40 @@
-import { ChatPanel } from '@/components/ChatPanel';
+import { redirect, notFound } from 'next/navigation';
+import { ChatPanel, type InitialMessage } from '@/components/ChatPanel';
 import { ChatList } from '@/components/chat/ChatList';
 import { A2AGraph } from '@/components/A2AGraph';
+import { createClient } from '@/lib/supabase/server';
 import { IconRoute2 } from '@tabler/icons-react';
 
-export default async function ChatPage({
+export const dynamic = 'force-dynamic';
+
+export default async function ChatByIdPage({
   params,
 }: {
-  params: Promise<{ locale: string }>;
+  params: Promise<{ locale: string; id: string }>;
 }) {
-  const { locale } = await params;
+  const { locale, id } = await params;
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) redirect(`/${locale}/login`);
+
+  const { data: convo } = await supabase
+    .from('conversations')
+    .select('id, title')
+    .eq('id', id)
+    .single();
+  if (!convo) notFound();
+
+  const { data: rows } = await supabase
+    .from('messages')
+    .select('role, text, brief_json')
+    .eq('conversation_id', id)
+    .order('created_at', { ascending: true });
+
+  const initial: InitialMessage[] = (rows ?? []).map((r) => ({
+    role: r.role as 'user' | 'captain',
+    text: r.text,
+    brief: (r.brief_json as InitialMessage['brief']) ?? undefined,
+  }));
 
   return (
     <div
@@ -21,7 +47,7 @@ export default async function ChatPage({
         margin: '-1rem -0.5rem',
       }}
     >
-      <ChatList />
+      <ChatList activeId={id} />
 
       <section
         style={{
@@ -39,11 +65,11 @@ export default async function ChatPage({
             <span style={{ fontFamily: 'var(--font-display)', fontStyle: 'italic', fontWeight: 600, fontSize: 14, color: 'white' }}>K</span>
           </span>
           <span style={{ fontWeight: 600, fontSize: 15, letterSpacing: '-0.01em', color: 'var(--fg)' }}>
-            {locale === 'tr' ? 'Kaptan ile Sohbet' : 'Chat with the Captain'}
+            {convo.title}
           </span>
         </div>
         <div style={{ flex: 1, minHeight: 0, overflow: 'hidden' }}>
-          <ChatPanel locale={locale} />
+          <ChatPanel locale={locale} conversationId={id} initialMessages={initial} />
         </div>
       </section>
 
@@ -72,12 +98,6 @@ export default async function ChatPage({
             {locale === 'tr' ? 'Canlı Trace' : 'Live Trace'}
           </span>
         </div>
-        <p style={{ fontSize: 13.5, lineHeight: 1.55, color: 'var(--fg-mute)', margin: 0 }}>
-          {locale === 'tr'
-            ? "Sorunu gönder, Kaptan'ın hangi uzmanları çağırdığı ve neyi sorduğu burada adım adım görünür."
-            : "Send a query — you'll see which specialists the Captain calls and what it asks, step by step."}
-        </p>
-        <div className="soft-divider" style={{ margin: '18px 0 8px' }} />
         <A2AGraph locale={locale} />
       </aside>
     </div>

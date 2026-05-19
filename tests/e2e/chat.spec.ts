@@ -11,9 +11,9 @@ test.describe('Captain chat', () => {
 
   test('captain responds to a simple question', async ({ page }) => {
     await page.goto('/tr/dashboard/chat');
-    await expect(page.locator('h1')).toContainText(/Sohbet/);
-    await page.fill('input[placeholder*="Sor"]', 'Tüm ürünlerimi listele');
-    await page.click('button:has(svg)');
+    await expect(page.getByText('Kaptan ile Sohbet')).toBeVisible();
+    await page.fill('textarea.chat-textarea', 'Tüm ürünlerimi listele');
+    await page.click('button.chat-send.is-primary');
     await expect(
       page.locator('text=/Vazo|Fincan|Tabak|ürün|product/i').first()
     ).toBeVisible({ timeout: 60_000 });

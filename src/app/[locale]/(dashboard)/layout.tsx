@@ -1,6 +1,8 @@
 import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
 import { DashboardShell } from '@/components/DashboardShell';
+import { AppModeProvider } from '@/components/AppModeProvider';
+import { getAppMode } from '@/lib/app-mode';
 
 export default async function DashboardLayout({
   children,
@@ -14,15 +16,23 @@ export default async function DashboardLayout({
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) redirect(`/${locale}/login`);
 
-  const { data: profile } = await supabase
-    .from('profiles')
-    .select('business_name, preferred_language')
-    .eq('id', user.id)
-    .single();
+  const [profileResult, mode] = await Promise.all([
+    supabase
+      .from('profiles')
+      .select('business_name, preferred_language')
+      .eq('id', user.id)
+      .single(),
+    getAppMode(supabase),
+  ]);
 
   return (
-    <DashboardShell locale={locale} businessName={profile?.business_name ?? 'KOBİ Sahibi'}>
-      {children}
-    </DashboardShell>
+    <AppModeProvider initialMode={mode}>
+      <DashboardShell
+        locale={locale}
+        businessName={profileResult.data?.business_name ?? 'KOBİ Sahibi'}
+      >
+        {children}
+      </DashboardShell>
+    </AppModeProvider>
   );
 }

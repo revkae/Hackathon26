@@ -13,14 +13,14 @@ import { useVoiceInput } from './useVoiceInput';
 interface ChatInputProps {
   placeholder: string;
   modes: string[];
-  signinHref: string;
+  signupHref: string;
   rotatingPlaceholders?: string[];
 }
 
 export function ChatInput({
   placeholder,
   modes,
-  signinHref,
+  signupHref,
   rotatingPlaceholders,
 }: ChatInputProps) {
   const router = useRouter();
@@ -94,9 +94,7 @@ export function ChatInput({
   }, [rotatingPlaceholders, placeholder, value, isFocused, voice.listening]);
 
   const submit = () => {
-    const q = value.trim();
-    const target = q ? `${signinHref}?q=${encodeURIComponent(q)}` : signinHref;
-    router.push(target);
+    router.push(signupHref);
   };
 
   const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {

@@ -1,16 +1,28 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useTransition } from 'react';
+import { Switch } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import {
   IconBrandShopee,
+  IconBrandInstagram,
+  IconBrandTwitter,
+  IconBrandFacebook,
   IconBuildingStore,
   IconCheck,
   IconExternalLink,
+  IconHelp,
+  IconSettings as IconMode,
   IconShoppingCart,
   IconTag,
   IconX,
 } from '@tabler/icons-react';
+import type { SocialConnection, SocialId, SocialMap } from '@/lib/connections';
+import { useAppMode } from '@/components/AppModeProvider';
+import { useConnections } from '@/lib/connections';
+import { ConnectHelpModal } from '@/components/ConnectHelpModal';
+import type { PlatformWithGuide } from '@/lib/connect-guides';
+import { setAppMode } from './actions';
 
 interface MarketplaceDef {
   id: 'shopify' | 'trendyol' | 'hepsiburada' | 'etsy';
@@ -82,11 +94,58 @@ const MARKETPLACES: MarketplaceDef[] = [
   },
 ];
 
+interface SocialDef {
+  id: SocialId;
+  name: string;
+  blurb: { tr: string; en: string };
+  accent: string;
+  Icon: React.ComponentType<{ size?: number; stroke?: number }>;
+  comingSoon?: boolean;
+  hasGuide?: boolean;
+}
+
+const SOCIALS: SocialDef[] = [
+  {
+    id: 'instagram',
+    name: 'Instagram',
+    blurb: {
+      tr: 'Görselleri @kullanıcı_adın olarak paylaş ve içerik takvimi sun.',
+      en: 'Post images as @yourhandle and surface a content calendar.',
+    },
+    accent: 'var(--c-rose)',
+    Icon: IconBrandInstagram,
+    hasGuide: true,
+  },
+  {
+    id: 'twitter',
+    name: 'Twitter / X',
+    blurb: {
+      tr: 'Yakında — kısa duyurular ve kampanya paylaşımı için.',
+      en: 'Coming soon — short announcements and campaign sharing.',
+    },
+    accent: 'var(--c-teal)',
+    Icon: IconBrandTwitter,
+    comingSoon: true,
+  },
+  {
+    id: 'facebook',
+    name: 'Facebook',
+    blurb: {
+      tr: 'Yakında — Facebook Shop ve sayfa paylaşımları için.',
+      en: 'Coming soon — Facebook Shop and Page posting.',
+    },
+    accent: 'var(--c-amber)',
+    Icon: IconBrandFacebook,
+    comingSoon: true,
+  },
+];
+
 const STORAGE_KEY = 'kobi-kaptani.marketplaces';
 
 export function SettingsClient({ locale }: { locale: string }) {
   const [conns, setConns] = useState<ConnectionMap>({});
   const [openForm, setOpenForm] = useState<MarketplaceDef['id'] | null>(null);
+  const [helpFor, setHelpFor] = useState<PlatformWithGuide | null>(null);
   const isTr = locale === 'tr';
 
   // Load from localStorage on mount (demo persistence)
@@ -130,6 +189,61 @@ export function SettingsClient({ locale }: { locale: string }) {
     });
   };
 
+  const { mode, setMode } = useAppMode();
+  const { hasAnyMarketplace, socials, setSocials } = useConnections();
+  const [openSocialForm, setOpenSocialForm] = useState<SocialId | null>(null);
+  const [modePending, startModeTransition] = useTransition();
+
+  const connectSocial = (id: SocialId, data: SocialConnection) => {
+    setSocials({ ...socials, [id]: data });
+    setOpenSocialForm(null);
+    notifications.show({
+      color: 'green',
+      title: isTr ? 'Bağlandı' : 'Connected',
+      message: `${SOCIALS.find(s => s.id === id)?.name} → @${data.handle}`,
+      autoClose: 3500,
+    });
+  };
+
+  const disconnectSocial = (id: SocialId) => {
+    const next: SocialMap = { ...socials };
+    delete next[id];
+    setSocials(next);
+    notifications.show({
+      color: 'gray',
+      message: isTr ? 'Bağlantı kaldırıldı' : 'Disconnected',
+      autoClose: 2500,
+    });
+  };
+
+  const toggleMode = (checked: boolean) => {
+    const next = checked ? 'real' : 'mock';
+    if (next === 'real' && !hasAnyMarketplace) {
+      notifications.show({
+        color: 'red',
+        message: isTr
+          ? 'Önce en az bir mağaza bağla.'
+          : 'Connect at least one store first.',
+      });
+      return;
+    }
+    startModeTransition(async () => {
+      const result = await setAppMode(next);
+      if ('error' in result) {
+        notifications.show({ color: 'red', message: result.error });
+        return;
+      }
+      setMode(next);
+      notifications.show({
+        color: 'green',
+        message: isTr
+          ? `Mod değişti: ${next === 'real' ? 'Gerçek' : 'Demo'}`
+          : `Mode set to ${next === 'real' ? 'Real' : 'Demo'}`,
+        autoClose: 2500,
+      });
+    });
+  };
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 28, maxWidth: 920 }}>
       {/* Header */}
@@ -161,6 +275,55 @@ export function SettingsClient({ locale }: { locale: string }) {
             : 'So the Captain and specialists can read real data from your stores. Your data stays yours — disconnect any time.'}
         </p>
       </div>
+
+      {/* Mode card */}
+      <section
+        style={{
+          border: '1px solid var(--border)',
+          borderRadius: 16,
+          padding: 20,
+          background: 'var(--bg-elev)',
+          display: 'flex',
+          alignItems: 'flex-start',
+          gap: 16,
+        }}
+      >
+        <span
+          style={{
+            width: 36, height: 36, borderRadius: 10,
+            display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+            background: 'color-mix(in srgb, var(--c-emerald) 12%, transparent)',
+            color: 'var(--c-emerald)', flexShrink: 0,
+          }}
+        >
+          <IconMode size={18} stroke={2} />
+        </span>
+        <div style={{ flex: 1 }}>
+          <h3 style={{ margin: 0, fontSize: 15, fontWeight: 600, letterSpacing: '-0.01em' }}>
+            {isTr ? 'Çalışma Modu' : 'Working Mode'}
+          </h3>
+          <p style={{ margin: '4px 0 12px', fontSize: 13, color: 'var(--fg-mute)', lineHeight: 1.55 }}>
+            {isTr
+              ? 'Demo: örnek veri ile çalışır. Gerçek: en az bir mağaza bağlı olmalı.'
+              : 'Demo: runs on seeded data. Real: requires at least one connected store.'}
+          </p>
+          <Switch
+            checked={mode === 'real'}
+            disabled={modePending}
+            onChange={(e) => toggleMode(e.currentTarget.checked)}
+            size="md"
+            onLabel={isTr ? 'GERÇEK' : 'REAL'}
+            offLabel={isTr ? 'DEMO' : 'DEMO'}
+            label={
+              <span style={{ fontSize: 13, color: 'var(--fg)', fontWeight: 500 }}>
+                {mode === 'real'
+                  ? (isTr ? 'Gerçek mod aktif' : 'Real mode active')
+                  : (isTr ? 'Demo modu' : 'Demo mode')}
+              </span>
+            }
+          />
+        </div>
+      </section>
 
       {/* Marketplace grid */}
       <div
@@ -194,6 +357,22 @@ export function SettingsClient({ locale }: { locale: string }) {
                     </span>
                   )}
                 </div>
+                <button
+                  type="button"
+                  aria-label={isTr ? 'Nasıl bağlanır?' : 'How to connect'}
+                  title={isTr ? 'Nasıl bağlanır?' : 'How to connect'}
+                  onClick={() => setHelpFor(m.id as PlatformWithGuide)}
+                  style={{
+                    background: 'transparent',
+                    border: '1px solid var(--border)',
+                    color: 'var(--fg-mute)',
+                    width: 28, height: 28, borderRadius: 8,
+                    display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+                    cursor: 'pointer', flexShrink: 0,
+                  }}
+                >
+                  <IconHelp size={14} stroke={2.2} />
+                </button>
               </div>
 
               <p style={{ fontSize: 13.5, lineHeight: 1.5, color: 'var(--fg-mute)', margin: 0 }}>
@@ -260,11 +439,129 @@ export function SettingsClient({ locale }: { locale: string }) {
         })}
       </div>
 
+      {/* Social accounts header */}
+      <div>
+        <span className="section-eyebrow">{isTr ? 'Sosyal Hesaplar' : 'Social Accounts'}</span>
+        <p style={{ marginTop: 8, color: 'var(--fg-mute)', fontSize: 13.5, lineHeight: 1.5, maxWidth: 560 }}>
+          {isTr
+            ? 'Paylaşımları gerçek hesap adına atıfla yapmak için bağla.'
+            : 'Connect so posts can attribute to your real account.'}
+        </p>
+      </div>
+
+      {/* Social grid */}
+      <div
+        style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+          gap: 16,
+        }}
+      >
+        {SOCIALS.map((s) => {
+          const conn = socials[s.id];
+          const connected = !!conn;
+          const isOpen = openSocialForm === s.id;
+          return (
+            <article
+              key={s.id}
+              className="marketplace-card"
+              style={{
+                ...(connected
+                  ? { borderColor: 'color-mix(in srgb, var(--c-emerald) 35%, var(--border))' }
+                  : {}),
+                opacity: s.comingSoon ? 0.55 : 1,
+              }}
+            >
+              <div className="marketplace-card-head">
+                <span className="marketplace-icon" style={{ color: s.accent, borderColor: s.accent }}>
+                  <s.Icon size={20} stroke={2} />
+                </span>
+                <div style={{ flex: 1 }}>
+                  <h3 style={{ margin: 0, fontSize: 16, fontWeight: 600, letterSpacing: '-0.01em' }}>
+                    {s.name}
+                  </h3>
+                  {s.comingSoon && (
+                    <span className="marketplace-status" style={{ color: 'var(--fg-mute)' }}>
+                      {isTr ? 'Yakında' : 'Soon'}
+                    </span>
+                  )}
+                  {connected && (
+                    <span className="marketplace-status">
+                      <IconCheck size={11} stroke={3} /> @{conn.handle}
+                    </span>
+                  )}
+                </div>
+                {s.hasGuide && (
+                  <button
+                    type="button"
+                    aria-label={isTr ? 'Nasıl bağlanır?' : 'How to connect'}
+                    title={isTr ? 'Nasıl bağlanır?' : 'How to connect'}
+                    onClick={() => setHelpFor(s.id as PlatformWithGuide)}
+                    style={{
+                      background: 'transparent', border: '1px solid var(--border)',
+                      color: 'var(--fg-mute)', width: 28, height: 28, borderRadius: 8,
+                      display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+                      cursor: 'pointer', flexShrink: 0,
+                    }}
+                  >
+                    <IconHelp size={14} stroke={2.2} />
+                  </button>
+                )}
+              </div>
+
+              <p style={{ fontSize: 13.5, lineHeight: 1.5, color: 'var(--fg-mute)', margin: 0 }}>
+                {s.blurb[isTr ? 'tr' : 'en']}
+              </p>
+
+              {isOpen && (
+                <SocialConnectForm
+                  social={s}
+                  locale={locale}
+                  onCancel={() => setOpenSocialForm(null)}
+                  onSubmit={(data) => connectSocial(s.id, data)}
+                />
+              )}
+
+              {!isOpen && !s.comingSoon && (
+                <div className="marketplace-actions">
+                  {connected ? (
+                    <button
+                      type="button"
+                      className="btn-ghost btn-small"
+                      onClick={() => disconnectSocial(s.id)}
+                    >
+                      <IconX size={13} stroke={2.4} />
+                      {isTr ? 'Bağlantıyı Kaldır' : 'Disconnect'}
+                    </button>
+                  ) : (
+                    <button
+                      type="button"
+                      className="btn-primary btn-small"
+                      onClick={() => setOpenSocialForm(s.id)}
+                    >
+                      {isTr ? 'Bağla' : 'Connect'}
+                    </button>
+                  )}
+                </div>
+              )}
+            </article>
+          );
+        })}
+      </div>
+
       <p style={{ fontSize: 12.5, color: 'var(--fg-dim)', maxWidth: 600 }}>
         {isTr
           ? 'API anahtarları sadece bu cihazda saklanır (demo modu). Üretim sürümünde Supabase Vault üzerinden şifrelenmiş olarak tutulacaktır.'
           : 'API keys are stored on this device only (demo mode). In production they will be encrypted via Supabase Vault.'}
       </p>
+      {helpFor && (
+        <ConnectHelpModal
+          platform={helpFor}
+          opened={helpFor !== null}
+          onClose={() => setHelpFor(null)}
+          locale={locale}
+        />
+      )}
     </div>
   );
 }
@@ -329,6 +626,81 @@ function ConnectForm({
           placeholder={marketplace.keyHint}
           value={key}
           onChange={(e) => setKey(e.target.value)}
+        />
+      </div>
+      <div style={{ display: 'flex', gap: 8, marginTop: 6 }}>
+        <button type="submit" className="btn-primary btn-small">
+          {isTr ? 'Doğrula & Bağla' : 'Verify & Connect'}
+        </button>
+        <button type="button" className="btn-ghost btn-small" onClick={onCancel}>
+          {isTr ? 'İptal' : 'Cancel'}
+        </button>
+      </div>
+    </form>
+  );
+}
+
+function SocialConnectForm({
+  social,
+  locale,
+  onCancel,
+  onSubmit,
+}: {
+  social: SocialDef;
+  locale: string;
+  onCancel: () => void;
+  onSubmit: (data: SocialConnection) => void;
+}) {
+  const isTr = locale === 'tr';
+  const [displayName, setDisplayName] = useState('');
+  const [handle, setHandle] = useState('');
+  const [token, setToken] = useState('');
+
+  const submit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!displayName || !handle || !token) return;
+    const cleanHandle = handle.replace(/^@/, '');
+    onSubmit({
+      displayName,
+      handle: cleanHandle,
+      token,
+      connectedAt: new Date().toISOString(),
+    });
+  };
+
+  return (
+    <form className="marketplace-form" onSubmit={submit}>
+      <div>
+        <label>{isTr ? 'Görünen ad' : 'Display name'}</label>
+        <input
+          type="text"
+          required
+          className="auth-input"
+          placeholder={isTr ? 'örn. Ayşe Seramik' : 'e.g. Ayşe Ceramics'}
+          value={displayName}
+          onChange={(e) => setDisplayName(e.target.value)}
+        />
+      </div>
+      <div>
+        <label>{isTr ? `${social.name} kullanıcı adı` : `${social.name} username`}</label>
+        <input
+          type="text"
+          required
+          className="auth-input"
+          placeholder="@kullanici_adi"
+          value={handle}
+          onChange={(e) => setHandle(e.target.value)}
+        />
+      </div>
+      <div>
+        <label>{isTr ? 'Erişim anahtarı (token)' : 'Access token'}</label>
+        <input
+          type="password"
+          required
+          className="auth-input"
+          placeholder={isTr ? 'Uzun-ömürlü token' : 'Long-lived token'}
+          value={token}
+          onChange={(e) => setToken(e.target.value)}
         />
       </div>
       <div style={{ display: 'flex', gap: 8, marginTop: 6 }}>

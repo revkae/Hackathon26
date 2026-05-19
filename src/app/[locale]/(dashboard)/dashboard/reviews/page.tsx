@@ -1,5 +1,6 @@
 import { createClient } from '@/lib/supabase/server';
 import { ReviewsClient } from './ReviewsClient';
+import { RealModeGate } from '@/components/RealModeGate';
 
 export const dynamic = 'force-dynamic';
 
@@ -19,16 +20,21 @@ export default async function ReviewsPage({
     .limit(30);
 
   return (
-    <ReviewsClient
-      locale={locale}
-      reviews={(reviews ?? []).map(r => ({
-        id: r.id,
-        rating: r.rating ?? 0,
-        body: r.body,
-        language: r.language,
-        channel: r.channel,
-        postedAt: r.posted_at,
-      }))}
-    />
+    <RealModeGate
+      feature={locale === 'tr' ? 'Yorumlar' : 'Reviews'}
+      platforms={['Trendyol', 'Hepsiburada', 'Etsy']}
+    >
+      <ReviewsClient
+        locale={locale}
+        reviews={(reviews ?? []).map(r => ({
+          id: r.id,
+          rating: r.rating ?? 0,
+          body: r.body,
+          language: r.language,
+          channel: r.channel,
+          postedAt: r.posted_at,
+        }))}
+      />
+    </RealModeGate>
   );
 }
