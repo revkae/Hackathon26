@@ -19,19 +19,37 @@ export interface CashFlowBase {
 // SSR so the page (and chart) render instantly. The Gemini commentary is added
 // separately by cashFlowAgent / fetched client-side.
 export async function computeCashFlowBase(
-  { scenario, days }: { scenario: Scenario; days: number },
+  {
+    scenario,
+    days,
+    salesHistory,
+  }: {
+    scenario: Scenario;
+    days: number;
+    salesHistory?: { date: string; revenue: number }[];
+  },
 ): Promise<CashFlowBase> {
-  const sales = await fetchSalesHistory(days);
+  // Real mode injects Shopify-derived sales history; otherwise read Supabase.
+  const sales = salesHistory ?? (await fetchSalesHistory(days));
   const expenses = await fetchPendingExpenses(days);
+  const expenseTotal = expenses.reduce((s, e) => s + e.amount, 0);
 
-  const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
   let currentBalance = 0;
-  if (user) {
-    const { data: salesAll } = await supabase
-      .from('sales').select('total_revenue').eq('profile_id', user.id);
-    currentBalance = (salesAll ?? []).reduce((s: number, r: { total_revenue: number }) => s + r.total_revenue, 0)
-      - expenses.reduce((s, e) => s + e.amount, 0) * 0.3;
+  if (salesHistory) {
+    currentBalance =
+      salesHistory.reduce((s, r) => s + r.revenue, 0) - expenseTotal * 0.3;
+  } else {
+    const supabase = await createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+    if (user) {
+      const { data: salesAll } = await supabase
+        .from('sales').select('total_revenue').eq('profile_id', user.id);
+      currentBalance =
+        (salesAll ?? []).reduce(
+          (s: number, r: { total_revenue: number }) => s + r.total_revenue,
+          0,
+        ) - expenseTotal * 0.3;
+    }
   }
 
   const dailyAvgRevenue = movingAverage(sales.map(s => s.revenue), 30);

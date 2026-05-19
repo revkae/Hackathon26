@@ -1,45 +1,19 @@
 'use client';
 
-import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { IconExternalLink, IconBuildingStore } from '@tabler/icons-react';
-
-type Connection = { url: string; storeName: string };
-type ConnectionMap = Record<string, Connection | undefined>;
-
-const STORAGE_KEY = 'kobi-kaptani.marketplaces';
+import { useStoreConnections } from './StoreConnectionsProvider';
 
 interface ViewStoreButtonProps {
   locale: string;
 }
 
 export function ViewStoreButton({ locale }: ViewStoreButtonProps) {
-  const [primary, setPrimary] = useState<{ id: string; conn: Connection } | null>(null);
+  const { marketplaces } = useStoreConnections();
   const isTr = locale === 'tr';
 
-  useEffect(() => {
-    const read = () => {
-      try {
-        const raw = localStorage.getItem(STORAGE_KEY);
-        if (!raw) {
-          setPrimary(null);
-          return;
-        }
-        const map = JSON.parse(raw) as ConnectionMap;
-        const first = Object.entries(map).find(([, v]) => v && v.url);
-        if (first && first[1]) setPrimary({ id: first[0], conn: first[1] });
-        else setPrimary(null);
-      } catch {
-        setPrimary(null);
-      }
-    };
-
-    read();
-    // Keep button fresh if user connects/disconnects in another tab
-    const handler = () => read();
-    window.addEventListener('storage', handler);
-    return () => window.removeEventListener('storage', handler);
-  }, []);
+  const entry = Object.entries(marketplaces).find(([, v]) => v);
+  const primary = entry && entry[1] ? { id: entry[0], conn: entry[1] } : null;
 
   if (!primary) {
     return (
@@ -56,13 +30,9 @@ export function ViewStoreButton({ locale }: ViewStoreButtonProps) {
     );
   }
 
-  const href = primary.conn.url.startsWith('http')
-    ? primary.conn.url
-    : `https://${primary.conn.url}`;
-
   return (
     <a
-      href={href}
+      href={`https://${primary.conn.domain}`}
       target="_blank"
       rel="noopener noreferrer"
       className="topbar-store-btn"
