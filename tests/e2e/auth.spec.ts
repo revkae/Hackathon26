@@ -1,10 +1,12 @@
 import { test, expect } from '@playwright/test';
 
 test.describe('Auth flow', () => {
-  test('redirects unauthenticated user to login', async ({ page }) => {
+  test('redirects root to the localized landing page', async ({ page }) => {
     await page.goto('/');
-    await expect(page).toHaveURL(/\/tr\/login/);
-    await expect(page.locator('h2')).toContainText(/Giriş/);
+    await expect(page).toHaveURL(/\/(tr|en)$/);
+    await expect(
+      page.getByRole('link', { name: 'KOBİ Kaptanı' }).first(),
+    ).toBeVisible();
   });
 
   test('logs in with seed credentials and redirects to dashboard', async ({ page }) => {
