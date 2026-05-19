@@ -8,6 +8,7 @@ import {
   IconBuildingStore,
   IconCheck,
   IconExternalLink,
+  IconHelp,
   IconSettings as IconMode,
   IconShoppingCart,
   IconTag,
@@ -15,6 +16,8 @@ import {
 } from '@tabler/icons-react';
 import { useAppMode } from '@/components/AppModeProvider';
 import { useConnections } from '@/lib/connections';
+import { ConnectHelpModal } from '@/components/ConnectHelpModal';
+import type { PlatformWithGuide } from '@/lib/connect-guides';
 import { setAppMode } from './actions';
 
 interface MarketplaceDef {
@@ -92,6 +95,7 @@ const STORAGE_KEY = 'kobi-kaptani.marketplaces';
 export function SettingsClient({ locale }: { locale: string }) {
   const [conns, setConns] = useState<ConnectionMap>({});
   const [openForm, setOpenForm] = useState<MarketplaceDef['id'] | null>(null);
+  const [helpFor, setHelpFor] = useState<PlatformWithGuide | null>(null);
   const isTr = locale === 'tr';
 
   // Load from localStorage on mount (demo persistence)
@@ -280,6 +284,22 @@ export function SettingsClient({ locale }: { locale: string }) {
                     </span>
                   )}
                 </div>
+                <button
+                  type="button"
+                  aria-label={isTr ? 'Nasıl bağlanır?' : 'How to connect'}
+                  title={isTr ? 'Nasıl bağlanır?' : 'How to connect'}
+                  onClick={() => setHelpFor(m.id as PlatformWithGuide)}
+                  style={{
+                    background: 'transparent',
+                    border: '1px solid var(--border)',
+                    color: 'var(--fg-mute)',
+                    width: 28, height: 28, borderRadius: 8,
+                    display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+                    cursor: 'pointer', flexShrink: 0,
+                  }}
+                >
+                  <IconHelp size={14} stroke={2.2} />
+                </button>
               </div>
 
               <p style={{ fontSize: 13.5, lineHeight: 1.5, color: 'var(--fg-mute)', margin: 0 }}>
@@ -351,6 +371,14 @@ export function SettingsClient({ locale }: { locale: string }) {
           ? 'API anahtarları sadece bu cihazda saklanır (demo modu). Üretim sürümünde Supabase Vault üzerinden şifrelenmiş olarak tutulacaktır.'
           : 'API keys are stored on this device only (demo mode). In production they will be encrypted via Supabase Vault.'}
       </p>
+      {helpFor && (
+        <ConnectHelpModal
+          platform={helpFor}
+          opened={helpFor !== null}
+          onClose={() => setHelpFor(null)}
+          locale={locale}
+        />
+      )}
     </div>
   );
 }
