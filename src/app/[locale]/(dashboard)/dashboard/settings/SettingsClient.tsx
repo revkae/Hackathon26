@@ -20,6 +20,7 @@ import {
 import type { SocialConnection, SocialId, SocialMap } from '@/lib/connections';
 import { useAppMode } from '@/components/AppModeProvider';
 import { useConnections } from '@/lib/connections';
+import { useStoreConnections } from '@/components/StoreConnectionsProvider';
 import { ConnectHelpModal } from '@/components/ConnectHelpModal';
 import type { PlatformWithGuide } from '@/lib/connect-guides';
 import { setAppMode } from './actions';
@@ -144,23 +145,31 @@ export function SettingsClient({ locale }: { locale: string }) {
   const isTr = locale === 'tr';
 
   const { mode, setMode } = useAppMode();
-  // One localStorage-backed hook for every connection consumer — the
-  // marketplace cards, the mode toggle's gate, and the dashboard page
-  // gates all read the same state, so connecting a store reflects
-  // everywhere immediately (the hook broadcasts a change event that
-  // a private SettingsClient copy never did).
+  // Marketplace connections are DB-backed (store_connections) via the
+  // server-hydrated provider; socials still use the localStorage hook.
   const {
     marketplaces,
-    setMarketplaces,
     hasAnyMarketplace,
-    socials,
-    setSocials,
-  } = useConnections();
+    connect: connectStore,
+    disconnect: disconnectStore,
+  } = useStoreConnections();
+  const { socials, setSocials } = useConnections();
   const [openSocialForm, setOpenSocialForm] = useState<SocialId | null>(null);
   const [modePending, startModeTransition] = useTransition();
 
-  const connect = (id: MarketplaceDef['id'], data: Connection) => {
-    setMarketplaces({ ...marketplaces, [id]: data });
+  const connect = async (id: MarketplaceDef['id'], data: Connection) => {
+    const res = await connectStore(id, {
+      domain: data.url,
+      storeName: data.storeName,
+      token: data.key,
+    });
+    if ('error' in res) {
+      notifications.show({
+        color: 'red',
+        message: isTr ? 'Bağlanamadı — tekrar dene' : 'Connection failed — try again',
+      });
+      return;
+    }
     setOpenForm(null);
     notifications.show({
       color: 'green',
@@ -170,10 +179,15 @@ export function SettingsClient({ locale }: { locale: string }) {
     });
   };
 
-  const disconnect = (id: MarketplaceDef['id']) => {
-    const next = { ...marketplaces };
-    delete next[id];
-    setMarketplaces(next);
+  const disconnect = async (id: MarketplaceDef['id']) => {
+    const res = await disconnectStore(id);
+    if ('error' in res) {
+      notifications.show({
+        color: 'red',
+        message: isTr ? 'Kaldırılamadı' : 'Disconnect failed',
+      });
+      return;
+    }
     notifications.show({
       color: 'gray',
       message: isTr ? 'Bağlantı kaldırıldı' : 'Disconnected',
@@ -374,7 +388,7 @@ export function SettingsClient({ locale }: { locale: string }) {
                   </div>
                   <div>
                     <span className="marketplace-meta-label">URL</span>
-                    <span className="marketplace-meta-value" title={conn.url}>{conn.url}</span>
+                    <span className="marketplace-meta-value" title={conn.domain}>{conn.domain}</span>
                   </div>
                 </div>
               )}
@@ -393,7 +407,7 @@ export function SettingsClient({ locale }: { locale: string }) {
                   {connected ? (
                     <>
                       <a
-                        href={conn.url.startsWith('http') ? conn.url : `https://${conn.url}`}
+                        href={`https://${conn.domain}`}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="btn-primary btn-small"
